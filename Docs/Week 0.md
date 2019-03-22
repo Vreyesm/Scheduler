@@ -9,4 +9,4 @@
 4. Encargada escoge un "semestre" y visualiza los cursos en el horario semanal con su sala.
 5. Encargada escoge horario y asigna curso.
 
-[photo](https://i.imgur.com/DsIV86w.jpg)
+![photo](https://i.imgur.com/DsIV86w.jpg)
