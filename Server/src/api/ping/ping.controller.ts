@@ -6,7 +6,7 @@ import { json } from 'body-parser';
 export class PingController {
 
     @Get()
-    ping(@Res() res: Response) {
+    async ping(@Res() res: Response) {
         console.log('Ping');
         res.status(HttpStatus.OK).json({message: 'ping' }).send();
     }
