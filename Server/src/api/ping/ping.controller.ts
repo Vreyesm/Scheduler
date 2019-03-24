@@ -8,6 +8,7 @@ export class PingController {
     @Get()
     ping(@Res() res: Response) {
         console.log('Ping');
-        res.status(HttpStatus.OK).json({message: 'ping' }).send();
+        const value = {message: 'ping'};
+        res.send(value);
     }
 }
