@@ -1,0 +1,44 @@
+dist: xenial
+
+jobs:
+  include:
+    - stage: "Lint"
+      name: "Angular"
+      language: node_js
+      os: linux
+      node_js: "10"
+      script:
+      - cd Client
+      - npm i
+      - npm run lint
+    - # Second job - Backend
+      name: "Nestjs"
+      language: node_js
+      os: linux
+      node_js: "10"
+      script:
+      - cd Server
+      - npm i
+      - npm run lint
+    - stage: "Build"
+      name: "Angular"
+      language: node_js
+      os: linux
+      node_js: "10"
+      before_script:
+      - cd Client
+      - npm install -g @angular/cli
+      - npm install
+      script: 
+      - ng build --prod
+    - # Second job - Backend
+      name: "Nestjs"
+      language: node_js
+      os: linux
+      node_js: "10"
+      before_script:
+      - cd Server
+      - npm install -g @nestjs/cli
+      - npm install
+      script:
+      - npm run prestart:prod
