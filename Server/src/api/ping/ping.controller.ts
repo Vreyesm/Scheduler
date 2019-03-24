@@ -8,6 +8,6 @@ export class PingController {
     @Get()
     async ping(@Res() res: Response) {
         console.log('Ping');
-        res.status(HttpStatus.OK).json({message: 'ping' }).send();
+        await res.status(HttpStatus.OK).json({message: 'ping' }).send();
     }
 }
