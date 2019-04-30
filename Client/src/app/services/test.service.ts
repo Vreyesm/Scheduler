@@ -12,6 +12,6 @@ export class TestService {
   pingTest(): Observable<any> {
     console.log(environment.apiEndpoint);
     console.log(environment.production);
-    return this.http.get( environment.apiEndpoint +  '/api/ping');
+    return this.http.get( environment.apiEndpoint +  '/ping');
   }
 }
