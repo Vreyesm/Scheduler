@@ -1,4 +1,10 @@
-FROM node:alpine as build-stage
+FROM node:10-alpine as build-stage
+
+RUN apk add --update \
+    python \
+    g++ \
+    make
+RUN rm -rf /var/cache/apk/*
 
 WORKDIR /Client
 
