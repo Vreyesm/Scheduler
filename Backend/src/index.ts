@@ -1,11 +1,12 @@
-import {BackendApplication} from './application';
-import {ApplicationConfig} from '@loopback/core';
+import { BackendApplication } from './application';
+import { ApplicationConfig } from '@loopback/core';
 
-export {BackendApplication};
+export { BackendApplication };
 
 export async function main(options: ApplicationConfig = {}) {
   const app = new BackendApplication(options);
   await app.boot();
+  await app.migrateSchema();
   await app.start();
 
   const url = app.restServer.url;
