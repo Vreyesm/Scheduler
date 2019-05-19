@@ -66,7 +66,7 @@ export class NavbarComponent implements OnInit {
   sidebarToggle() {
     // const toggleButton = this.toggleButton;
     // const body = document.getElementsByTagName('body')[0];
-    const $toggle = document.getElementsByClassName('navbar-toggler')[0];
+    var $toggle = document.getElementsByClassName('navbar-toggler')[0];
 
     if (this.sidebarVisible === false) {
       this.sidebarOpen();
@@ -93,7 +93,7 @@ export class NavbarComponent implements OnInit {
         $toggle.classList.add('toggled');
       }, 430);
 
-      const $layer = document.createElement('div');
+      var $layer = document.createElement('div');
       $layer.setAttribute('class', 'close-layer');
 
 
@@ -123,7 +123,7 @@ export class NavbarComponent implements OnInit {
       this.mobileMenuVisible = 1;
 
     }
-  };
+  }
 
   getTitle() {
     let titlee = this.location.prepareExternalUrl(this.location.path());
