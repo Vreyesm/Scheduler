@@ -16,9 +16,18 @@ import { TableListComponent } from './table-list/table-list.component';
 import { TypographyComponent } from './typography/typography.component';
 import { IconsComponent } from './icons/icons.component';
 import { NotificationsComponent } from './notifications/notifications.component';
-import { UpgradeComponent } from './upgrade/upgrade.component';
 
-import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+
+
+// Material
+import {
+  MatButtonModule,
+  MatInputModule,
+  MatRippleModule,
+  MatFormFieldModule,
+  MatTooltipModule,
+  MatSelectModule
+} from '@angular/material';
 
 @NgModule({
   imports: [
@@ -26,12 +35,22 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
     FormsModule,
     HttpModule,
     ComponentsModule,
-    RouterModule,
+    MatButtonModule,
+    MatRippleModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatTooltipModule,
     AppRoutingModule,
   ],
   declarations: [
     AppComponent,
-    AdminLayoutComponent,
+    DashboardComponent,
+    UserProfileComponent,
+    TableListComponent,
+    TypographyComponent,
+    IconsComponent,
+    NotificationsComponent
 
   ],
   providers: [],
