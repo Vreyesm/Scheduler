@@ -1,0 +1,112 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <h3 class="title">
+          Edificios
+        </h3>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="card">
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Servicios múltiples
+              </mat-panel-title>
+              <mat-panel-description>
+                Salas: 9
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <mat-table [dataSource]="dataSource" class="mat-elevation-z1">
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+              </ng-container>
+
+              <!-- Capacity Column -->
+              <ng-container matColumnDef="capacity">
+                <mat-header-cell *matHeaderCellDef> Capacidad </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.capacity}} </mat-cell>
+              </ng-container>
+
+              <!-- Options Column -->
+              <ng-container matColumnDef="options" >
+                <mat-header-cell *matHeaderCellDef> Opciones </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  <button routerLink="/resources/buildings/classroom" mat-raised-button class="btn-primary" style="margin-right: 5px">
+                    <mat-icon>create</mat-icon>
+                    Editar
+                  </button>
+                  <button mat-raised-button class="btn-danger">
+                    <mat-icon>delete</mat-icon>
+                    Eliminar
+                  </button>
+
+                </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+
+
+          </mat-expansion-panel>
+
+          <mat-expansion-panel >
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Edificio Ing. Obras Civiles
+              </mat-panel-title>
+              <mat-panel-description>
+                Salas: 5
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <mat-table [dataSource]="dataSource" class="mat-elevation-z1">
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+              </ng-container>
+
+              <!-- Capacity Column -->
+              <ng-container matColumnDef="capacity">
+                <mat-header-cell *matHeaderCellDef> Capacidad </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.capacity}} </mat-cell>
+              </ng-container>
+
+              <!-- Options Column -->
+              <ng-container matColumnDef="options" >
+                <mat-header-cell *matHeaderCellDef> Opciones </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  <button mat-raised-button class="btn-primary" style="margin-right: 5px">
+                    <mat-icon>create</mat-icon>
+                    Editar
+                  </button>
+                  <button mat-raised-button class="btn-danger">
+                    <mat-icon>delete</mat-icon>
+                    Eliminar
+                  </button>
+
+                </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+
+          </mat-expansion-panel>
+        </mat-accordion>
+
+      </div>
+    </div>
+  </div>
+</div>
+

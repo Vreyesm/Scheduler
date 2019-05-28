@@ -1,4 +1,6 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, hasMany, hasOne, model, property} from '@loopback/repository';
+import {Subject} from './subject.model';
+import {User} from './user.model';
 
 @model({settings: {}})
 export class Career extends Entity {
@@ -21,6 +23,11 @@ export class Career extends Entity {
   })
   Director: number;
 
+  @hasOne(() => User)
+  DirectorId: User;
+
+  @hasMany(() => Subject, {keyTo: 'CareerId'})
+  Subjects?: Subject[];
 
   constructor(data?: Partial<Career>) {
     super(data);

@@ -1,4 +1,5 @@
-import {Entity, model, property} from '@loopback/repository';
+import {belongsTo, Entity, model, property} from '@loopback/repository';
+import {Building} from './building.model';
 
 @model({settings: {}})
 export class Classroom extends Entity {
@@ -32,6 +33,9 @@ export class Classroom extends Entity {
     required: true,
   })
   Schedule: number;
+
+  @belongsTo(() => Building)
+  BuildingId: number;
 
 
   constructor(data?: Partial<Classroom>) {

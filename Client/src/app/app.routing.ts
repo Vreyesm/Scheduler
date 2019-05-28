@@ -10,7 +10,7 @@ import {IconsComponent} from './icons/icons.component';
 import {NotificationsComponent} from './notifications/notifications.component';
 
 
-const routes: Routes = [
+export const ROUTES: Routes = [
   {
     path: '', pathMatch: 'full',
     redirectTo: 'dashboard'
@@ -47,7 +47,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     BrowserModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(ROUTES)
   ],
   exports: [RouterModule],
 })

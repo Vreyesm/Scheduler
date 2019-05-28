@@ -10,7 +10,11 @@ import { RouterModule } from '@angular/router';
     RouterModule.forChild([
       {
         path: '',
-        component: ResourcesLandingComponent
+        component: ResourcesLandingComponent,
+      },
+      {
+        path: 'buildings',
+        loadChildren: './buildings/buildings.module#BuildingsModule',
       }
     ]),
   ]
