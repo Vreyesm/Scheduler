@@ -12,7 +12,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule, MatIconModule } from '@angular/material';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
-
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [BuildingsListComponent, ClassroomViewComponent],
@@ -40,6 +41,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatIconModule,
     MatChipsModule,
     MatTooltipModule,
+    MatDialogModule,
+    MatFormFieldModule
   ]
 })
 export class BuildingsModule { }

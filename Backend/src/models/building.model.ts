@@ -6,9 +6,9 @@ export class Building extends Entity {
   @property({
     type: 'number',
     id: true,
-    required: true,
+    generated: true,
   })
-  ID: number;
+  ID?: number;
 
   @property({
     type: 'string',

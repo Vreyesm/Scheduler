@@ -7,7 +7,7 @@ export {BackendApplication};
 export async function main(options: ApplicationConfig = {}) {
   const app = new BackendApplication(options);
   await app.boot();
-  await app.migrateSchema();
+  //await app.migrateSchema();
   await app.start();
   // app.static('/', path.join(__dirname, '../../Client/dist'));
 

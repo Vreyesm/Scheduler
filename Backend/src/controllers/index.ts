@@ -10,3 +10,4 @@ export * from './schedule.controller';
 export * from './assignation.controller';
 export * from './special-assignation.controller';
 export * from './change-request.controller';
+export * from './building.controller';

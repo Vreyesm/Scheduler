@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
+import { AddBuildingComponent } from '../add-building/add-building.component';
+import { Building } from '../../../../models';
+import { BuildingService } from '../../../../services/building.service';
 
 export interface ClassRoom {
   name: string;
@@ -26,7 +30,8 @@ const DATA: ClassRoom [] = [
 })
 export class BuildingsListComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dialog: MatDialog,
+              private buildingService: BuildingService) { }
 
   displayedColumns: string[] = ['name', 'capacity', 'options'];
   dataSource = DATA;
@@ -34,4 +39,19 @@ export class BuildingsListComponent implements OnInit {
   ngOnInit() {
   }
 
+  addBuilding() {
+    let building = new Building();
+    const dialogRefAddBuilding = this.dialog.open(AddBuildingComponent, {
+      width: '300px',
+      data: building
+    });
+    dialogRefAddBuilding.afterClosed().subscribe(result => {
+      building = result;
+      if (building) {
+        this.buildingService.addBuilding(building).subscribe(data => {
+          console.log(data);
+        });
+      }
+    });
+  }
 }

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
-
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
@@ -16,7 +16,7 @@ import { TableListComponent } from './table-list/table-list.component';
 import { TypographyComponent } from './typography/typography.component';
 import { IconsComponent } from './icons/icons.component';
 import { NotificationsComponent } from './notifications/notifications.component';
-
+import { AddBuildingComponent } from './modules/resources/buildings/add-building/add-building.component';
 
 
 // Material
@@ -26,7 +26,8 @@ import {
   MatRippleModule,
   MatFormFieldModule,
   MatTooltipModule,
-  MatSelectModule
+  MatSelectModule,
+  MatDialogModule,
 } from '@angular/material';
 
 @NgModule({
@@ -34,6 +35,7 @@ import {
     BrowserAnimationsModule,
     FormsModule,
     HttpModule,
+    HttpClientModule,
     ComponentsModule,
     MatButtonModule,
     MatRippleModule,
@@ -41,6 +43,7 @@ import {
     MatInputModule,
     MatSelectModule,
     MatTooltipModule,
+    MatDialogModule,
     AppRoutingModule,
   ],
   declarations: [
@@ -50,10 +53,12 @@ import {
     TableListComponent,
     TypographyComponent,
     IconsComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    AddBuildingComponent
 
   ],
   providers: [],
+  entryComponents: [AddBuildingComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
