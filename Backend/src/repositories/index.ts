@@ -9,3 +9,4 @@ export * from './section.repository';
 export * from './special-assignation.repository';
 export * from './subject.repository';
 export * from './user.repository';
+export * from './building.repository';

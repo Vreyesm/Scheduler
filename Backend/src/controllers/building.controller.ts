@@ -25,7 +25,7 @@ export class BuildingController {
     public buildingRepository : BuildingRepository,
   ) {}
 
-  @post('/buildings', {
+  @post('/api/buildings', {
     responses: {
       '200': {
         description: 'Building model instance',
@@ -37,7 +37,7 @@ export class BuildingController {
     return await this.buildingRepository.create(building);
   }
 
-  @get('/buildings/count', {
+  @get('/api/buildings/count', {
     responses: {
       '200': {
         description: 'Building model count',
@@ -51,7 +51,7 @@ export class BuildingController {
     return await this.buildingRepository.count(where);
   }
 
-  @get('/buildings', {
+  @get('/api/buildings', {
     responses: {
       '200': {
         description: 'Array of Building model instances',
@@ -69,7 +69,7 @@ export class BuildingController {
     return await this.buildingRepository.find(filter);
   }
 
-  @patch('/buildings', {
+  @patch('/api/buildings', {
     responses: {
       '200': {
         description: 'Building PATCH success count',
@@ -84,7 +84,7 @@ export class BuildingController {
     return await this.buildingRepository.updateAll(building, where);
   }
 
-  @get('/buildings/{id}', {
+  @get('/api/buildings/{id}', {
     responses: {
       '200': {
         description: 'Building model instance',
@@ -96,7 +96,7 @@ export class BuildingController {
     return await this.buildingRepository.findById(id);
   }
 
-  @patch('/buildings/{id}', {
+  @patch('/api/buildings/{id}', {
     responses: {
       '204': {
         description: 'Building PATCH success',
@@ -110,7 +110,7 @@ export class BuildingController {
     await this.buildingRepository.updateById(id, building);
   }
 
-  @put('/buildings/{id}', {
+  @put('/api/buildings/{id}', {
     responses: {
       '204': {
         description: 'Building PUT success',
@@ -124,7 +124,7 @@ export class BuildingController {
     await this.buildingRepository.replaceById(id, building);
   }
 
-  @del('/buildings/{id}', {
+  @del('/api/buildings/{id}', {
     responses: {
       '204': {
         description: 'Building DELETE success',

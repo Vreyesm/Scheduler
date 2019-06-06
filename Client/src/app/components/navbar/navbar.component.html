@@ -1,8 +1,20 @@
 <nav class="navbar navbar-expand-lg navbar-transparent  navbar-absolute fixed-top">
     <div class="container-fluid">
-        <div class="navbar-wrapper">
+        <!--<div class="navbar-wrapper">
           <a class="navbar-brand" href="#">{{getTitle()}}</a>
-        </div>
+        </div>-->
+      <!--<mdb-breadcrumb>
+        <mdb-breadcrumb-item class="blue-text">Home</mdb-breadcrumb-item>
+        <mdb-breadcrumb-item class="blue-text">Library</mdb-breadcrumb-item>
+        <mdb-breadcrumb-item class="active">Data</mdb-breadcrumb-item>
+      </mdb-breadcrumb>-->
+        <ol class="breadcrumb">
+          <li *ngFor="let breadcrumb of breadcrumbs">
+            <span [routerLink]="breadcrumb.url" routerLinkActive="router-link-active">
+              {{ breadcrumb.label }}
+            </span>
+          </li>
+        </ol>
         <button mat-raised-button class="navbar-toggler" type="button" (click)="sidebarToggle()">
             <span class="sr-only">Toggle navigation</span>
             <span class="navbar-toggler-icon icon-bar"></span>

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
-
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
@@ -16,25 +16,49 @@ import { TableListComponent } from './table-list/table-list.component';
 import { TypographyComponent } from './typography/typography.component';
 import { IconsComponent } from './icons/icons.component';
 import { NotificationsComponent } from './notifications/notifications.component';
-import { UpgradeComponent } from './upgrade/upgrade.component';
+import { AddBuildingComponent } from './modules/resources/buildings/add-building/add-building.component';
 
-import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+
+// Material
+import {
+  MatButtonModule,
+  MatInputModule,
+  MatRippleModule,
+  MatFormFieldModule,
+  MatTooltipModule,
+  MatSelectModule,
+  MatDialogModule,
+} from '@angular/material';
 
 @NgModule({
   imports: [
     BrowserAnimationsModule,
     FormsModule,
     HttpModule,
+    HttpClientModule,
     ComponentsModule,
-    RouterModule,
+    MatButtonModule,
+    MatRippleModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatTooltipModule,
+    MatDialogModule,
     AppRoutingModule,
   ],
   declarations: [
     AppComponent,
-    AdminLayoutComponent,
+    DashboardComponent,
+    UserProfileComponent,
+    TableListComponent,
+    TypographyComponent,
+    IconsComponent,
+    NotificationsComponent,
+    AddBuildingComponent
 
   ],
   providers: [],
+  entryComponents: [AddBuildingComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -20,8 +20,8 @@ export class BackendApplication extends BootMixin(
     this.sequence(MySequence);
 
     // Set up default home page
-    this.static('/', path.join(__dirname, '../public'));
-
+    //this.static('/', path.join(__dirname, '../public'));
+    this.static('/', path.join(__dirname, '../../Client/dist/Client'));
     // Customize @loopback/rest-explorer configuration here
     this.bind(RestExplorerBindings.CONFIG).to({
       path: '/explorer',

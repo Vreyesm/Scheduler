@@ -1,4 +1,5 @@
-import {Entity, model, property} from '@loopback/repository';
+import {belongsTo, Entity, hasOne, model, property} from '@loopback/repository';
+import {Career} from './career.model';
 
 @model({settings: {}})
 export class Subject extends Entity {
@@ -15,12 +16,8 @@ export class Subject extends Entity {
   })
   Name: string;
 
-  @property({
-    type: 'number',
-    required: true,
-  })
-  Career: number;
-
+  @belongsTo(() => Career)
+  CareerId: number;
 
   constructor(data?: Partial<Subject>) {
     super(data);
