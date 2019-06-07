@@ -10,13 +10,18 @@ namespace Scheduler.Models
         public int ID { get; set; }
         public string Name { get; set; }
         public User Director { get; set; }
-        public Subject[] Subjects { get; set; }
-        public Career(int iD, string name, User director, Subject[] subjects)
+        public List<Subject> Subjects { get; set; }
+
+        public Career(int iD, string name, User director)
         {
             ID = iD;
             Name = name;
             Director = director;
-            Subjects = subjects;
+            Subjects = new List<Subject>();
+        }
+
+        public Career()
+        {
         }
     }
 }

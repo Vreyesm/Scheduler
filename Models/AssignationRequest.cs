@@ -27,5 +27,9 @@ namespace Scheduler.Models
             Expiration = expiration;
             Comment = comment;
         }
+
+        public AssignationRequest()
+        {
+        }
     }
 }

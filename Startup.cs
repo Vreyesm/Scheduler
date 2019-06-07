@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Scheduler.Data;
 
 namespace Scheduler
 {
@@ -25,6 +27,15 @@ namespace Scheduler
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            // Database connection
+            services.AddDbContext<DataContext>(options =>
+            // Docker
+            //options.UseNpgsql("Host=postgres;Database=seea;Username=postgres;Password=123"));
+            // Local
+            options.UseNpgsql("Host=localhost;Database=scheduler;Username=postgres;Password=123"));
+
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -40,7 +51,7 @@ namespace Scheduler
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

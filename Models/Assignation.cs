@@ -22,5 +22,7 @@ namespace Scheduler.Models
             Day = day;
             Block = block;
         }
+
+        public Assignation() { }
     }
 }

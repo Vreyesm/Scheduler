@@ -9,13 +9,17 @@ namespace Scheduler.Models
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public Section[] Sections { get; set; }
+        public List<Section> Sections { get; set; }
 
-        public Subject(int iD, string name, Section[] sections)
+        public Subject(int iD, string name)
         {
             ID = iD;
             Name = name;
-            Sections = sections;
+            Sections = new List<Section>();
+        }
+
+        public Subject()
+        {
         }
     }
 }

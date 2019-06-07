@@ -19,5 +19,9 @@ namespace Scheduler.Models
             Capacity = capacity;
             Schedule = schedule;
         }
+
+        public Classroom()
+        {
+        }
     }
 }

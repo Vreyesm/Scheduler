@@ -10,13 +10,17 @@ namespace Scheduler
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public Classroom[] Classrooms { get; set; }
+        public List<Classroom> Classrooms { get; set; }
 
-        public Building(int iD, string name, Classroom[] classrooms)
+        public Building(int iD, string name)
         {
             ID = iD;
             Name = name;
-            Classrooms = classrooms;
+            Classrooms = new List<Classroom>();
+        }
+
+        public Building()
+        {
         }
     }
 }

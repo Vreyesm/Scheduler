@@ -19,5 +19,9 @@ namespace Scheduler.Models
             Type = type;
             Password = password;
         }
+
+        public User()
+        {
+        }
     }
 }
