@@ -8,15 +8,16 @@ namespace Scheduler.Models
     public class Assignation
     {
         public int ID { get; set; }
-        public int ClassroomId { get; set; }
+        public Classroom Classroom { get; set; }
         public Section Section { get; set; }
         public DayOfWeek Day { get; set; }
         public int Block { get; set; }
+        public DateTime Expiration { get; set; }
 
-        public Assignation(int iD, int classroomId, Section section, DayOfWeek day, int block)
+        public Assignation(int id, Classroom classroom, Section section, DayOfWeek day, int block)
         {
-            ID = iD;
-            ClassroomId = classroomId;
+            ID = id;
+            Classroom = classroom;
             Section = section;
             Day = day;
             Block = block;
