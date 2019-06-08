@@ -17,9 +17,12 @@ namespace Scheduler
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private IHostingEnvironment Environment { get; set; }
+
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
+            Environment = env;
         }
 
         public IConfiguration Configuration { get; }
@@ -27,13 +30,21 @@ namespace Scheduler
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            // Database connection
-            services.AddDbContext<DataContext>(options =>
-            // Docker
-            //options.UseNpgsql("Host=postgres;Database=seea;Username=postgres;Password=123"));
-            // Local
-            options.UseNpgsql("Host=localhost;Database=scheduler;Username=postgres;Password=123"));
+            // Database connection based on current environment
+            if (Environment.IsProduction())
+            {
+                services.AddDbContext<DataContext>(options =>
+                // Docker
+                //options.UseNpgsql("Host=postgres;Database=seea;Username=postgres;Password=123"));
+                // AWS RDS
+                options.UseNpgsql("Host=scheduler.cym7tqfeyz7n.us-east-1.rds.amazonaws.com;Database=scheduler;Username=vreyesm;Password=putaclaveqla"));
+            }
+            else
+            {
+                services.AddDbContext<DataContext>(options =>
+                options.UseNpgsql("Host=localhost;Database=scheduler;Username=postgres;Password=123"));
+            }
+            
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
