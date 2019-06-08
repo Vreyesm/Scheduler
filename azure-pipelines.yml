@@ -19,9 +19,3 @@ steps:
     npm install
     ng build --prod
   displayName: 'Build Angular'
-- script: |
-    cd Backend
-    npm install -g @loopback/cli
-    npm install
-    npm run build
-  displayName: 'Build Loopback'
