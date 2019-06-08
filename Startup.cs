@@ -44,8 +44,13 @@ namespace Scheduler
                 services.AddDbContext<DataContext>(options =>
                 options.UseNpgsql("Host=localhost;Database=scheduler;Username=postgres;Password=123"));
             }
-            
 
+
+            // In production, the Angular files will be served from this directory
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/dist";
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
