@@ -37,12 +37,12 @@ steps:
   inputs:
     command: publish
     publishWebProjects: false
-    projects: $(Parameters.RestoreBuildProjects)
-    arguments: --configuration Release --output $(build.artifactstagingdirectory)
+    projects: Scheduler.csproj
+    arguments: --configuration Release --output /home/vsts/work/1/a/s
     zipAfterPublish: True
 
 - task: PublishBuildArtifacts@1
   displayName: Publish Artifact
   inputs:
-    PathtoPublish: $(build.artifactstagingdirectory)
+    PathtoPublish: /home/vsts/work/1/a/s
   condition: succeededOrFailed()
