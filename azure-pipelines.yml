@@ -19,3 +19,34 @@ steps:
     npm install
     ng build --prod
   displayName: 'Build Angular'
+
+pool:
+  name: Hosted Ubuntu 1604
+
+steps:
+- task: DotNetCoreCLI@2
+  displayName: Restore
+  inputs:
+    command: restore
+    projects: Scheduler.csproj
+
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    projects: Scheduler.csproj
+    arguments: --configuration Release
+
+- task: DotNetCoreCLI@2
+  displayName: Publish
+  inputs:
+    command: publish
+    publishWebProjects: false
+    projects: $(Parameters.RestoreBuildProjects)
+    arguments: --configuration Release --output $(build.artifactstagingdirectory)
+    zipAfterPublish: True
+
+- task: PublishBuildArtifacts@1
+  displayName: Publish Artifact
+  inputs:
+    PathtoPublish: $(build.artifactstagingdirectory)
+  condition: succeededOrFailed()
