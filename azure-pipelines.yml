@@ -17,7 +17,7 @@ steps:
     cd Client
     npm install -g @angular/cli
     npm install
-    ng build --prod
+    ng build --prod --outputPath=dist/Client
   displayName: 'Build Angular'
   
 - task: DotNetCoreCLI@2
