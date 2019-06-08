@@ -38,11 +38,11 @@ steps:
     command: publish
     publishWebProjects: false
     projects: Scheduler.csproj
-    arguments: --configuration Release --output /home/vsts/work/1/a/s
+    arguments: --configuration Release --output /home/vsts/work/1/a
     zipAfterPublish: True
 
 - task: PublishBuildArtifacts@1
   displayName: Publish Artifact
   inputs:
-    PathtoPublish: /home/vsts/work/1/a/s
+    PathtoPublish: /home/vsts/work/1/a
   condition: succeededOrFailed()
