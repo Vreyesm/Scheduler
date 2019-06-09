@@ -1,6 +1,5 @@
 # Scheduler
-[![Build Status](https://travis-ci.com/Vreyesm/Scheduler.svg?branch=master)](https://travis-ci.com/Vreyesm/Scheduler)
-
+[![Build status](https://dev.azure.com/victor-reyes/Scheduler/_apis/build/status/Scheduler-Docker%20Publish%20%26%20Push-import)](https://dev.azure.com/victor-reyes/Scheduler/_build/latest?definitionId=5)
 
 Thesis' project - Scheduler
 ---
