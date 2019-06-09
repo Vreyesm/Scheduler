@@ -17,11 +17,32 @@ steps:
     cd Client
     npm install -g @angular/cli
     npm install
-    ng build --prod
+    ng build --prod --outputPath=dist/Client
   displayName: 'Build Angular'
-- script: |
-    cd Backend
-    npm install -g @loopback/cli
-    npm install
-    npm run build
-  displayName: 'Build Loopback'
+  
+- task: DotNetCoreCLI@2
+  displayName: Restore
+  inputs:
+    command: restore
+    projects: Scheduler.csproj
+
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    projects: Scheduler.csproj
+    arguments: --configuration Release
+
+- task: DotNetCoreCLI@2
+  displayName: Publish
+  inputs:
+    command: publish
+    publishWebProjects: false
+    projects: Scheduler.csproj
+    arguments: --configuration Release --output /home/vsts/work/1/a
+    zipAfterPublish: True
+
+- task: PublishBuildArtifacts@1
+  displayName: Publish Artifact
+  inputs:
+    PathtoPublish: /home/vsts/work/1/a
+  condition: succeededOrFailed()
