@@ -3,9 +3,9 @@ FROM node:10-alpine as client
 RUN apk update
 RUN apk add git
 
-WORKDIR /ClientApp
+WORKDIR /Client
 
-COPY ./ClientApp .
+COPY ./Client .
 
 RUN npm i -g @angular/cli
 RUN npm install
