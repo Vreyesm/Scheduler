@@ -10,7 +10,7 @@ namespace Scheduler
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public List<Classroom> Classrooms { get; set; }
+        public ICollection<Classroom> Classrooms { get; set; }
 
         public Building(int iD, string name)
         {
@@ -21,6 +21,7 @@ namespace Scheduler
 
         public Building()
         {
+            Classrooms = new List<Classroom>();
         }
     }
 }

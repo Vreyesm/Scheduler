@@ -1,4 +1,7 @@
+import {Classroom} from './Classroom';
+
 export class Building {
-  ID: number;
-  Name: string;
+  id: number;
+  name: string;
+  classrooms: Classroom[];
 }

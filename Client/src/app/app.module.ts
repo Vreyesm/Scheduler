@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
@@ -17,6 +17,9 @@ import { TypographyComponent } from './typography/typography.component';
 import { IconsComponent } from './icons/icons.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { AddBuildingComponent } from './modules/resources/buildings/add-building/add-building.component';
+import { AddClassroomComponent } from './modules/resources/buildings/add-classroom/add-classroom.component';
+
+import { ApiInterceptor } from './interceptors/api.interceptor';
 
 
 // Material
@@ -54,11 +57,18 @@ import {
     TypographyComponent,
     IconsComponent,
     NotificationsComponent,
-    AddBuildingComponent
+    AddBuildingComponent,
+    AddClassroomComponent
 
   ],
-  providers: [],
-  entryComponents: [AddBuildingComponent],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiInterceptor,
+      multi: true
+    }
+  ],
+  entryComponents: [AddBuildingComponent, AddClassroomComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
