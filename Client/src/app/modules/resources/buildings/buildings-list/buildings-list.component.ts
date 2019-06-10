@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { AddBuildingComponent } from '../add-building/add-building.component';
 import {Building, Classroom} from '../../../../models';
 import { BuildingService } from '../../../../services/building.service';
