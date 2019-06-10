@@ -31,7 +31,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'resources',
-    loadChildren: './modules/resources/resources.module#ResourcesModule',
+    loadChildren: () => import('./modules/resources/resources.module').then(m => m.ResourcesModule),
     data: {
       title: 'Recursos'
     }
