@@ -9,7 +9,7 @@ namespace Scheduler.Models
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public List<Section> Sections { get; set; }
+        public ICollection<Section> Sections { get; set; }
 
         public Subject(int iD, string name)
         {

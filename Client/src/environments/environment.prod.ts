@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiEndpoint: 'http://192.168.0.111:3000'
+  apiEndpoint: 'https://scheduler-thesis.azurewebsites.net/'
 };
