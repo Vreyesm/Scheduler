@@ -14,4 +14,8 @@ export class BuildingService {
   addBuilding(building: Building): Observable<Building> {
     return this.http.post<Building>(BuildingService.API_ROOT, building);
   }
+
+  getBuildings(): Observable<Building[]> {
+    return this.http.get<Building[]>(BuildingService.API_ROOT);
+  }
 }

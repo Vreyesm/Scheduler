@@ -14,7 +14,7 @@ import { RouterModule } from '@angular/router';
       },
       {
         path: 'buildings',
-        loadChildren: './buildings/buildings.module#BuildingsModule',
+        loadChildren: () => import('./buildings/buildings.module').then(m => m.BuildingsModule),
       }
     ]),
   ]
