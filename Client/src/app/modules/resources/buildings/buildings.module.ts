@@ -15,6 +15,9 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import {ClassroomsModule} from './classrooms/classrooms.module';
+import {ClassroomsListComponent} from './classrooms/classrooms-list/classrooms-list.component';
 
 @NgModule({
   declarations: [BuildingsListComponent, ClassroomViewComponent],
@@ -37,13 +40,18 @@ import { MatFormFieldModule } from '@angular/material/form-field';
           title: 'Sala'
         }
       },
+      {
+        path: ':id/classrooms',
+        loadChildren: () => import('./classrooms/classrooms.module').then(m => m.ClassroomsModule)
+      }
     ]),
     MatButtonModule,
     MatIconModule,
     MatChipsModule,
     MatTooltipModule,
     MatDialogModule,
-    MatFormFieldModule
-  ]
+    MatFormFieldModule,
+    MatPaginatorModule,
+  ],
 })
 export class BuildingsModule { }

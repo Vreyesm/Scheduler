@@ -30,6 +30,13 @@ namespace Scheduler.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            /*modelBuilder.Entity<Classroom>()
+                .HasOne(c => c.Building)
+                .WithMany(b => b.Classrooms)
+                .OnDelete(DeleteBehavior.Cascade);
+                */
+
         }
     }
 }

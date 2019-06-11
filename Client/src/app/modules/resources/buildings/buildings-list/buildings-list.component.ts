@@ -1,29 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddBuildingComponent } from '../add-building/add-building.component';
-import {Building, Classroom} from '../../../../models';
+import { Building, Classroom} from '../../../../models';
 import { BuildingService } from '../../../../services/building.service';
-import {AddClassroomComponent} from '../add-classroom/add-classroom.component';
-import {ClassroomService} from '../../../../services/classroom.service';
-
-export interface ClassRoom {
-  name: string;
-  capacity: number;
-}
-
-const DATA: ClassRoom [] = [
-  {name: 'Sala 11', capacity: 50},
-  {name: 'Sala 12', capacity: 50},
-  {name: 'Sala 13', capacity: 50},
-  {name: 'Sala 14', capacity: 50},
-  {name: 'Sala 21', capacity: 50},
-  {name: 'Sala 22', capacity: 50},
-  {name: 'Sala 23', capacity: 50},
-  {name: 'Sala 24', capacity: 50},
-  {name: 'Sala 25', capacity: 50},
-];
-
-
+import { AddClassroomComponent } from '../add-classroom/add-classroom.component';
+import { ClassroomService } from '../../../../services/classroom.service';
+import { DeleteDialogComponent } from '../../../../components/delete-dialog/delete-dialog.component';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-buildings-list',
@@ -33,13 +18,15 @@ const DATA: ClassRoom [] = [
 export class BuildingsListComponent implements OnInit {
 
   buildings: Building[];
+  dataSource = new MatTableDataSource<Building>(this.buildings);
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(public dialog: MatDialog,
               private buildingService: BuildingService,
-              private classroomService: ClassroomService) { }
+              private classroomService: ClassroomService,
+              private router: Router) { }
 
-  displayedColumns: string[] = ['name', 'capacity', 'options'];
-  dataSource = DATA;
+  displayedColumns: string[] = ['name', 'quantity', 'options'];
 
   ngOnInit() {
     this.loadBuildings();
@@ -62,19 +49,47 @@ export class BuildingsListComponent implements OnInit {
     });
   }
 
+  deleteBuilding(id: number) {
+    let building;
+
+    this.buildings.forEach(b => {
+      if (b.id === id) {
+        building = b;
+        return;
+      }
+    });
+    const dialogRefDeleteBuilding = this.dialog.open(DeleteDialogComponent, {
+      data: 'Edificio: ' + building.name,
+    });
+
+    dialogRefDeleteBuilding.afterClosed().subscribe(result => {
+      if (result) {
+        this.buildingService.deleteBuilding(id).subscribe(response => {
+          this.loadBuildings();
+        });
+      }
+    });
+  }
+
   loadBuildings() {
     return this.buildingService.getBuildings().subscribe(data => {
       this.buildings = data;
+      this.dataSource = new MatTableDataSource<Building>(this.buildings);
+      this.dataSource.paginator = this.paginator;
     });
+  }
+
+  goToBuilding(id: number) {
+    this.router.navigateByUrl('resources/buildings/' + id + '/classrooms');
   }
 
   addClassroom(id: number) {
     let classroom = new Classroom();
-    const dialogRefAddBuilding = this.dialog.open(AddClassroomComponent, {
+    const dialogRefAddClassroom = this.dialog.open(AddClassroomComponent, {
       width: '300px',
       data: classroom
     });
-    dialogRefAddBuilding.afterClosed().subscribe(result => {
+    dialogRefAddClassroom.afterClosed().subscribe(result => {
       classroom = result;
       classroom.buildingId = id;
       if (classroom) {
