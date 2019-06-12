@@ -36,15 +36,15 @@
         <mat-cell class="options-cell" *matCellDef="let element">
           <button (click)="goToBuilding(element.id)" mat-raised-button class="btn-success" style="margin-right: 5px">
             <mat-icon>list</mat-icon>
-            Ver salas
+            <!--Ver salas-->
           </button>
           <button routerLink="/resources/buildings/classroom" mat-raised-button class="btn-primary" style="margin-right: 5px">
             <mat-icon>create</mat-icon>
-            Editar
+            <!--Editar-->
           </button>
           <button mat-raised-button (click)="deleteBuilding(element.id)" class="btn-danger">
             <mat-icon>delete</mat-icon>
-            Eliminar
+            <!--Eliminar-->
           </button>
 
         </mat-cell>

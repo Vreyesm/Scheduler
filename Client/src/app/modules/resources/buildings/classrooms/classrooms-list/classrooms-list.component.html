@@ -15,7 +15,6 @@
         </button>
       </div>
     </div>
-    <div class="row" >
       <mat-table [dataSource]="dataSource" class="mat-elevation-z1" *ngIf="building; else noClassrooms">
         <!-- Name Column -->
         <ng-container matColumnDef="name">
@@ -52,7 +51,6 @@
                       [pageSize]="10"
                       [pageSizeOptions]="[5, 10, 25, 100]">
       </mat-paginator>
-    </div>
   </div>
 </div>
 
