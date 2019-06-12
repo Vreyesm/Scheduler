@@ -15,69 +15,49 @@
         </button>
       </div>
     </div>
-    <div class="row">
-      <div class="card">
-        <mat-accordion>
-          <mat-expansion-panel *ngFor="let building of buildings; let i = index">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                {{building.name}}
-              </mat-panel-title>
-              <mat-panel-description>
-                Salas: {{building.classrooms.length}}
-              </mat-panel-description>
-            </mat-expansion-panel-header>
 
-            <div class="row" style="padding-bottom: 10px">
-              <div class="col-2 offset-10">
-                <button mat-raised-button (click)="addClassroom(building.id)" class="btn-success pull-right">
-                  <mat-icon>add</mat-icon>
-                  Agregar
-                </button>
-              </div>
-            </div>
-            <mat-table [dataSource]="building.classrooms" class="mat-elevation-z1" *ngIf="building.classrooms.length > 0; else noClassrooms">
-              <p>Lista de salas</p>
-              <!-- Name Column -->
-              <ng-container matColumnDef="name">
-                <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
-                <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
-              </ng-container>
+    <mat-table [dataSource]="buildings" class="mat-elevation-z1" *ngIf="buildings ; else noClassrooms">
 
-              <!-- Capacity Column -->
-              <ng-container matColumnDef="capacity">
-                <mat-header-cell *matHeaderCellDef> Capacidad </mat-header-cell>
-                <mat-cell *matCellDef="let element"> {{element.capacity}} </mat-cell>
-              </ng-container>
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <mat-header-cell class="name-cell" *matHeaderCellDef> Nombre </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+      </ng-container>
 
-              <!-- Options Column -->
-              <ng-container matColumnDef="options" >
-                <mat-header-cell *matHeaderCellDef> Opciones </mat-header-cell>
-                <mat-cell *matCellDef="let element">
-                  <button routerLink="/resources/buildings/classroom" mat-raised-button class="btn-primary" style="margin-right: 5px">
-                    <mat-icon>create</mat-icon>
-                    Editar
-                  </button>
-                  <button mat-raised-button class="btn-danger">
-                    <mat-icon>delete</mat-icon>
-                    Eliminar
-                  </button>
+      <!-- Quantity Column -->
+      <ng-container matColumnDef="quantity">
+        <mat-header-cell class="name-cell" *matHeaderCellDef> Salas </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.classrooms.length? element.classrooms.length : 0}} </mat-cell>
+      </ng-container>
 
-                </mat-cell>
-              </ng-container>
+      <!-- Options Column -->
+      <ng-container matColumnDef="options" >
+        <mat-header-cell *matHeaderCellDef> Opciones </mat-header-cell>
+        <mat-cell class="options-cell" *matCellDef="let element">
+          <button (click)="goToBuilding(element.id)" mat-raised-button class="btn-success" style="margin-right: 5px">
+            <mat-icon>list</mat-icon>
+            <!--Ver salas-->
+          </button>
+          <button routerLink="/resources/buildings/classroom" mat-raised-button class="btn-primary" style="margin-right: 5px">
+            <mat-icon>create</mat-icon>
+            <!--Editar-->
+          </button>
+          <button mat-raised-button (click)="deleteBuilding(element.id)" class="btn-danger">
+            <mat-icon>delete</mat-icon>
+            <!--Eliminar-->
+          </button>
 
-              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-            </mat-table>
+        </mat-cell>
+      </ng-container>
 
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator  class="mat-elevation-z1" [length]="100"
+                   [pageSize]="10"
+                   [pageSizeOptions]="[5, 10, 25, 100]">
+    </mat-paginator>
 
-          </mat-expansion-panel>
-
-
-        </mat-accordion>
-
-      </div>
-    </div>
   </div>
 
   <ng-template #noClassrooms>

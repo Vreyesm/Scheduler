@@ -38,7 +38,10 @@ namespace Scheduler
                 // Docker
                 //options.UseNpgsql("Host=postgres;Database=seea;Username=postgres;Password=123"));
                 // AWS RDS
-                options.UseNpgsql("Host=scheduler.cym7tqfeyz7n.us-east-1.rds.amazonaws.com;Database=scheduler;Username=vreyesm;Password=putaclaveqla"));
+                // options.UseNpgsql("Host=scheduler.cym7tqfeyz7n.us-east-1.rds.amazonaws.com;Database=scheduler;Username=vreyesm;Password=putaclaveqla"));
+                // Google Cloud Platform
+                options.UseNpgsql("Host=35.188.203.110;Database=scheduler;Username=vreyesm;Password=123"));
+
             }
             else
             {
