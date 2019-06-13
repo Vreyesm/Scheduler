@@ -35,7 +35,10 @@ namespace Scheduler.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Building>> GetBuilding(int id)
         {
-            var building = await _context.Buildings.FindAsync(id);
+            var building = await _context.Buildings
+                .Where(b => b.ID == id)
+                .Include(b => b.Classrooms)
+                .SingleOrDefaultAsync();
 
             if (building == null)
             {

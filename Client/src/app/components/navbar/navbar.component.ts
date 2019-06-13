@@ -145,7 +145,6 @@ export class NavbarComponent implements OnInit {
     // If no routeConfig is available we are on the root path
     let label = route.routeConfig && route.routeConfig.data ? route.routeConfig.data.title : '';
     let path = route.routeConfig && route.routeConfig.data ? route.routeConfig.path : '';
-
     // If the route is dynamic route such as ':id', remove it
     const lastRoutePart = path.split('/').pop();
     const isDynamicRoute = lastRoutePart.startsWith(':');

@@ -11,11 +11,20 @@ export class BuildingService {
 
   constructor(private http: HttpClient) { }
 
+  getBuilding(id: number): Observable<Building> {
+    return this.http.get<Building>(BuildingService.API_ROOT + '/' + id);
+  }
+
   addBuilding(building: Building): Observable<Building> {
     return this.http.post<Building>(BuildingService.API_ROOT, building);
   }
 
   getBuildings(): Observable<Building[]> {
     return this.http.get<Building[]>(BuildingService.API_ROOT);
+  }
+
+  deleteBuilding(id: number): Observable<any> {
+    console.log('DELETE');
+    return this.http.delete<any>(BuildingService.API_ROOT + '/' + id);
   }
 }

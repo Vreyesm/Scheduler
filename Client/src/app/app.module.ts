@@ -17,6 +17,8 @@ import { IconsComponent } from './icons/icons.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { AddBuildingComponent } from './modules/resources/buildings/add-building/add-building.component';
 import { AddClassroomComponent } from './modules/resources/buildings/add-classroom/add-classroom.component';
+import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
+import {ClassroomsModule} from './modules/resources/buildings/classrooms/classrooms.module';
 
 import { ApiInterceptor } from './interceptors/api.interceptor';
 
@@ -30,6 +32,7 @@ import {
   MatTooltipModule,
   MatSelectModule,
   MatDialogModule,
+  MatPaginatorModule
 } from '@angular/material';
 
 @NgModule({
@@ -46,6 +49,7 @@ import {
     MatTooltipModule,
     MatDialogModule,
     AppRoutingModule,
+    MatPaginatorModule
   ],
   declarations: [
     AppComponent,
@@ -56,7 +60,8 @@ import {
     IconsComponent,
     NotificationsComponent,
     AddBuildingComponent,
-    AddClassroomComponent
+    AddClassroomComponent,
+    DeleteDialogComponent
 
   ],
   providers: [
@@ -66,7 +71,7 @@ import {
       multi: true
     }
   ],
-  entryComponents: [AddBuildingComponent, AddClassroomComponent],
+  entryComponents: [AddBuildingComponent, AddClassroomComponent, DeleteDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
