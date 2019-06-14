@@ -1,7 +1,7 @@
 export class Classroom {
   id: number;
   name: string;
-  capacity: number;
+  capacity = 0;
   scheduleId: number;
   buildingId: number;
 }

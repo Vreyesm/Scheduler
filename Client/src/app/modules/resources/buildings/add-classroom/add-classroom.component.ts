@@ -2,6 +2,11 @@ import {Component, Inject, OnInit} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {Classroom} from '../../../../models';
 
+interface Data {
+  element: Classroom;
+  action: string;
+}
+
 @Component({
   selector: 'app-add-classroom',
   templateUrl: './add-classroom.component.html',
@@ -10,7 +15,7 @@ import {Classroom} from '../../../../models';
 export class AddClassroomComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<AddClassroomComponent>,
-              @Inject(MAT_DIALOG_DATA)public data: Classroom ) { }
+              @Inject(MAT_DIALOG_DATA)public data: Data ) { }
 
   ngOnInit() {
   }

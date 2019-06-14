@@ -7,6 +7,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {AddClassroomComponent} from '../../add-classroom/add-classroom.component';
 import {MatDialog} from '@angular/material';
 import {ClassroomService} from '../../../../../services/classroom.service';
+import {DeleteDialogComponent} from '../../../../../components/delete-dialog/delete-dialog.component';
 
 
 @Component({
@@ -30,11 +31,11 @@ export class ClassroomsListComponent implements OnInit {
 
   ngOnInit() {
     this.buildingId = +this.route.snapshot.paramMap.get('id');
-    this.loadBuilding(this.buildingId);
+    this.loadBuilding();
   }
 
-  loadBuilding(id: number) {
-    this.buildingService.getBuilding(id).subscribe(data => {
+  loadBuilding() {
+    this.buildingService.getBuilding(this.buildingId).subscribe(data => {
       this.building = data;
       this.dataSource = new MatTableDataSource<Classroom>(this.building.classrooms);
       this.dataSource.paginator = this.paginator;
@@ -44,15 +45,54 @@ export class ClassroomsListComponent implements OnInit {
   addClassroom() {
     let classroom = new Classroom();
     const dialogRefAddClassroom = this.dialog.open(AddClassroomComponent, {
-      width: '300px',
-      data: classroom
+      width: '600px',
+      data:
+        {
+          element: classroom,
+          action: 'Crear'
+        }
     });
     dialogRefAddClassroom.afterClosed().subscribe(result => {
       classroom = result;
       classroom.buildingId = this.buildingId;
       if (classroom) {
-        this.classroomService.addClassroom(classroom).subscribe(data => {
-          this.loadBuilding(this.buildingId);
+        this.classroomService.add(classroom).subscribe(data => {
+          this.loadBuilding();
+        });
+      }
+    });
+  }
+
+  editClassroom(classroom: Classroom) {
+    const oldClassroom = JSON.parse(JSON.stringify(classroom));
+    const dialogRefEditClassroom = this.dialog.open(AddClassroomComponent, {
+      width: '600px',
+      data:
+        {
+          element: oldClassroom,
+          action: 'Editar'
+        }
+    });
+
+    dialogRefEditClassroom.afterClosed().subscribe(result => {
+      if (result) {
+        const newClassroom = result;
+        this.classroomService.edit(newClassroom).subscribe(data => {
+          this.loadBuilding();
+        });
+      }
+    });
+  }
+
+  deleteClassroom(classroom: Classroom) {
+    const dialogRefDelete = this.dialog.open(DeleteDialogComponent, {
+      data: 'Sala: ' + classroom.name
+    });
+
+    dialogRefDelete.afterClosed().subscribe(result => {
+      if (result) {
+        this.classroomService.delete(classroom).subscribe(data => {
+          this.loadBuilding();
         });
       }
     });

@@ -28,6 +28,13 @@ namespace Scheduler.Controllers
             return await _context.Classrooms.ToListAsync();
         }
 
+        // GET: api/Classrooms/count
+        [HttpGet("count")]
+        public async Task<int> CountClassrooms()
+        {
+            return await _context.Classrooms.CountAsync();
+        }
+
         // GET: api/Classrooms/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Classroom>> GetClassroom(int id)

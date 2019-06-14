@@ -7,7 +7,7 @@
         </h3>
       </div>
     </div>
-    <div class="row" style="padding-bottom: 10px">
+    <div class="row">
       <div class="col-2 offset-10">
         <button mat-raised-button (click)="addClassroom()"  class="btn-success pull-right">
           <mat-icon>add</mat-icon>
@@ -32,13 +32,17 @@
         <ng-container matColumnDef="options" >
           <mat-header-cell *matHeaderCellDef> Opciones </mat-header-cell>
           <mat-cell *matCellDef="let element">
-            <button routerLink="/resources/buildings/classroom" mat-raised-button class="btn-primary" style="margin-right: 5px">
-              <mat-icon>create</mat-icon>
-              Editar
+            <button routerLink="/resources/buildings/classroom" mat-raised-button class="btn-success" style="margin-right: 5px">
+              <mat-icon>list</mat-icon>
+              <!--Ver hoarios-->
             </button>
-            <button mat-raised-button class="btn-danger">
+            <button (click)="editClassroom(element)" mat-raised-button class="btn-primary" style="margin-right: 5px">
+              <mat-icon>create</mat-icon>
+              <!--Editar-->
+            </button>
+            <button (click)="deleteClassroom(element)" mat-raised-button class="btn-danger">
               <mat-icon>delete</mat-icon>
-              Eliminar
+              <!--Eliminar-->
             </button>
 
           </mat-cell>
@@ -47,10 +51,18 @@
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>
-      <mat-paginator  class="mat-elevation-z1" [length]="100"
+      <mat-paginator class="paginator mat-elevation-z1" [length]="100"
                       [pageSize]="10"
                       [pageSizeOptions]="[5, 10, 25, 100]">
       </mat-paginator>
+    <div class="row">
+      <div class="col-2 offset-10">
+        <button mat-raised-button routerLink="/resources/buildings" class="btn-info pull-right">
+          <mat-icon>arrow_back</mat-icon>
+          Volver
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 

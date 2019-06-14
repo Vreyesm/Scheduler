@@ -40,7 +40,7 @@ namespace Scheduler
                 // AWS RDS
                 // options.UseNpgsql("Host=scheduler.cym7tqfeyz7n.us-east-1.rds.amazonaws.com;Database=scheduler;Username=vreyesm;Password=putaclaveqla"));
                 // Google Cloud Platform
-                options.UseNpgsql("Host=35.188.203.110;Database=scheduler;Username=vreyesm;Password=123"));
+                options.UseNpgsql("Host=35.188.203.110;Database=scheduler;Username=postgres;Password=123"));
 
             }
             else

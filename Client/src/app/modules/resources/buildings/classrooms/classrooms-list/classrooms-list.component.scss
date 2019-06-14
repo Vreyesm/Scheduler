@@ -4,5 +4,19 @@ table {
 }
 
 mat-table {
-  margin-top: 10px;
+  margin-top: 20px;
+}
+
+.paginator {
+  margin-bottom: 20px;
+}
+
+.cdk-column-options{
+  display:flex;
+  justify-content:center;
+}
+
+.cdk-column-capacity {
+  display: flex;
+  justify-content: center;
 }
