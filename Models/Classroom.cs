@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +12,8 @@ namespace Scheduler.Models
         public string Name { get; set; }
         public int Capacity { get; set; }
         public Schedule Schedule { get; set; }
-        // public Building Building { get; set; }
+        [JsonIgnore]
+        public Building Building { get; set; }
 
         public Classroom(int iD, string name, int capacity, Schedule schedule)
         {

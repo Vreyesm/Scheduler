@@ -8,13 +8,10 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 })
 export class DeleteDialogComponent implements OnInit {
 
-  @ViewChild('cancel', {static: false}) cancelButton: ElementRef;
-
   constructor(public dialogRef: MatDialogRef<DeleteDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: string) { }
 
   ngOnInit() {
-    this.cancelButton.nativeElement.focus();
   }
 
   close(): void {
