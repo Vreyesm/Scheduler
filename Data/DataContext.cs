@@ -31,12 +31,16 @@ namespace Scheduler.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            /*modelBuilder.Entity<Classroom>()
+            modelBuilder.Entity<Classroom>()
                 .HasOne(c => c.Building)
                 .WithMany(b => b.Classrooms)
                 .OnDelete(DeleteBehavior.Cascade);
-                */
 
+            /*modelBuilder.Entity<Building>()
+                .HasMany(b => b.Classrooms)
+                .WithOne(c => c.Building)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);*/
         }
     }
 }

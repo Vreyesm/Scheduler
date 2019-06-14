@@ -24,7 +24,8 @@ export class BuildingsListComponent implements OnInit {
   constructor(public dialog: MatDialog,
               private buildingService: BuildingService,
               private classroomService: ClassroomService,
-              private router: Router) { }
+              private router: Router) {
+  }
 
   displayedColumns: string[] = ['name', 'quantity', 'options'];
 
@@ -36,12 +37,16 @@ export class BuildingsListComponent implements OnInit {
     let building = new Building();
     const dialogRefAddBuilding = this.dialog.open(AddBuildingComponent, {
       width: '300px',
-      data: building
+      data:
+        {
+          element: building,
+          action: 'Crear'
+        }
     });
     dialogRefAddBuilding.afterClosed().subscribe(result => {
       building = result;
       if (building) {
-        this.buildingService.addBuilding(building).subscribe(data => {
+        this.buildingService.add(building).subscribe(data => {
           console.log(data);
           this.loadBuildings();
         });
@@ -49,22 +54,14 @@ export class BuildingsListComponent implements OnInit {
     });
   }
 
-  deleteBuilding(id: number) {
-    let building;
-
-    this.buildings.forEach(b => {
-      if (b.id === id) {
-        building = b;
-        return;
-      }
-    });
+  deleteBuilding(building: Building) {
     const dialogRefDeleteBuilding = this.dialog.open(DeleteDialogComponent, {
       data: 'Edificio: ' + building.name,
     });
 
     dialogRefDeleteBuilding.afterClosed().subscribe(result => {
       if (result) {
-        this.buildingService.deleteBuilding(id).subscribe(response => {
+        this.buildingService.delete(building.id).subscribe(response => {
           this.loadBuildings();
         });
       }
@@ -83,21 +80,24 @@ export class BuildingsListComponent implements OnInit {
     this.router.navigateByUrl('resources/buildings/' + id + '/classrooms');
   }
 
-  addClassroom(id: number) {
-    let classroom = new Classroom();
-    const dialogRefAddClassroom = this.dialog.open(AddClassroomComponent, {
-      width: '300px',
-      data: classroom
+  editBuilding(building: Building) {
+    const oldBuilding = JSON.parse(JSON.stringify(building));
+    const dialogRefEdit = this.dialog.open(AddBuildingComponent, {
+      data:
+        {
+          element: oldBuilding,
+          action: 'Editar',
+        }
     });
-    dialogRefAddClassroom.afterClosed().subscribe(result => {
-      classroom = result;
-      classroom.buildingId = id;
-      if (classroom) {
-        this.classroomService.addClassroom(classroom).subscribe(data => {
+
+    dialogRefEdit.afterClosed().subscribe(result => {
+      if (result) {
+        const newBuilding = result;
+        this.buildingService.edit(newBuilding).subscribe(response => {
           this.loadBuildings();
         });
       }
     });
   }
-
 }
+

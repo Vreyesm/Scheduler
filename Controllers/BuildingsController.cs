@@ -31,6 +31,13 @@ namespace Scheduler.Controllers
                 .ToListAsync();
         }
 
+        // GET: api/Buildings/count
+        [HttpGet("count")]
+        public async Task<int> CountBuildings()
+        {
+            return await  _context.Buildings.CountAsync();
+        }
+
         // GET: api/Buildings/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Building>> GetBuilding(int id)

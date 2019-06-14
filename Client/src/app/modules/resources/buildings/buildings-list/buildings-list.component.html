@@ -38,11 +38,11 @@
             <mat-icon>list</mat-icon>
             <!--Ver salas-->
           </button>
-          <button routerLink="/resources/buildings/classroom" mat-raised-button class="btn-primary" style="margin-right: 5px">
+          <button (click)="editBuilding(element)" mat-raised-button class="btn-primary" style="margin-right: 5px">
             <mat-icon>create</mat-icon>
             <!--Editar-->
           </button>
-          <button mat-raised-button (click)="deleteBuilding(element.id)" class="btn-danger">
+          <button mat-raised-button (click)="deleteBuilding(element)" class="btn-danger">
             <mat-icon>delete</mat-icon>
             <!--Eliminar-->
           </button>

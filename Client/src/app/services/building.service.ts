@@ -15,7 +15,7 @@ export class BuildingService {
     return this.http.get<Building>(BuildingService.API_ROOT + '/' + id);
   }
 
-  addBuilding(building: Building): Observable<Building> {
+  add(building: Building): Observable<Building> {
     return this.http.post<Building>(BuildingService.API_ROOT, building);
   }
 
@@ -23,8 +23,16 @@ export class BuildingService {
     return this.http.get<Building[]>(BuildingService.API_ROOT);
   }
 
-  deleteBuilding(id: number): Observable<any> {
+  delete(id: number): Observable<any> {
     console.log('DELETE');
     return this.http.delete<any>(BuildingService.API_ROOT + '/' + id);
+  }
+
+  edit(building: Building): Observable<Building> {
+    return this.http.put<Building>(BuildingService.API_ROOT + '/' + building.id, building);
+  }
+
+  count(): Observable<number> {
+    return this.http.get<number>(BuildingService.API_ROOT + '/count');
   }
 }
