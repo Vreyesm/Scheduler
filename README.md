@@ -3,4 +3,5 @@
 
 Thesis' project - Scheduler
 ---
-Victor Reyes
+Victor Reyes Medina
+Universidad de Talca
