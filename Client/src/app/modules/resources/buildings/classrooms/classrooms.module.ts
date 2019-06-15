@@ -7,6 +7,7 @@ import { MatPaginatorModule} from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [ClassroomsListComponent],
@@ -25,7 +26,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatPaginatorModule,
     MatIconModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSortModule
   ],
   exports: []
 })

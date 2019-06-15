@@ -15,16 +15,16 @@
         </button>
       </div>
     </div>
-      <mat-table [dataSource]="dataSource" class="mat-elevation-z1" *ngIf="building; else noClassrooms">
+      <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z1">
         <!-- Name Column -->
         <ng-container matColumnDef="name">
-          <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
         </ng-container>
 
         <!-- Capacity Column -->
         <ng-container matColumnDef="capacity">
-          <mat-header-cell *matHeaderCellDef> Capacidad </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Capacidad </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.capacity}} </mat-cell>
         </ng-container>
 
@@ -51,10 +51,6 @@
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>
-      <mat-paginator class="paginator mat-elevation-z1" [length]="100"
-                      [pageSize]="10"
-                      [pageSizeOptions]="[5, 10, 25, 100]">
-      </mat-paginator>
     <div class="row">
       <div class="col-2 offset-10">
         <button mat-raised-button routerLink="/resources/buildings" class="btn-info pull-right">
