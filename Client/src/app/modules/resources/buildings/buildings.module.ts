@@ -16,6 +16,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+
 import {ClassroomsModule} from './classrooms/classrooms.module';
 import {ClassroomsListComponent} from './classrooms/classrooms-list/classrooms-list.component';
 
@@ -52,6 +54,7 @@ import {ClassroomsListComponent} from './classrooms/classrooms-list/classrooms-l
     MatDialogModule,
     MatFormFieldModule,
     MatPaginatorModule,
+    MatSortModule
   ],
 })
 export class BuildingsModule { }
