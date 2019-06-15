@@ -8,6 +8,7 @@ import {AddClassroomComponent} from '../../add-classroom/add-classroom.component
 import {MatDialog} from '@angular/material';
 import {ClassroomService} from '../../../../../services/classroom.service';
 import {DeleteDialogComponent} from '../../../../../components/delete-dialog/delete-dialog.component';
+import {MatSort} from '@angular/material/sort';
 
 
 @Component({
@@ -22,7 +23,9 @@ export class ClassroomsListComponent implements OnInit {
   displayedColumns: string[] = ['name', 'capacity', 'options'];
 
   dataSource: MatTableDataSource<Classroom>;
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
+
+  // @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(private route: ActivatedRoute,
               private buildingService: BuildingService,
@@ -38,7 +41,10 @@ export class ClassroomsListComponent implements OnInit {
     this.buildingService.getBuilding(this.buildingId).subscribe(data => {
       this.building = data;
       this.dataSource = new MatTableDataSource<Classroom>(this.building.classrooms);
-      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      console.log(this.sort);
+      console.log(this.dataSource);
+      // this.dataSource.paginator = this.paginator;
     });
   }
 
