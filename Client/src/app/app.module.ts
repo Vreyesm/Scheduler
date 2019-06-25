@@ -34,6 +34,7 @@ import {
   MatDialogModule,
   MatPaginatorModule
 } from '@angular/material';
+import {AddCareerComponent} from './modules/resources/careers/add-career/add-career.component';
 
 @NgModule({
   imports: [
@@ -61,6 +62,7 @@ import {
     NotificationsComponent,
     AddBuildingComponent,
     AddClassroomComponent,
+    AddCareerComponent,
     DeleteDialogComponent
 
   ],
@@ -71,7 +73,11 @@ import {
       multi: true
     }
   ],
-  entryComponents: [AddBuildingComponent, AddClassroomComponent, DeleteDialogComponent],
+  entryComponents: [
+    AddBuildingComponent,
+    AddClassroomComponent,
+    AddCareerComponent,
+    DeleteDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

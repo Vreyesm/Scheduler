@@ -28,6 +28,13 @@ namespace Scheduler.Controllers
             return await _context.Careers.ToListAsync();
         }
 
+        // GET: api/Careers/count
+        [HttpGet("count")]
+        public async Task<int> CountCareers()
+        {
+            return await _context.Careers.CountAsync();
+        }
+
         // GET: api/Careers/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Career>> GetCareer(int id)
