@@ -22,7 +22,10 @@ import { FormsModule } from '@angular/forms';
     RouterModule.forChild([
       {
         path: '',
-        component: CareersListComponent
+        component: CareersListComponent,
+        data: {
+          title: 'Carreras'
+        }
       }
     ]),
     MatTableModule,

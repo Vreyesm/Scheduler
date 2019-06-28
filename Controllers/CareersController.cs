@@ -39,7 +39,10 @@ namespace Scheduler.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Career>> GetCareer(int id)
         {
-            var career = await _context.Careers.FindAsync(id);
+            var career = await _context.Careers
+                .Where(c => c.ID == id)
+                .Include(c => c.Subjects)
+                .FirstOrDefaultAsync();
 
             if (career == null)
             {

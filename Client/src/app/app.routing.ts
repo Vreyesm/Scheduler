@@ -17,7 +17,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'dashboard',
-    component: DashboardComponent,
+    loadChildren: () => import('./modules/resources/resources.module').then(m => m.ResourcesModule),
     data: {
       title: 'Dashboard'
     }

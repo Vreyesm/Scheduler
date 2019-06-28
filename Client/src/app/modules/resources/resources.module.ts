@@ -20,6 +20,10 @@ import {BuildingsModule} from './buildings/buildings.module';
       {
         path: 'careers',
         loadChildren: () => import('./careers/careers.module').then(m => m.CareersModule)
+      },
+      {
+        path: 'subjects',
+        loadChildren: () => import('./subjects/subjects.module').then(m => m.SubjectsModule)
       }
     ]),
   ]

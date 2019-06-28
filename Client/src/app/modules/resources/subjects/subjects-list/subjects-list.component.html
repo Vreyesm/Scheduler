@@ -1,0 +1,77 @@
+<div class="main-content">
+  <div fxLayout="column" class="container-fluid"> <!--flex-direction: column;-->
+    <div fxLayout="row">
+        <h3 class="title">
+          Modulos
+        </h3>
+    </div>
+    <div fxLayout="row" class="data-options">
+      <div  fxFlex="80%">
+          <mat-form-field>
+              <mat-label>Carrera</mat-label>
+              <mat-select [(value)]="idCareer">
+                <mat-option (click)="careerChange()" *ngFor="let career of careers" [value]="career.id">
+                  {{career.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+      </div>
+      <div fxFlex="20%">
+        <button mat-raised-button class="btn-success pull-right">
+          <mat-icon>add</mat-icon>
+          Agregar
+        </button>
+      </div>
+    </div>
+    <div fxLayout="row">
+      <mat-table [dataSource]="dataSource" fxLayout="column" class="mat-elevation-z1" *ngIf="subjects ; else noCarrers">
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <mat-header-cell class="name-cell" *matHeaderCellDef> Nombre </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+        </ng-container>
+
+        <!-- Stundents number Column -->
+        <ng-container matColumnDef="students">
+          <mat-header-cell class="name-cell" *matHeaderCellDef> Alumnos estimados </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.students}} </mat-cell>
+        </ng-container>
+
+        <!-- Options Column -->
+        <ng-container matColumnDef="options">
+          <mat-header-cell *matHeaderCellDef> Opciones </mat-header-cell>
+          <mat-cell class="options-cell" *matCellDef="let element">
+            <button mat-raised-button class="btn-success" style="margin-right: 5px">
+              <mat-icon>list</mat-icon>
+              <!--Ver salas-->
+            </button>
+            <button mat-raised-button class="btn-primary" style="margin-right: 5px">
+              <mat-icon>create</mat-icon>
+              <!--Editar-->
+            </button>
+            <button mat-raised-button class="btn-danger">
+              <mat-icon>delete</mat-icon>
+              <!--Eliminar-->
+            </button>
+
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+      <mat-paginator class="mat-elevation-z1" [length]="100" [pageSize]="10"
+        [pageSizeOptions]="[5, 10, 25, 100]">
+      </mat-paginator>
+
+    </div>
+  </div>
+
+
+  <ng-template #noCarrers>
+    <p>
+      No hay carreras
+    </p>
+  </ng-template>
+</div>

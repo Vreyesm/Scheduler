@@ -19,6 +19,7 @@ import { AddBuildingComponent } from './modules/resources/buildings/add-building
 import { AddClassroomComponent } from './modules/resources/buildings/add-classroom/add-classroom.component';
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
 import {ClassroomsModule} from './modules/resources/buildings/classrooms/classrooms.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { ApiInterceptor } from './interceptors/api.interceptor';
 
@@ -50,7 +51,8 @@ import {AddCareerComponent} from './modules/resources/careers/add-career/add-car
     MatTooltipModule,
     MatDialogModule,
     AppRoutingModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    FlexLayoutModule
   ],
   declarations: [
     AppComponent,

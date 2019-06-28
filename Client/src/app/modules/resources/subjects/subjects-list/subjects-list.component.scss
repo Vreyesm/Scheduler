@@ -1,0 +1,23 @@
+table {
+  width: 100%;
+}
+
+mat-table {
+  margin-top: -10px;
+}
+
+
+.cdk-column-options {
+  justify-content: center;
+}
+
+.container-fluid {
+  display: flex;
+  flex-direction: column;
+}
+
+.data-options {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
