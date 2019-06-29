@@ -11,7 +11,6 @@ export class ApiInterceptor implements HttpInterceptor {
     if (environment.production) {
       const url = environment.apiEndpoint;
       const request = req.clone({url: `${url}${req.url}`});
-      console.log(request);
       return next.handle(request);
 
     } else {

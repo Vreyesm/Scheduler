@@ -73,12 +73,22 @@ namespace Scheduler.Controllers
         }
 
         // POST: api/Subjects
-        [HttpPost]
-        public async Task<ActionResult<Subject>> PostSubject(Subject subject)
+        [HttpPost("career/{careerId}")]
+        public async Task<ActionResult<Subject>> PostSubject([FromBody] Subject subject, [FromRoute] int careerId)
         {
-            _context.Subjects.Add(subject);
-            await _context.SaveChangesAsync();
+            //_context.Subjects.Add(subject);
+            //await _context.SaveChangesAsync();
 
+            var career = await _context.Careers.FindAsync(careerId);
+
+            if (career == null) 
+            {
+                return NotFound();
+            }
+
+            career.Subjects.Add(subject);
+            await _context.SaveChangesAsync();
+            
             return CreatedAtAction("GetSubject", new { id = subject.ID }, subject);
         }
 

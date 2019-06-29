@@ -24,7 +24,6 @@ export class BuildingService {
   }
 
   delete(id: number): Observable<any> {
-    console.log('DELETE');
     return this.http.delete<any>(BuildingService.API_ROOT + '/' + id);
   }
 

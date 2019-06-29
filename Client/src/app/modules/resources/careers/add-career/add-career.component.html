@@ -1,0 +1,10 @@
+<h3 mat-dialog-title>{{data.action}} Carrera</h3>
+<div mat-dialog-content>
+  <mat-form-field>
+    <input matInput [(ngModel)]="data.element.name" placeholder="Nombre">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions class="pull-right">
+  <button mat-raised-button (click)="close()" style="margin-right: 5px">Cancelar</button>
+  <button mat-raised-button type="submit"  [mat-dialog-close]="data.element" class="btn-success" >Guardar</button>
+</div>
