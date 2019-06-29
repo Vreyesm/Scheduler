@@ -47,7 +47,6 @@ export class BuildingsListComponent implements OnInit {
       building = result;
       if (building) {
         this.buildingService.add(building).subscribe(data => {
-          console.log(data);
           this.loadBuildings();
         });
       }

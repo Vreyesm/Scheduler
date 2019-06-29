@@ -1,6 +1,6 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
@@ -19,6 +19,7 @@ import { AddBuildingComponent } from './modules/resources/buildings/add-building
 import { AddClassroomComponent } from './modules/resources/buildings/add-classroom/add-classroom.component';
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
 import {ClassroomsModule} from './modules/resources/buildings/classrooms/classrooms.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { ApiInterceptor } from './interceptors/api.interceptor';
 
@@ -26,6 +27,7 @@ import { ApiInterceptor } from './interceptors/api.interceptor';
 // Material
 import {
   MatButtonModule,
+  MatIconModule,
   MatInputModule,
   MatRippleModule,
   MatFormFieldModule,
@@ -34,6 +36,8 @@ import {
   MatDialogModule,
   MatPaginatorModule
 } from '@angular/material';
+import {AddCareerComponent} from './modules/resources/careers/add-career/add-career.component';
+import { AddSubjectComponent } from './modules/resources/subjects/add-subject/add-subject.component';
 
 @NgModule({
   imports: [
@@ -42,6 +46,7 @@ import {
     HttpClientModule,
     ComponentsModule,
     MatButtonModule,
+    MatIconModule,
     MatRippleModule,
     MatFormFieldModule,
     MatInputModule,
@@ -49,7 +54,9 @@ import {
     MatTooltipModule,
     MatDialogModule,
     AppRoutingModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    FlexLayoutModule,
+    ReactiveFormsModule
   ],
   declarations: [
     AppComponent,
@@ -61,7 +68,9 @@ import {
     NotificationsComponent,
     AddBuildingComponent,
     AddClassroomComponent,
-    DeleteDialogComponent
+    AddCareerComponent,
+    DeleteDialogComponent,
+    AddSubjectComponent
 
   ],
   providers: [
@@ -71,7 +80,13 @@ import {
       multi: true
     }
   ],
-  entryComponents: [AddBuildingComponent, AddClassroomComponent, DeleteDialogComponent],
+  entryComponents: [
+    AddBuildingComponent,
+    AddClassroomComponent,
+    AddCareerComponent,
+    AddSubjectComponent,
+    DeleteDialogComponent,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
