@@ -20,7 +20,7 @@
       </div>
 
 
-      <div *ngFor="let section of subjectForm.get('sections').controls; let i=index">
+      <div *ngFor="let section of getSectionsForm().controls; let i=index">
         <div [formGroupName]="i" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="space-between">
           <mat-form-field fxFlex="60%" fxFlex.lt-md="100%">
             <input matInput type="text" formControlName="name" placeholder="Sección">

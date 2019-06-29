@@ -41,6 +41,11 @@ export class AddSubjectComponent implements OnInit {
     this.sections.push(this.createSection());
   }
 
+  getSectionsForm() {
+    console.log(this.subjectForm.get('sections'));
+    return this.subjectForm.get('sections') as FormArray;
+  }
+
   close() {
     this.dialogRef.close();
   }

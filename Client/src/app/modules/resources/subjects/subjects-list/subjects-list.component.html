@@ -25,7 +25,7 @@
       </div>
     </div>
     <div fxFlexFill >
-      <mat-table [dataSource]="dataSource" matSort  class="mat-elevation-z1" [class.hidden]="subjects.length > 0">
+      <mat-table [dataSource]="dataSource" matSort  class="mat-elevation-z1" [class.hidden]="!subjects">
 
         <!-- Name Column -->
         <ng-container matColumnDef="name">
