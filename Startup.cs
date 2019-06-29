@@ -18,12 +18,12 @@ namespace Scheduler
 {
     public class Startup
     {
-        private IHostingEnvironment Environment { get; set; }
+        private IHostingEnvironment Env { get; set; }
 
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
-            Environment = env;
+            Env = env;
         }
 
         public IConfiguration Configuration { get; }
@@ -32,15 +32,20 @@ namespace Scheduler
         public void ConfigureServices(IServiceCollection services)
         {
             // Database connection based on current environment
-            if (Environment.IsProduction())
+            if (Env.IsProduction())
             {
+                string dbHost = Environment.GetEnvironmentVariable("DB_HOST");
+                if (dbHost == null) {
+                    dbHost = "35.188.203.110";
+                }
+                
                 services.AddDbContext<DataContext>(options =>
                 // Docker
                 //options.UseNpgsql("Host=postgres;Database=seea;Username=postgres;Password=123"));
                 // AWS RDS
                 // options.UseNpgsql("Host=scheduler.cym7tqfeyz7n.us-east-1.rds.amazonaws.com;Database=scheduler;Username=vreyesm;Password=putaclaveqla"));
                 // Google Cloud Platform
-                options.UseNpgsql("Host=35.188.203.110;Database=scheduler;Username=postgres;Password=123"));
+                options.UseNpgsql("Host="+ dbHost + ";Database=scheduler;Username=postgres;Password=123"));
 
             }
             else

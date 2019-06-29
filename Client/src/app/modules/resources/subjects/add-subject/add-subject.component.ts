@@ -42,7 +42,6 @@ export class AddSubjectComponent implements OnInit {
   }
 
   getSectionsForm() {
-    console.log(this.subjectForm.get('sections'));
     return this.subjectForm.get('sections') as FormArray;
   }
 
