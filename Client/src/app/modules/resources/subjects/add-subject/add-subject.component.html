@@ -1,0 +1,40 @@
+<h3 mat-dialog-title>{{data.action}} Modulo</h3>
+<div mat-dialog-content>
+  <form [formGroup]="subjectForm">
+    <div fxLayout="column">
+      <mat-form-field>
+        <input matInput type="text" formControlName="name" placeholder="Nombre">
+      </mat-form-field>
+      <!--
+      <mat-form-field fxFlex="35%" fxFlex.lt-md="100%">
+        <input matInput type="number" formControlName="students" placeholder="Estudiantes estimados">
+      </mat-form-field>
+      -->
+    </div>
+    <div fxLayout="column" formArrayName="sections">
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <h4 mat-dialog-title>Secciones</h4>
+        <button mat-raised-button class="btn-success" (click)="addSection()" style="max-height: 32px">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+
+
+      <div *ngFor="let section of subjectForm.get('sections').controls; let i=index">
+        <div [formGroupName]="i" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="space-between">
+          <mat-form-field fxFlex="60%" fxFlex.lt-md="100%">
+            <input matInput type="text" formControlName="name" placeholder="Sección">
+          </mat-form-field>
+          <mat-form-field fxFlex="40%" fxFlex.lt-md="100%">
+            <input matInput type="number" formControlName="students" placeholder="Estudiantes">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>
+<div mat-dialog-actions class="pull-right">
+  <button mat-raised-button (click)="close()" style="margin-right: 5px">Cancelar</button>
+  <button mat-raised-button [mat-dialog-close]="subjectForm.value" class="btn-success">Guardar</button>
+</div>

@@ -3,3 +3,4 @@ export * from './Classroom';
 export * from './Career';
 export * from './Subject';
 export * from './Section';
+export * from './DialogData';

@@ -25,7 +25,10 @@ namespace Scheduler.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Career>>> GetCareers()
         {
-            return await _context.Careers.ToListAsync();
+            return await _context.Careers
+                .Include(c => c.Subjects)
+                .ThenInclude(s => s.Sections)
+                .ToListAsync();
         }
 
         // GET: api/Careers/count

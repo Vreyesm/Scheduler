@@ -15,8 +15,8 @@ export class SubjectsService {
     return this.http.get<Subject[]>(SubjectsService.API_ROOT);
   }
 
-  add(subject: Subject): Observable<Subject> {
-    return this.http.post<Subject>(SubjectsService.API_ROOT, subject)
+  add(subject: Subject, careerId: number): Observable<Subject> {
+    return this.http.post<Subject>(SubjectsService.API_ROOT + '/career/' + careerId, subject);
   }
 
   delete(id: number): Observable<any> {

@@ -22,6 +22,7 @@ namespace Scheduler.Models
 
         public Career()
         {
+            Subjects = new List<Subject>();
         }
     }
 }

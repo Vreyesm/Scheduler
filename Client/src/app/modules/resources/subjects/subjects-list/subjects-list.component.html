@@ -1,30 +1,31 @@
 <div class="main-content">
-  <div fxLayout="column" class="container-fluid"> <!--flex-direction: column;-->
+  <div fxLayout="column" class="container-fluid">
+    <!--flex-direction: column;-->
     <div fxLayout="row">
-        <h3 class="title">
-          Modulos
-        </h3>
+      <h3 class="title">
+        Modulos
+      </h3>
     </div>
     <div fxLayout="row" class="data-options">
-      <div  fxFlex="80%">
-          <mat-form-field>
-              <mat-label>Carrera</mat-label>
-              <mat-select [(value)]="idCareer">
-                <mat-option (click)="careerChange()" *ngFor="let career of careers" [value]="career.id">
-                  {{career.name}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+      <div fxLayout="column">
+        <mat-form-field>
+          <mat-label>Carrera</mat-label>
+          <mat-select [(value)]="idCareer">
+            <mat-option (click)="careerChange()" *ngFor="let career of careers" [value]="career.id">
+              {{career.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-      <div fxFlex="20%">
-        <button mat-raised-button class="btn-success pull-right">
+      <div fxLayout="column">
+        <button (click)="addSubject()" [disabled]="!idCareer" mat-raised-button class="btn-success pull-right">
           <mat-icon>add</mat-icon>
           Agregar
         </button>
       </div>
     </div>
-    <div fxLayout="row">
-      <mat-table [dataSource]="dataSource" fxLayout="column" class="mat-elevation-z1" *ngIf="subjects ; else noCarrers">
+    <div fxFlexFill >
+      <mat-table [dataSource]="dataSource" matSort  class="mat-elevation-z1" [class.hidden]="subjects.length > 0">
 
         <!-- Name Column -->
         <ng-container matColumnDef="name">
@@ -34,7 +35,7 @@
 
         <!-- Stundents number Column -->
         <ng-container matColumnDef="students">
-          <mat-header-cell class="name-cell" *matHeaderCellDef> Alumnos estimados </mat-header-cell>
+          <mat-header-cell mat-sort-header class="name-cell" *matHeaderCellDef> Alumnos estimados </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.students}} </mat-cell>
         </ng-container>
 
@@ -61,17 +62,18 @@
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>
-      <mat-paginator class="mat-elevation-z1" [length]="100" [pageSize]="10"
-        [pageSizeOptions]="[5, 10, 25, 100]">
+
+      <mat-paginator class="mat-elevation-z1" [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"
+        *ngIf="subjects">
       </mat-paginator>
 
     </div>
   </div>
 
+  <ng-template #noSubjects>
+    <div>
+      No hay modulos registrados
+    </div>
 
-  <ng-template #noCarrers>
-    <p>
-      No hay carreras
-    </p>
   </ng-template>
 </div>

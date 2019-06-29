@@ -1,6 +1,6 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
@@ -27,6 +27,7 @@ import { ApiInterceptor } from './interceptors/api.interceptor';
 // Material
 import {
   MatButtonModule,
+  MatIconModule,
   MatInputModule,
   MatRippleModule,
   MatFormFieldModule,
@@ -36,6 +37,7 @@ import {
   MatPaginatorModule
 } from '@angular/material';
 import {AddCareerComponent} from './modules/resources/careers/add-career/add-career.component';
+import { AddSubjectComponent } from './modules/resources/subjects/add-subject/add-subject.component';
 
 @NgModule({
   imports: [
@@ -44,6 +46,7 @@ import {AddCareerComponent} from './modules/resources/careers/add-career/add-car
     HttpClientModule,
     ComponentsModule,
     MatButtonModule,
+    MatIconModule,
     MatRippleModule,
     MatFormFieldModule,
     MatInputModule,
@@ -52,7 +55,8 @@ import {AddCareerComponent} from './modules/resources/careers/add-career/add-car
     MatDialogModule,
     AppRoutingModule,
     MatPaginatorModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    ReactiveFormsModule
   ],
   declarations: [
     AppComponent,
@@ -65,7 +69,8 @@ import {AddCareerComponent} from './modules/resources/careers/add-career/add-car
     AddBuildingComponent,
     AddClassroomComponent,
     AddCareerComponent,
-    DeleteDialogComponent
+    DeleteDialogComponent,
+    AddSubjectComponent
 
   ],
   providers: [
@@ -79,7 +84,9 @@ import {AddCareerComponent} from './modules/resources/careers/add-career/add-car
     AddBuildingComponent,
     AddClassroomComponent,
     AddCareerComponent,
-    DeleteDialogComponent],
+    AddSubjectComponent,
+    DeleteDialogComponent,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
