@@ -1,0 +1,66 @@
+<div fxLayout="column" fxLayoutGap="10px">
+  <mat-table fxFlex="row" [dataSource]="dataSource" class="mat-elevation-z1">
+
+    <!-- Block Column -->
+    <ng-container matColumnDef="block">
+      <mat-header-cell *matHeaderCellDef> Bloque </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.block}} </mat-cell>
+    </ng-container>
+
+
+    <!-- Monday Column -->
+    <ng-container matColumnDef="monday">
+      <mat-header-cell *matHeaderCellDef> Lunes </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <mat-checkbox color="primary" [(ngModel)]="checks.monday[element.id - 1]"></mat-checkbox>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Tuesday Column -->
+    <ng-container matColumnDef="tuesday">
+      <mat-header-cell *matHeaderCellDef> Martes </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <mat-checkbox color="primary" [(ngModel)]="checks.tuesday[element.id - 1]"></mat-checkbox>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Wednesdady Column -->
+    <ng-container matColumnDef="wednesday">
+      <mat-header-cell *matHeaderCellDef> Miércoles </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <mat-checkbox color="primary" [(ngModel)]="checks.wednesday[element.id - 1]"></mat-checkbox>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Thursday Column -->
+    <ng-container matColumnDef="thursday">
+      <mat-header-cell *matHeaderCellDef> Jueves </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <mat-checkbox color="primary" [(ngModel)]="checks.thursday[element.id - 1]"></mat-checkbox>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Friday Column -->
+    <ng-container matColumnDef="friday">
+      <mat-header-cell *matHeaderCellDef> Viernes </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <mat-checkbox  color="primary" [(ngModel)]="checks.friday[element.id - 1]"></mat-checkbox>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Saturday Column -->
+    <ng-container matColumnDef="saturday">
+      <mat-header-cell *matHeaderCellDef> Sábado </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <mat-checkbox color="primary" [(ngModel)]="checks.saturday[element.id - 1]"></mat-checkbox>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+  <div fxFlex="row" fxLayoutAlign="end">
+    <button mat-raised-button (click)="close()" style="margin-right: 5px">Cancelar</button>
+    <button mat-raised-button (click)="checked()" class="btn-success pull-right">Aceptar</button>
+  </div>
+</div>

@@ -1,0 +1,5 @@
+<h3 mat-dialog-title>
+    Horario Sección {{section.name}}
+</h3>
+
+<app-schedule [checks]="checks" (completed)="completed($event)" (canceled)="close($event)" ></app-schedule>

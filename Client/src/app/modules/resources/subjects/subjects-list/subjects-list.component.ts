@@ -4,6 +4,7 @@ import { MatTableDataSource, MatPaginator, MatDialog, MatSort } from '@angular/m
 import { CareerService } from '../../../../services/career.service';
 import { AddSubjectComponent } from '../add-subject/add-subject.component';
 import { SubjectsService } from '../../../../services/subjects.service';
+import { SectionScheduleComponent } from '../section-schedule/section-schedule.component';
 
 @Component({
   selector: 'app-subjects-list',
@@ -89,6 +90,13 @@ export class SubjectsListComponent implements OnInit {
           this.loadCareers();
         });
       }
+    });
+  }
+
+  selectSchedule(section: Section ) {
+    const dialogRef = this.dialog.open(SectionScheduleComponent, {
+      width: '900px',
+      data: section
     });
   }
 
