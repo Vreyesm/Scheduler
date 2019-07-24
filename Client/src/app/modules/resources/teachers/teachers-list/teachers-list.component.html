@@ -6,6 +6,7 @@
         Profesores
       </h3>
     </div>
+    <!--
     <div fxLayout="row" class="data-options">
       <div fxLayout="column">
         <mat-form-field>
@@ -27,33 +28,27 @@
     <div fxFlexFill >
       <mat-table [dataSource]="dataSource" matSort  class="mat-elevation-z1" [class.hidden]="!subjects">
 
-        <!-- Name Column -->
         <ng-container matColumnDef="name">
           <mat-header-cell class="name-cell" *matHeaderCellDef> Nombre </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
         </ng-container>
 
-        <!-- Stundents number Column -->
         <ng-container matColumnDef="students">
           <mat-header-cell mat-sort-header class="name-cell" *matHeaderCellDef> Alumnos estimados </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.students}} </mat-cell>
         </ng-container>
 
-        <!-- Options Column -->
         <ng-container matColumnDef="options">
           <mat-header-cell *matHeaderCellDef> Opciones </mat-header-cell>
           <mat-cell class="options-cell" *matCellDef="let element">
             <button (click)="selectSchedule(element)" mat-raised-button class="btn-success" style="margin-right: 5px">
               <mat-icon>view_list</mat-icon>
-              <!--Ver salas-->
             </button>
             <button mat-raised-button class="btn-primary" style="margin-right: 5px">
               <mat-icon>create</mat-icon>
-              <!--Editar-->
             </button>
             <button mat-raised-button class="btn-danger">
               <mat-icon>delete</mat-icon>
-              <!--Eliminar-->
             </button>
 
           </mat-cell>
@@ -69,7 +64,7 @@
 
     </div>
   </div>
-
+-->
   <ng-template #noSubjects>
     <div>
       No hay profesores registrados
