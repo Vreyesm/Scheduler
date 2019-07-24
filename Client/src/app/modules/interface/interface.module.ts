@@ -89,4 +89,4 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     FlexLayoutModule
   ]
 })
-export class InterfaceModule {}
+export class InterfaceModule { }

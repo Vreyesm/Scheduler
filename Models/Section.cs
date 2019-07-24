@@ -10,9 +10,9 @@ namespace Scheduler.Models
         public int ID { get; set; }
         public string Name { get; set; }
         public int Students { get; set; }
-        public User Professor { get; set; }
+        public UserData Professor { get; set; }
 
-        public Section(int iD, string name, int students, User professor)
+        public Section(int iD, string name, int students, UserData professor)
         {
             ID = iD;
             Name = name;
