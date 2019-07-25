@@ -11,18 +11,13 @@ namespace Scheduler.Models
         public string Id { get; set; }
         public string Name { get; set; }
         public UserType Type { get; set; }
-        [Required]
-        public string Email { get; set; }
-        [Required]
-        [StringLength(100, ErrorMessage = "PASSWORD_MIN_LENGTH", MinimumLength = 6)]
-        public string Password { get; set; }
+        
 
-        public UserData(string id, string name, UserType type, string password)
+        public UserData(string id, string name, UserType type)
         {
             Id = id;
             Name = name;
             Type = type;
-            Password = password;
         }
 
         public UserData()

@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {Career, Section} from '../../../../models';
-import {MatDialog, MatPaginator, MatSort} from '@angular/material';
+import {Career, Section, UserData, UserType} from '../../../../models';
+import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {SubjectsService} from '../../../../services/subjects.service';
 import {AddSubjectComponent} from '../../subjects/add-subject/add-subject.component';
-import {CareerService} from '../../../../services/career.service';
-import {SectionScheduleComponent} from '../../subjects/section-schedule/section-schedule.component';
+import {Subject} from 'rxjs';
+import { TeacherService } from '../../../../services/teacher.service';
+import { AuthService } from '../../../../services/auth.service';
+import { AddTeacherComponent } from '../add-teacher/add-teacher.component';
 
 @Component({
   selector: 'app-teachers-list',
@@ -15,60 +17,71 @@ export class TeachersListComponent implements OnInit {
 
   careers: Career[];
   idCareer: number;
-  // teachers: User[];
-  // dataSource: MatTableDataSource<User>;
+  teachers: UserData[];
+  dataSource: MatTableDataSource<UserData>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  displayedColumns: string[] = ['name', 'students', 'options'];
+  displayedColumns: string[] = ['name', 'options'];
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(public dialog: MatDialog,
-              private careerService: CareerService,
-              private subjectService: SubjectsService) { }
+              private teacherService: TeacherService,
+              private authService: AuthService) { }
 
   ngOnInit() {
-    // this.loadCareers();
+    this.loadTeachers();
   }
 
-/*
-  loadCareers() {
-    this.careerService.getCareers().subscribe(data => {
-      this.careers = data;
-      const sections = [];
-      const career = this.careers.find(c => c.id === this.idCareer);
-      if (career) {
-        this.subjects = career.subjects;
-        this.subjects.forEach(s => {
-          if (s.sections) {
-            s.sections.forEach(section => {
-              sections.push(section);
-              // console.log(section);
-            });
-          }
-        });
-        this.dataSource = new MatTableDataSource<Subject>(sections);
-        this.dataSource.sort = this.sort;
-      }
+  loadTeachers() {
+    this.teacherService.getTeachers().subscribe(data => {
+      this.teachers = data;
+      this.dataSource = new MatTableDataSource<UserData>(this.teachers);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
   }
 
-  careerChange() {
-    const career = this.careers.find(c => c.id === this.idCareer);
-    if (career) {
-      this.subjects = career.subjects;
-      const sections = [];
-      this.subjects.forEach(s => {
-        if (s.sections) {
-          s.sections.forEach(section => {
-            sections.push(section);
-            // console.log(section);
+  addTeacher() {
+    let user = new UserData();
+    const dialogRef = this.dialog.open(AddTeacherComponent, {
+      width: '300px',
+      data: {
+        element: user,
+        action: 'Crear'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      user = result;
+      if (user) {
+        const teacher = new UserData();
+        let response;
+        this.authService.register(user).subscribe(data => {
+          response = data;
+        },
+        () => {},
+        () => {
+          console.log('teacher registered');
+          teacher.id = response.id;
+          teacher.name = user.name;
+          teacher.type = UserType.Professor;
+          this.teacherService.add(teacher).subscribe(data => {
+            console.log('teachers\'s data added');
+            this.loadTeachers();
           });
-        }
-      });
-      this.dataSource = new MatTableDataSource<Subject>(sections);
-      this.dataSource.sort = this.sort;
-    }
+        });
+        /*
+        subject.sections.forEach(section => {
+          section.name = subject.name + ' - ' + section.name;
+        });
+        this.subjectService.add(subject, this.idCareer).subscribe(data => {
+          this.loadCareers();
+        });
+        */
+      }
+    });
   }
+/*
 
   addSubject() {
     let subject = new Subject();

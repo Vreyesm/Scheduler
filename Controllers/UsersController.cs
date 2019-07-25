@@ -28,6 +28,13 @@ namespace Scheduler.Controllers
             return await _context.UsersData.ToListAsync();
         }
 
+        // GET: api/Users/Teachers
+        [HttpGet("Teachers")]
+        public async Task<ActionResult<IEnumerable<UserData>>> GetTeachers()
+        {
+            return await _context.UsersData.Where(u => u.Type == UserType.Professor).ToListAsync();
+        }
+
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<UserData>> GetUser(int id)

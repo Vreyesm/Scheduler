@@ -75,8 +75,13 @@ namespace Scheduler.Controllers
                     { "token", GenerateJwtToken(credentials.Email, user) }
                 });
             }
+            else
+            {
+                Console.WriteLine(result);
+                throw new ApplicationException("UNKNOWN_ERROR");
 
-            throw new ApplicationException("UNKNOWN_ERROR");
+            }
+
         }
 
         private object GenerateJwtToken(string email, IdentityUser user)

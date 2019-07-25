@@ -41,6 +41,7 @@ import { AddSubjectComponent } from './modules/resources/subjects/add-subject/ad
 import { SectionScheduleComponent } from './modules/resources/subjects/section-schedule/section-schedule.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
 import { InterfaceModule } from './modules/interface/interface.module';
+import { AddTeacherComponent } from './modules/resources/teachers/add-teacher/add-teacher.component';
 
 @NgModule({
   imports: [
@@ -76,7 +77,8 @@ import { InterfaceModule } from './modules/interface/interface.module';
     DeleteDialogComponent,
     AddSubjectComponent,
     SectionScheduleComponent,
-    ScheduleComponent
+    ScheduleComponent,
+    AddTeacherComponent
 
   ],
   providers: [
@@ -91,6 +93,7 @@ import { InterfaceModule } from './modules/interface/interface.module';
     AddClassroomComponent,
     AddCareerComponent,
     AddSubjectComponent,
+    AddTeacherComponent,
     DeleteDialogComponent,
     SectionScheduleComponent,
   ],
