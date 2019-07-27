@@ -5,6 +5,8 @@ import { CareerService } from '../../../../services/career.service';
 import { AddSubjectComponent } from '../add-subject/add-subject.component';
 import { SubjectsService } from '../../../../services/subjects.service';
 import { SectionScheduleComponent } from '../section-schedule/section-schedule.component';
+import { DeleteDialogComponent } from '../../../../components/delete-dialog/delete-dialog.component';
+import { SectionService } from '../../../../services/section.service';
 
 @Component({
   selector: 'app-subjects-list',
@@ -24,7 +26,8 @@ export class SubjectsListComponent implements OnInit {
 
   constructor(public dialog: MatDialog,
               private careerService: CareerService,
-              private subjectService: SubjectsService) { }
+              private subjectService: SubjectsService,
+              private sectionService: SectionService) { }
 
   ngOnInit() {
     this.loadCareers();
@@ -97,6 +100,20 @@ export class SubjectsListComponent implements OnInit {
     const dialogRef = this.dialog.open(SectionScheduleComponent, {
       width: '900px',
       data: section
+    });
+  }
+
+  deleteSection(section: Section) {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: section.name
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.sectionService.delete(section.id).subscribe( data => {
+          this.loadCareers();
+        });
+      }
     });
   }
 

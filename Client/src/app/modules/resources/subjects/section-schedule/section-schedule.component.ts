@@ -24,6 +24,7 @@ export class SectionScheduleComponent implements OnInit {
 
   completed(values) {
     console.log(values);
+    this.dialogRef.close();
   }
 
   close(value) {

@@ -12,7 +12,7 @@
     <ng-container matColumnDef="monday">
       <mat-header-cell *matHeaderCellDef> Lunes </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <mat-checkbox color="primary" [(ngModel)]="checks.monday[element.id - 1]"></mat-checkbox>
+        <input type="checkbox" [(ngModel)]="checks.monday[element.id - 1]">
       </mat-cell>
     </ng-container>
 
@@ -20,7 +20,7 @@
     <ng-container matColumnDef="tuesday">
       <mat-header-cell *matHeaderCellDef> Martes </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <mat-checkbox color="primary" [(ngModel)]="checks.tuesday[element.id - 1]"></mat-checkbox>
+        <input type="checkbox" [(ngModel)]="checks.tuesday[element.id - 1]">
       </mat-cell>
     </ng-container>
 
@@ -28,7 +28,7 @@
     <ng-container matColumnDef="wednesday">
       <mat-header-cell *matHeaderCellDef> Miércoles </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <mat-checkbox color="primary" [(ngModel)]="checks.wednesday[element.id - 1]"></mat-checkbox>
+        <input type="checkbox" [(ngModel)]="checks.wednesday[element.id - 1]">
       </mat-cell>
     </ng-container>
 
@@ -36,7 +36,7 @@
     <ng-container matColumnDef="thursday">
       <mat-header-cell *matHeaderCellDef> Jueves </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <mat-checkbox color="primary" [(ngModel)]="checks.thursday[element.id - 1]"></mat-checkbox>
+        <input type="checkbox" [(ngModel)]="checks.thursday[element.id - 1]">
       </mat-cell>
     </ng-container>
 
@@ -44,7 +44,7 @@
     <ng-container matColumnDef="friday">
       <mat-header-cell *matHeaderCellDef> Viernes </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <mat-checkbox  color="primary" [(ngModel)]="checks.friday[element.id - 1]"></mat-checkbox>
+        <input  type="checkbox" [(ngModel)]="checks.friday[element.id - 1]">
       </mat-cell>
     </ng-container>
 
@@ -52,7 +52,7 @@
     <ng-container matColumnDef="saturday">
       <mat-header-cell *matHeaderCellDef> Sábado </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <mat-checkbox color="primary" [(ngModel)]="checks.saturday[element.id - 1]"></mat-checkbox>
+        <input type="checkbox" [(ngModel)]="checks.saturday[element.id - 1]">
       </mat-cell>
     </ng-container>
 

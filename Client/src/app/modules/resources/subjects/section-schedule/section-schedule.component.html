@@ -1,5 +1,11 @@
-<h3 mat-dialog-title>
-    Horario Sección {{section.name}}
-</h3>
+<div fxLayout="row" fxLayoutAlign="space-between">
+    <h3 mat-dialog-title>
+        Horario Sección {{section.name}}
+    </h3>
+    <mat-form-field >
+        <input matInput type="number" placeholder="Estudiantes" [(ngModel)]="section.students">
+    </mat-form-field>
+</div>
 
-<app-schedule [checks]="checks" (completed)="completed($event)" (canceled)="close($event)" ></app-schedule>
+
+<app-schedule [checks]="checks" (completed)="completed($event)" (canceled)="close($event)"></app-schedule>
