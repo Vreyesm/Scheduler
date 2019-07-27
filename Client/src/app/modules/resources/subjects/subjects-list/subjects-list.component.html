@@ -43,7 +43,7 @@
         <ng-container matColumnDef="options">
           <mat-header-cell *matHeaderCellDef> Opciones </mat-header-cell>
           <mat-cell class="options-cell" *matCellDef="let element">
-            <button (click)="selectSchedule(element)" mat-raised-button class="btn-success" style="margin-right: 5px">
+            <button [routerLink]="[element.id, 'schedule']" mat-raised-button class="btn-success" style="margin-right: 5px">
               <mat-icon>view_list</mat-icon>
               <!--Ver salas-->
             </button>

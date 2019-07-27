@@ -44,6 +44,10 @@ export class ScheduleComponent implements OnInit {
   ngOnInit() {
   }
 
+  checkButton(list: boolean[], index: number) {
+    list[index] = !list[index];
+  }
+
   checked() {
     this.completed.emit(this.checks);
   }

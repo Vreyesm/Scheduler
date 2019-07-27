@@ -13,21 +13,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSelectModule } from '@angular/material/select';
 import { FlexLayoutModule } from '@angular/flex-layout';
-
+import { SectionScheduleComponent } from './section-schedule/section-schedule.component';
+import { ScheduleComponent } from '../../../components/schedule/schedule.component';
+import { InterfaceModule } from '../../interface/interface.module';
 @NgModule({
-  declarations: [SubjectsListComponent],
+  declarations: [SubjectsListComponent, SectionScheduleComponent, ScheduleComponent],
   imports: [
     CommonModule,
     FormsModule,
-    MatIconModule,
-    MatTableModule,
-    MatDialogModule,
-    MatPaginatorModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatSortModule,
-    MatSelectModule,
-    FlexLayoutModule,
+    InterfaceModule,
     ReactiveFormsModule,
     RouterModule.forChild([
       {
@@ -35,6 +29,13 @@ import { FlexLayoutModule } from '@angular/flex-layout';
         component: SubjectsListComponent,
         data: {
           title: 'Modulos'
+        }
+      },
+      {
+        path: ':id/schedule',
+        component: SectionScheduleComponent,
+        data: {
+          title: 'Sección'
         }
       }
     ])

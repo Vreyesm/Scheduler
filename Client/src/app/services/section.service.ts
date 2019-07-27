@@ -14,7 +14,9 @@ export class SectionService {
   count(): Observable<number> {
     return this.http.get<number>(SectionService.API_ROOT + '/count');
   }
-
+  get(id: number): Observable<Section> {
+    return this.http.get<Section>(SectionService.API_ROOT + '/' + id);
+  }
   delete(idSection: number): Observable<any> {
     return this.http.delete<any>(SectionService.API_ROOT + '/' + idSection);
   }

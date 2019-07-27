@@ -1,6 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Section } from '../../../../models';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ActivatedRoute, Router, ParamMap } from '@angular/router';
+import { SectionService } from '../../../../services/section.service';
+import { switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-section-schedule',
@@ -16,18 +20,28 @@ export class SectionScheduleComponent implements OnInit {
     friday: [false, false, false, false, false, false, false, false, false, false, false],
     saturday: [false, false, false, false, false, false, false, false, false, false, false],
   };
-  constructor(public dialogRef: MatDialogRef<SectionScheduleComponent>,
-              @Inject(MAT_DIALOG_DATA)public section: Section) { }
+
+  idSection: number;
+  section: Observable<Section>;
+
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private sectionService: SectionService) { }
 
   ngOnInit() {
+    // tslint:disable-next-line: no-string-literal
+    this.section = this.route.paramMap.pipe(
+      switchMap((params: ParamMap) =>
+      this.sectionService.get(+params.get('id')))
+    );
   }
 
   completed(values) {
     console.log(values);
-    this.dialogRef.close();
+    // this.dialogRef.close();
   }
 
   close(value) {
-    this.dialogRef.close();
+    // this.dialogRef.close();
   }
 }
