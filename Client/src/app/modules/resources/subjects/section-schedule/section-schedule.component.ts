@@ -1,10 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { Section } from '../../../../models';
+import { Section, UserData } from '../../../../models';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { SectionService } from '../../../../services/section.service';
 import { switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { TeacherService } from '../../../../services/teacher.service';
 
 @Component({
   selector: 'app-section-schedule',
@@ -22,22 +23,38 @@ export class SectionScheduleComponent implements OnInit {
   };
 
   idSection: number;
-  section: Observable<Section>;
+  students: number;
+  section$: Observable<Section>;
+  section: Section;
+  teachers$: Observable<UserData[]>;
+  teacher: UserData = new UserData();
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private sectionService: SectionService) { }
+              private sectionService: SectionService,
+              private teacherService: TeacherService) { }
 
   ngOnInit() {
-    // tslint:disable-next-line: no-string-literal
-    this.section = this.route.paramMap.pipe(
-      switchMap((params: ParamMap) =>
-      this.sectionService.get(+params.get('id')))
-    );
+    this.route.params.subscribe(params => {
+      // tslint:disable-next-line: no-string-literal
+      this.idSection = params['id'];
+      this.sectionService.get(this.idSection).subscribe(data => {
+        this.section = data;
+      });
+    });
+    this.teachers$ = this.teacherService.getTeachers();
   }
 
   completed(values) {
-    console.log(values);
+    console.log(this.teacher);
+    this.section.professor = this.teacher;
+    this.sectionService.update(this.section).subscribe(
+      () => {},
+      () => {},
+      () => {
+        this.router.navigateByUrl('resources/subjects');
+      }
+    );
     // this.dialogRef.close();
   }
 

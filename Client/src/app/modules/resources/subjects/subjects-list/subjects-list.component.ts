@@ -88,6 +88,9 @@ export class SubjectsListComponent implements OnInit {
       if (subject) {
         subject.sections.forEach(section => {
           section.name = subject.name + ' - ' + section.name;
+          //section.professorId = +section.teacher.id;
+          console.log(section);
+          console.log(section.professor);
         });
         this.subjectService.add(subject, this.idCareer).subscribe(data => {
           this.loadCareers();

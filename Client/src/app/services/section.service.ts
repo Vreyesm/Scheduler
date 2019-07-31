@@ -17,6 +17,9 @@ export class SectionService {
   get(id: number): Observable<Section> {
     return this.http.get<Section>(SectionService.API_ROOT + '/' + id);
   }
+  update(section: Section): Observable<any> {
+    return this.http.put<any>(SectionService.API_ROOT + '/' + section.id, section);
+  }
   delete(idSection: number): Observable<any> {
     return this.http.delete<any>(SectionService.API_ROOT + '/' + idSection);
   }
