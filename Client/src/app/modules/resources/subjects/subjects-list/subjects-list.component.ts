@@ -49,7 +49,7 @@ export class SubjectsListComponent implements OnInit {
             });
           }
         });
-        this.dataSource = new MatTableDataSource<Subject>(sections);
+        this.dataSource = new MatTableDataSource<Section>(sections);
         this.dataSource.sort = this.sort;
       }
     });
@@ -68,7 +68,7 @@ export class SubjectsListComponent implements OnInit {
           });
         }
       });
-      this.dataSource = new MatTableDataSource<Subject>(sections);
+      this.dataSource = new MatTableDataSource<Section>(sections);
       this.dataSource.sort = this.sort;
     }
   }
