@@ -32,7 +32,10 @@
           <mat-header-cell class="name-cell" *matHeaderCellDef> Nombre </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
         </ng-container>
-
+        <ng-container matColumnDef="teacher">
+          <mat-header-cell class="name-cell" *matHeaderCellDef>Profesor</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.professor.name}} </mat-cell>
+        </ng-container>
         <!-- Stundents number Column -->
         <ng-container matColumnDef="students">
           <mat-header-cell mat-sort-header class="name-cell" *matHeaderCellDef> Alumnos estimados </mat-header-cell>
@@ -43,7 +46,7 @@
         <ng-container matColumnDef="options">
           <mat-header-cell *matHeaderCellDef> Opciones </mat-header-cell>
           <mat-cell class="options-cell" *matCellDef="let element">
-            <button [routerLink]="[element.id, 'schedule']" mat-raised-button class="btn-success" style="margin-right: 5px">
+            <button (click)=goToSchedule(element.id) mat-raised-button class="btn-success" style="margin-right: 5px">
               <mat-icon>view_list</mat-icon>
               <!--Ver salas-->
             </button>

@@ -18,5 +18,8 @@ export class TeacherService {
   add(teacher: UserData): Observable<UserData> {
     return this.http.post<UserData>(TeacherService.API_ROOT, teacher);
   }
+  count(): Observable<int> {
+    return this.http.get<int>(TeacherService.API_TEACHERS + '/Count');
+  }
 
 }

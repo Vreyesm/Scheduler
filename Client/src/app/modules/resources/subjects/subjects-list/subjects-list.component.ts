@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Subject, Section, Career } from '../../../../models';
+import { Subject, Section, Career, UserData } from '../../../../models';
 import { MatTableDataSource, MatPaginator, MatDialog, MatSort } from '@angular/material';
 import { CareerService } from '../../../../services/career.service';
 import { AddSubjectComponent } from '../add-subject/add-subject.component';
@@ -7,6 +7,8 @@ import { SubjectsService } from '../../../../services/subjects.service';
 import { SectionScheduleComponent } from '../section-schedule/section-schedule.component';
 import { DeleteDialogComponent } from '../../../../components/delete-dialog/delete-dialog.component';
 import { SectionService } from '../../../../services/section.service';
+import { TeacherService } from '../../../../services/teacher.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-subjects-list',
@@ -18,21 +20,40 @@ export class SubjectsListComponent implements OnInit {
   careers: Career[];
   idCareer: number;
   subjects: Subject[];
+  teachers: UserData[];
   dataSource: MatTableDataSource<Section>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  displayedColumns: string[] = ['name', 'students', 'options'];
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  displayedColumns: string[] = ['name', 'teacher', 'students', 'options'];
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(public dialog: MatDialog,
+              private router: Router,
               private careerService: CareerService,
               private subjectService: SubjectsService,
-              private sectionService: SectionService) { }
+              private sectionService: SectionService,
+              private teacherService: TeacherService) { }
 
   ngOnInit() {
-    this.loadCareers();
+    this.loadTeachers();
+    // this.loadCareers();
   }
 
+  loadTeachers() {
+    this.teacherService.getTeachers().subscribe(data => {
+      this.teachers = data;
+    },
+      () => { },
+      () => {
+        const previousCareer = +sessionStorage.getItem('career');
+        if (previousCareer) {
+          this.idCareer = previousCareer;
+          this.loadCareers();
+        } else {
+          this.loadCareers();
+        }
+      });
+  }
 
   loadCareers() {
     this.careerService.getCareers().subscribe(data => {
@@ -44,6 +65,8 @@ export class SubjectsListComponent implements OnInit {
         this.subjects.forEach(s => {
           if (s.sections) {
             s.sections.forEach(section => {
+              const professor = this.teachers.find(t => t.id === section.professorId);
+              section.professor = professor;
               sections.push(section);
               // console.log(section);
             });
@@ -56,6 +79,7 @@ export class SubjectsListComponent implements OnInit {
   }
 
   careerChange() {
+    sessionStorage.setItem('career', '' + this.idCareer);
     const career = this.careers.find(c => c.id === this.idCareer);
     if (career) {
       this.subjects = career.subjects;
@@ -63,6 +87,8 @@ export class SubjectsListComponent implements OnInit {
       this.subjects.forEach(s => {
         if (s.sections) {
           s.sections.forEach(section => {
+            const professor = this.teachers.find(t => t.id === section.professorId);
+            section.professor = professor;
             sections.push(section);
             // console.log(section);
           });
@@ -88,9 +114,6 @@ export class SubjectsListComponent implements OnInit {
       if (subject) {
         subject.sections.forEach(section => {
           section.name = subject.name + ' - ' + section.name;
-          //section.professorId = +section.teacher.id;
-          console.log(section);
-          console.log(section.professor);
         });
         this.subjectService.add(subject, this.idCareer).subscribe(data => {
           this.loadCareers();
@@ -99,7 +122,7 @@ export class SubjectsListComponent implements OnInit {
     });
   }
 
-  selectSchedule(section: Section ) {
+  selectSchedule(section: Section) {
     const dialogRef = this.dialog.open(SectionScheduleComponent, {
       width: '900px',
       data: section
@@ -113,11 +136,15 @@ export class SubjectsListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.sectionService.delete(section.id).subscribe( data => {
+        this.sectionService.delete(section.id).subscribe(data => {
           this.loadCareers();
         });
       }
     });
   }
 
+  goToSchedule(sectionId: number) {
+    sessionStorage.setItem('career', '' + this.idCareer);
+    this.router.navigateByUrl('resources/subjects/' + sectionId + '/schedule');
+  }
 }

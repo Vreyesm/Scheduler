@@ -6,5 +6,11 @@ export class Section {
     students: number;
     professor: UserData;
     professorId: string;
+    mondayData = '';
+    tuesdayData = '';
+    wednesdayData = '';
+    thursdayData = '';
+    fridayData = '';
+    saturdayData = '';
     constructor() {}
 }

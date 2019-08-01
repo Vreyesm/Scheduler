@@ -61,12 +61,10 @@ export class TeachersListComponent implements OnInit {
         },
         () => {},
         () => {
-          console.log('teacher registered');
           teacher.id = response.id;
           teacher.name = user.name;
           teacher.type = UserType.Professor;
           this.teacherService.add(teacher).subscribe(data => {
-            console.log('teachers\'s data added');
             this.loadTeachers();
           });
         });

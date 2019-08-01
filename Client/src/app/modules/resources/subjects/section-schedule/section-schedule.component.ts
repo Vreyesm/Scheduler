@@ -27,7 +27,7 @@ export class SectionScheduleComponent implements OnInit {
   section$: Observable<Section>;
   section: Section;
   teachers$: Observable<UserData[]>;
-  teacher: UserData = new UserData();
+  teacherId: string;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -40,14 +40,15 @@ export class SectionScheduleComponent implements OnInit {
       this.idSection = params['id'];
       this.sectionService.get(this.idSection).subscribe(data => {
         this.section = data;
+        this.teacherId = this.section.professorId;
       });
     });
     this.teachers$ = this.teacherService.getTeachers();
   }
 
   completed(values) {
-    console.log(this.teacher);
-    this.section.professor = this.teacher;
+    // console.log(this.teacher);
+    this.section.professorId = this.teacherId;
     this.sectionService.update(this.section).subscribe(
       () => {},
       () => {},

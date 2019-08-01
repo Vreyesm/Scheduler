@@ -10,8 +10,8 @@
             <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
                 <mat-form-field>
                     <mat-label>Profesor de sección</mat-label>
-                    <mat-select [(value)]="teacher">
-                        <mat-option *ngFor="let t of teachers$ | async" [value]="t">
+                    <mat-select [(value)]="teacherId">
+                        <mat-option *ngFor="let t of teachers$ | async" [value]="t.id">
                             {{t.name}}
                         </mat-option>
                     </mat-select>
