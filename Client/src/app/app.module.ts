@@ -38,6 +38,9 @@ import {
 } from '@angular/material';
 import {AddCareerComponent} from './modules/resources/careers/add-career/add-career.component';
 import { AddSubjectComponent } from './modules/resources/subjects/add-subject/add-subject.component';
+import { InterfaceModule } from './modules/interface/interface.module';
+import { AddTeacherComponent } from './modules/resources/teachers/add-teacher/add-teacher.component';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
 @NgModule({
   imports: [
@@ -56,7 +59,9 @@ import { AddSubjectComponent } from './modules/resources/subjects/add-subject/ad
     AppRoutingModule,
     MatPaginatorModule,
     FlexLayoutModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    InterfaceModule,
+    ButtonsModule.forRoot()
   ],
   declarations: [
     AppComponent,
@@ -70,7 +75,8 @@ import { AddSubjectComponent } from './modules/resources/subjects/add-subject/ad
     AddClassroomComponent,
     AddCareerComponent,
     DeleteDialogComponent,
-    AddSubjectComponent
+    AddSubjectComponent,
+    AddTeacherComponent
 
   ],
   providers: [
@@ -85,6 +91,7 @@ import { AddSubjectComponent } from './modules/resources/subjects/add-subject/ad
     AddClassroomComponent,
     AddCareerComponent,
     AddSubjectComponent,
+    AddTeacherComponent,
     DeleteDialogComponent,
   ],
   bootstrap: [AppComponent]

@@ -32,7 +32,10 @@
           <mat-header-cell class="name-cell" *matHeaderCellDef> Nombre </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
         </ng-container>
-
+        <ng-container matColumnDef="teacher">
+          <mat-header-cell class="name-cell" *matHeaderCellDef>Profesor</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.professor.name}} </mat-cell>
+        </ng-container>
         <!-- Stundents number Column -->
         <ng-container matColumnDef="students">
           <mat-header-cell mat-sort-header class="name-cell" *matHeaderCellDef> Alumnos estimados </mat-header-cell>
@@ -43,15 +46,15 @@
         <ng-container matColumnDef="options">
           <mat-header-cell *matHeaderCellDef> Opciones </mat-header-cell>
           <mat-cell class="options-cell" *matCellDef="let element">
-            <button mat-raised-button class="btn-success" style="margin-right: 5px">
-              <mat-icon>list</mat-icon>
+            <button (click)=goToSchedule(element.id) mat-raised-button class="btn-success" style="margin-right: 5px">
+              <mat-icon>view_list</mat-icon>
               <!--Ver salas-->
             </button>
             <button mat-raised-button class="btn-primary" style="margin-right: 5px">
               <mat-icon>create</mat-icon>
               <!--Editar-->
             </button>
-            <button mat-raised-button class="btn-danger">
+            <button (click)="deleteSection(element)" mat-raised-button class="btn-danger">
               <mat-icon>delete</mat-icon>
               <!--Eliminar-->
             </button>

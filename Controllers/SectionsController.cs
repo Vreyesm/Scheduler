@@ -28,6 +28,13 @@ namespace Scheduler.Controllers
             return await _context.Sections.ToListAsync();
         }
 
+        // GET: api/sections/count
+        [HttpGet("count")]
+        public async Task<int> CountSections()
+        {
+            return await _context.Sections.CountAsync();
+        }
+
         // GET: api/Sections/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Section>> GetSection(int id)

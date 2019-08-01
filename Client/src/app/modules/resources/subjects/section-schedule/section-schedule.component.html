@@ -1,0 +1,27 @@
+<div class="main-content">
+    <div fxLayout="column" class="container-fluid">
+        <!--flex-direction: column;-->
+        <ng-container *ngIf="section">
+            <div fxLayout="row">
+                <h3 class="title">
+                    Horario Sección: <b> {{section.name}}</b>
+                </h3>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
+                <mat-form-field>
+                    <mat-label>Profesor de sección</mat-label>
+                    <mat-select [(value)]="teacherId">
+                        <mat-option *ngFor="let t of teachers$ | async" [value]="t.id">
+                            {{t.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput type="number" placeholder="Estudiantes" [(ngModel)]="section.students">
+                </mat-form-field>
+            </div>
+
+            <app-schedule [checks]="checks" (completed)="completed($event)" (canceled)="close($event)"></app-schedule>
+        </ng-container>
+    </div>
+</div>

@@ -22,4 +22,8 @@ export class SubjectsService {
   delete(id: number): Observable<any> {
     return this.http.delete<any>(SubjectsService.API_ROOT + '/' + id);
   }
+
+  count(): Observable<number> {
+    return this.http.get<number>(SubjectsService.API_ROOT + '/count');
+  }
 }

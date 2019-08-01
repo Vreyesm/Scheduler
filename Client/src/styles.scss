@@ -16,3 +16,8 @@ a:hover {
 h3.title {
   margin-top: 10px;
 }
+
+.cdk-overlay-container {
+  z-index: 1500 !important;
+
+}

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -24,7 +25,10 @@ namespace Scheduler
                 try
                 {
                     var context = services.GetRequiredService<DataContext>();
-                    DbInitializer.Initialize(context);
+                    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+                    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+                    DbInitializer.Initialize(context, roleManager, userManager);
                 }
                 catch (Exception ex)
                 {
@@ -37,8 +41,13 @@ namespace Scheduler
             host.Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            //WebHost.CreateDefaultBuilder(args)
+            //    .UseStartup<Startup>();
+            return WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
+        }
+            
     }
 }
