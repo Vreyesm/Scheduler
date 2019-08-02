@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Scheduler.Models;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,9 +12,11 @@ namespace Scheduler.Data
     {
         public static void Initialize(DataContext context, RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
         {
+            
             if (context.Database.EnsureCreated())
             { // Database didn't exists
                 SeedRoles(roleManager, context, userManager).Wait();
+                SeedClassrooms(context).Wait();
             }
 
 
@@ -48,6 +51,23 @@ namespace Scheduler.Data
             }
             await context.SaveChangesAsync();
 
+        }
+
+        private async static Task SeedClassrooms(DataContext context)
+        {
+            string fileName = "classrooms.csv";
+            string[] lines = File.ReadAllLines(fileName);
+
+            foreach (string line in lines)
+            {
+                string[] values = line.Split(";");
+                Classroom classroom = new Classroom { Name=values[0], Capacity=Int32.Parse(values[1]) };
+                await context.Classrooms.AddAsync(classroom);
+                
+            }
+
+            await context.SaveChangesAsync();
+            
         }
 
 
