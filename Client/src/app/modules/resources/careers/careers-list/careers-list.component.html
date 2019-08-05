@@ -28,10 +28,6 @@
       <ng-container matColumnDef="options" >
         <mat-header-cell *matHeaderCellDef> Opciones </mat-header-cell>
         <mat-cell class="options-cell" *matCellDef="let element">
-          <button  mat-raised-button class="btn-success" style="margin-right: 5px">
-            <mat-icon>list</mat-icon>
-            <!--Ver salas-->
-          </button>
           <button (click)="editCareer(element)" mat-raised-button class="btn-primary" style="margin-right: 5px">
             <mat-icon>create</mat-icon>
             <!--Editar-->

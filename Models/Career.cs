@@ -9,14 +9,14 @@ namespace Scheduler.Models
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public UserData Director { get; set; }
+        public string DirectorId { get; set; }
         public List<Subject> Subjects { get; set; }
 
-        public Career(int iD, string name, UserData director)
+        public Career(int iD, string name, string director)
         {
             ID = iD;
             Name = name;
-            Director = director;
+            DirectorId = director;
             Subjects = new List<Subject>();
         }
 

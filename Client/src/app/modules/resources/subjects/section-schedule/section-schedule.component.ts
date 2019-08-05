@@ -72,6 +72,6 @@ export class SectionScheduleComponent implements OnInit {
   }
 
   close(value) {
-    // this.dialogRef.close();
+    this.router.navigateByUrl('resources/subjects');
   }
 }
