@@ -11,15 +11,16 @@ namespace Scheduler.Data
 {
     public class DbInitializer
     {
+        private static int missed = 0;
         public static void Initialize(DataContext context, RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
         {
-            DoTheMath(context).Wait();
             if (context.Database.EnsureCreated())
             { // Database didn't exists
                 SeedRoles(roleManager, context, userManager).Wait();
                 SeedClassrooms(context).Wait();
                 SeedCareers(context).Wait();
                 SeedSections(context, userManager).Wait();
+                //DoTheMath(context).Wait();
 
             }
 
@@ -118,7 +119,7 @@ namespace Scheduler.Data
                 Subject subject = new Subject { Name = values[0], Sections = new List<Section>() };
                 await context.Subjects.AddAsync(subject);
 
-                Section section = new Section { Name = values[0], Students = r.Next(15, 120), ProfessorId=professorData.Id };
+                Section section = new Section { Name = values[0], Students = r.Next(15, 60), ProfessorId=professorData.Id };
                 subject.Sections.Add(section);
 
                 for (int i = 0; i < 6; i++)
@@ -162,7 +163,7 @@ namespace Scheduler.Data
         }
 
         // start at: 00:42 AM
-        private async static Task DoTheMath(DataContext context)
+        public async static Task DoTheMath(DataContext context)
         {
             Console.WriteLine("Do The Math");
             List<Section> sections = context.Sections.ToList();
@@ -195,6 +196,7 @@ namespace Scheduler.Data
                         int index = i;
                         while(index <10 && section.Monday[index++ + 1]) { count++; }
                         await Search(context, classrooms, section, DayOfWeek.Monday, i, count);
+                        i += count;
                     }
                 }
 
@@ -207,6 +209,7 @@ namespace Scheduler.Data
                         int index = i;
                         while (index < 10 && section.Tuesday[index++ + 1]) { count++; }
                         await Search(context, classrooms, section, DayOfWeek.Tuesday, i, count);
+                        i += count;
                     }
                 }
                 
@@ -219,6 +222,7 @@ namespace Scheduler.Data
                         int index = i;
                         while (index < 10 && section.Wednesday[index++ + 1]) { count++; }
                         await Search(context, classrooms, section, DayOfWeek.Wednesday, i, count);
+                        i += count;
                     }
                 }
 
@@ -231,6 +235,7 @@ namespace Scheduler.Data
                         int index = i;
                         while (index < 10 && section.Thursday[index++ + 1]) { count++; }
                         await Search(context, classrooms, section, DayOfWeek.Thursday, i, count);
+                        i += count;
                     }
                 }
 
@@ -243,6 +248,7 @@ namespace Scheduler.Data
                         int index = i;
                         while (index < 10 && section.Friday[index++ + 1]) { count++; }
                         await Search(context, classrooms, section, DayOfWeek.Friday, i, count);
+                        i += count;
                     }
                 }
 
@@ -255,59 +261,91 @@ namespace Scheduler.Data
                         int index = i;
                         while (index < 10 && section.Saturday[index++ + 1]) { count++; }
                         await Search(context, classrooms, section, DayOfWeek.Saturday, i, count);
+                        i += count;
                     }
                 }
                 
             }
-
+            Console.WriteLine("Missed: " + missed);
         }
 
         private static async Task<bool> Search(DataContext context, List<Classroom> classrooms, Section section, DayOfWeek day, int block, int span)
         {
+            Console.WriteLine("Searching for Section: " + section.Name);
+            Console.WriteLine("Students: " + section.Students);
+            Console.WriteLine("\tDay: " + day);
+            Console.WriteLine("\tBlock: " + block);
+            Console.WriteLine("\tSpan: " + span);
+
             int index = classrooms.Count() - 1;
 
             do
             {
                 Classroom classroom = classrooms[index];
-                var assignation = await context.Assignations.Where(a => a.Day == day && a.Block == block).ToListAsync();
-                if (assignation == null)
+                Console.WriteLine("Classroom: " + classroom.Name);
+                Console.WriteLine("\tCapacity: " + classroom.Capacity);
+
+                if (classroom.Capacity + 10 < section.Students)
                 {
+                    Console.WriteLine("Classroom hasn't enough space");
+                    break;
+                }
+                var assignation = await context.Assignations.Where(a => a.Classroom == classroom && a.Day == day && a.Block == block).ToListAsync();
+                if (assignation.Count() == 0)
+                {
+                    Console.WriteLine("Found a space");
                     int i = span;
                     int currentBlock = block;
 
+                    bool available = true;
                     while (i > 0) // to check if we have more space
                     {
-                        var extra = await context.Assignations.Where(a => a.Day == day && a.Block == currentBlock).ToListAsync();
-                        if (extra == null) // another match
+                        var extra = await context.Assignations.Where(a => a.Classroom == classroom && a.Day == day && a.Block == currentBlock).ToListAsync();
+                        if (extra.Count() == 0) // another match (for the next block)
                         {
+
                             i--;
                             currentBlock++;
                         }
-                        else // failure
+                        else // failure for this classroom
                         {
-                            return false;
+                            // try with the next classroom
+                            index--;
+
+                            available = false;
+                            // also, stop searching on this classroom
+                            // idk if it's necessary, but just in case
+                            break;
                         }
                     }
                     // Console.WriteLine("Section: " + section.Name);
                     // Console.WriteLine("Day: " + day);
-                    List < Assignation > assignations = new List<Assignation>();
-                    for (int j = 0; j <= span; j++)
+                    if(available)
                     {
-                        Assignation a = new Assignation { Section = section, Block = block, Classroom = classroom, Day = day };
-                        assignations.Add(a);
+                        List<Assignation> assignations = new List<Assignation>();
+                        for (int j = 0; j <= span; j++)
+                        {
+                            Assignation a = new Assignation { Section = section, Block = block, Classroom = classroom, Day = day };
+                            assignations.Add(a);
+                        }
+                        context.Assignations.AddRange(assignations);
+                        await context.SaveChangesAsync();
+                        return true;
+
                     }
-                    context.Assignations.AddRange(assignations);
-                    await context.SaveChangesAsync();
 
 
-                    return true;
                 } 
                 else
                 {
+                    // continue with the next classroom
+                    Console.WriteLine("Continue with the next classroom");
+                    index--;
+
                 }
-                index--;
             } while (index >= 0);
             Console.WriteLine("Wasn't able to find a classroom");
+            missed++;
             return false;
         }
 
