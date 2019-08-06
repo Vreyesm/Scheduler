@@ -163,6 +163,7 @@ namespace Scheduler.Data
         }
 
         // start at: 00:42 AM
+        // finished at: 00:12 AM (next day)
         public async static Task DoTheMath(DataContext context)
         {
             Console.WriteLine("Do The Math");
