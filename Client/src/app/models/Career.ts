@@ -4,4 +4,5 @@ export class Career {
   id: number;
   name: string;
   subjects: Subject[];
+  directorId: string;
 }

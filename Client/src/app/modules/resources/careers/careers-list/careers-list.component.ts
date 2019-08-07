@@ -68,6 +68,7 @@ export class CareersListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       const newCareer = result;
       if (newCareer) {
+        console.log(career);
         this.careerService.edit(newCareer).subscribe(data => {
           this.loadCareers();
         });

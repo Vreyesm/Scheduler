@@ -27,7 +27,7 @@ namespace Scheduler.Models
             set
             {
                 var _data = value;
-                MondayData = String.Join(";", _data.Select(p => p.ToString()).ToArray());
+                MondayData = String.Join(";", _data.Select(p => p.ToString()).ToArray()).Replace("T","t").Replace("F","f");
             }
         }
         public string TuesdayData { get; set; }
@@ -41,7 +41,7 @@ namespace Scheduler.Models
             set
             {
                 var _data = value;
-                TuesdayData = String.Join(";", _data.Select(p => p.ToString()).ToArray());
+                TuesdayData = String.Join(";", _data.Select(p => p.ToString()).ToArray()).Replace("T","t").Replace("F","f");
             }
         }
         public string WednesdayData { get; set; }
@@ -55,7 +55,7 @@ namespace Scheduler.Models
             set
             {
                 var _data = value;
-                WednesdayData = String.Join(";", _data.Select(p => p.ToString()).ToArray());
+                WednesdayData = String.Join(";", _data.Select(p => p.ToString()).ToArray()).Replace("T","t").Replace("F","f");
             }
         }
         public string ThursdayData { get; set; }
@@ -69,7 +69,7 @@ namespace Scheduler.Models
             set
             {
                 var _data = value;
-                ThursdayData = String.Join(";", _data.Select(p => p.ToString()).ToArray());
+                ThursdayData = String.Join(";", _data.Select(p => p.ToString()).ToArray()).Replace("T","t").Replace("F","f");
             }
         }
         public string FridayData { get; set; }
@@ -83,7 +83,7 @@ namespace Scheduler.Models
             set
             {
                 var _data = value;
-                FridayData = String.Join(";", _data.Select(p => p.ToString()).ToArray());
+                FridayData = String.Join(";", _data.Select(p => p.ToString()).ToArray()).Replace("T","t").Replace("F","f");
             }
         }
         public string SaturdayData { get; set; }
@@ -97,7 +97,7 @@ namespace Scheduler.Models
             set
             {
                 var _data = value;
-                SaturdayData = String.Join(";", _data.Select(p => p.ToString()).ToArray());
+                SaturdayData = String.Join(";", _data.Select(p => p.ToString()).ToArray()).Replace("T","t").Replace("F","f");
             }
         }
 
