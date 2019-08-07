@@ -8,6 +8,7 @@ import {TableListComponent} from './table-list/table-list.component';
 import {TypographyComponent} from './typography/typography.component';
 import {IconsComponent} from './icons/icons.component';
 import {NotificationsComponent} from './notifications/notifications.component';
+import { LoginComponent } from './components/login/login.component';
 
 
 export const ROUTES: Routes = [
@@ -21,6 +22,10 @@ export const ROUTES: Routes = [
     data: {
       title: 'Dashboard'
     }
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
   },
   {
     path: 'user-profile',

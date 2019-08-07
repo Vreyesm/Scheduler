@@ -41,6 +41,7 @@ import { AddSubjectComponent } from './modules/resources/subjects/add-subject/ad
 import { InterfaceModule } from './modules/interface/interface.module';
 import { AddTeacherComponent } from './modules/resources/teachers/add-teacher/add-teacher.component';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   imports: [
@@ -76,7 +77,8 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
     AddCareerComponent,
     DeleteDialogComponent,
     AddSubjectComponent,
-    AddTeacherComponent
+    AddTeacherComponent,
+    LoginComponent
 
   ],
   providers: [
