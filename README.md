@@ -1,5 +1,5 @@
 # Scheduler
-[![Build status](https://dev.azure.com/victor-reyes/Scheduler/_apis/build/status/Scheduler-Docker%20Publish%20%26%20Push-import)](https://dev.azure.com/victor-reyes/Scheduler/_build/latest?definitionId=5)
+[![Build Status](https://dev.azure.com/victor-reyes/Scheduler/_apis/build/status/Thesis?branchName=master)](https://dev.azure.com/victor-reyes/Scheduler/_build/latest?definitionId=4&branchName=master)
 
 Thesis' project - Scheduler
 ---
