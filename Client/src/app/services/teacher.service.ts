@@ -21,5 +21,8 @@ export class TeacherService {
   count(): Observable<number> {
     return this.http.get<number>(TeacherService.API_TEACHERS + '/Count');
   }
+  get(id: string): Observable<UserData> {
+    return this.http.get<UserData>(TeacherService.API_ROOT + '/' + id);
+  }
 
 }

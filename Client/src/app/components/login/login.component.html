@@ -1,5 +1,5 @@
 <div class="main-content">
-  <div fxLayout="column" fxLayoutAlign="center center">
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="30px" style="height: 100%">
 
     <div class="mat-elevation-z1 login-card" style="background-color: white">
       <div fxFlexAlign="center" class="simple-text">
@@ -10,13 +10,13 @@
           <input type="email" matInput placeholder="Correo" formControlName="email">
         </mat-form-field>
         <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
-            <div *ngIf="email.errors.required">
+            <div *ngIf="email.errors['required']">
               Correo es requerido
             </div>
-            <div *ngIf="email.errors.empty">
+            <div *ngIf="email.errors['empty']">
               Correo no puede estar vacio
             </div>
-            <div *ngIf="email.errors.email">
+            <div *ngIf="email.errors['email']">
               Correo debe ser una dirección de correo válida
             </div>
           </div>
@@ -25,13 +25,13 @@
 
         </mat-form-field>
         <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
-          <div *ngIf="password.errors.required">
+          <div *ngIf="password.errors['required']">
             Contraseña es requerida
           </div>
-          <div *ngIf="password.errors.minlength">
+          <div *ngIf="password.errors['minlength']">
             Contraseña debe tener un largo mínimo de 6 caracteres
           </div>
-          <div *ngIf="password.errors.empty">
+          <div *ngIf="password.errors['empty']">
             Contraseña no puede estar vacia
           </div>
         </div>

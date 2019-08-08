@@ -32,7 +32,7 @@ namespace Scheduler.Controllers
         [HttpGet("Teachers")]
         public async Task<ActionResult<IEnumerable<UserData>>> GetTeachers()
         {
-            return await _context.UsersData.Where(u => u.Type == UserType.Professor).ToListAsync();
+            return await _context.UsersData.Where(u => u.Type == UserType.Professor || u.Type == UserType.Director).ToListAsync();
         }
 
         // GET: api/Users/Teachers/Count
@@ -46,7 +46,7 @@ namespace Scheduler.Controllers
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserData>> GetUser(int id)
+        public async Task<ActionResult<UserData>> GetUser(string id)
         {
             var user = await _context.UsersData.FindAsync(id);
 

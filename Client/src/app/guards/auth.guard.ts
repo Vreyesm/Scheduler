@@ -14,20 +14,22 @@ export class AuthGuard implements CanActivate {
     const isTokenExpired = this.auth.isTokenExpired();
     const isUserLogged = this.auth.isUserLogged();
     const userRole = this.auth.getRole();
-
+    
     if (isUserLogged && !isTokenExpired) {
+      // if (route.url[0].path === 'login') { // just in case
+      //  this.router.navigate(['/resources']);
+      // }
 
       // No role restriction
       if (!route.data.role) {
         return true;
       }
-
       // check for role
       if (userRole === route.data.role) {
         return true;
       } else {
-        this.router.navigate(['/perfil'], { queryParams: { returnUrl: state.url } });
-        return false;
+        // this.router.navigate(['/perfil'], { queryParams: { returnUrl: state.url } });
+        // return false;
       }
     } else {
 

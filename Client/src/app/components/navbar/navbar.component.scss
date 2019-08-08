@@ -25,3 +25,12 @@
     content: ''
   }
 }
+
+.dropdown-menu .dropdown-item:hover, 
+.dropdown-menu .dropdown-item:focus, 
+.dropdown-menu p:hover, 
+.dropdown-menu p:focus, 
+.dropdown-menu p:active {
+  background-color: #ff9800;
+  color: white;
+}

@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Subject, Section, Career, UserData } from '../../../../models';
-import { MatTableDataSource, MatPaginator, MatDialog, MatSort } from '@angular/material';
+import { Subject, Section, Career, UserData, UserType } from '../../../../models';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
 import { CareerService } from '../../../../services/career.service';
 import { AddSubjectComponent } from '../add-subject/add-subject.component';
 import { SubjectsService } from '../../../../services/subjects.service';
@@ -9,6 +12,7 @@ import { DeleteDialogComponent } from '../../../../components/delete-dialog/dele
 import { SectionService } from '../../../../services/section.service';
 import { TeacherService } from '../../../../services/teacher.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-subjects-list',
@@ -20,8 +24,9 @@ export class SubjectsListComponent implements OnInit {
   careers: Career[];
   idCareer: number;
   subjects: Subject[];
+  sections: Section[];
   teachers: UserData[];
-  dataSource: MatTableDataSource<Section>;
+  dataSource = new MatTableDataSource<Section>(this.sections);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   displayedColumns: string[] = ['name', 'teacher', 'students', 'options'];
@@ -32,7 +37,8 @@ export class SubjectsListComponent implements OnInit {
               private careerService: CareerService,
               private subjectService: SubjectsService,
               private sectionService: SectionService,
-              private teacherService: TeacherService) { }
+              private teacherService: TeacherService,
+              private authService: AuthService) { }
 
   ngOnInit() {
     this.loadTeachers();
@@ -72,8 +78,11 @@ export class SubjectsListComponent implements OnInit {
             });
           }
         });
-        this.dataSource = new MatTableDataSource<Section>(sections);
+        this.sections = sections;
+        this.dataSource = new MatTableDataSource<Section>(this.sections);
         this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+
       }
     });
   }
@@ -94,8 +103,10 @@ export class SubjectsListComponent implements OnInit {
           });
         }
       });
-      this.dataSource = new MatTableDataSource<Section>(sections);
+      this.sections = sections;
+      this.dataSource = new MatTableDataSource<Section>(this.sections);
       this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
     }
   }
 
@@ -146,5 +157,9 @@ export class SubjectsListComponent implements OnInit {
   goToSchedule(sectionId: number) {
     sessionStorage.setItem('career', '' + this.idCareer);
     this.router.navigateByUrl('resources/subjects/' + sectionId + '/schedule');
+  }
+
+  isAdmin(): boolean {
+    return this.authService.getRole() === UserType.Admin;
   }
 }

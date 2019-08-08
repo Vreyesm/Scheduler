@@ -32,6 +32,7 @@ export class CareersListComponent implements OnInit {
       this.careers = data;
       this.dataSource = new MatTableDataSource<Career>(this.careers);
       this.dataSource.paginator = this.paginator;
+      console.log(this.paginator);
     });
   }
 

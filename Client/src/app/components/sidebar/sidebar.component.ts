@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
 declare const $: any;
 declare interface RouteInfo {
     path: string;
@@ -25,7 +26,7 @@ export const ROUTES: RouteInfo[] = [
 export class SidebarComponent implements OnInit {
   menuItems: any[];
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
     this.menuItems = ROUTES.filter(route => route);
@@ -36,4 +37,7 @@ export class SidebarComponent implements OnInit {
       }
       return true;
   };
+  logged(): boolean {
+    return this.authService.isUserLogged() && !this.authService.isTokenExpired();
+  }
 }

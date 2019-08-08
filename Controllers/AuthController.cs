@@ -56,28 +56,27 @@ namespace Scheduler.Controllers
         }
 
         [HttpPost]
-        public async Task<object> Register([FromBody] DTO dto)
+        public async Task<object> Register([FromBody] User credentials)
         {
             var user = new IdentityUser
             {
-                UserName = dto.credentials.Email,
-                Email = dto.credentials.Email
+                UserName = credentials.Email,
+                Email = credentials.Email
             };
 
-            var result = await _userManager.CreateAsync(user, dto.credentials.Password);
+            var result = await _userManager.CreateAsync(user, credentials.Password);
             
 
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, false);
-                dto.userData.Id = user.Id;
-                await _context.UsersData.AddAsync(dto.userData);
-                await _context.SaveChangesAsync();
+                //dto.userData.Id = user.Id;
+                //await _context.UsersData.AddAsync(dto.userData);
+                //await _context.SaveChangesAsync();
                 return new JsonResult(new Dictionary<string, object>
                 {
                     { "id", user.Id },
-                    { "role", dto.userData.Type },
-                    { "token", GenerateJwtToken(dto.credentials.Email, user) }
+                    { "token", GenerateJwtToken(credentials.Email, user) }
                 });
             }
             else

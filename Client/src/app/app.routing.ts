@@ -9,6 +9,7 @@ import {TypographyComponent} from './typography/typography.component';
 import {IconsComponent} from './icons/icons.component';
 import {NotificationsComponent} from './notifications/notifications.component';
 import { LoginComponent } from './components/login/login.component';
+import { AuthGuard } from './guards/auth.guard';
 
 
 export const ROUTES: Routes = [
@@ -19,6 +20,7 @@ export const ROUTES: Routes = [
   {
     path: 'dashboard',
     loadChildren: () => import('./modules/resources/resources.module').then(m => m.ResourcesModule),
+    canActivate: [AuthGuard],
     data: {
       title: 'Dashboard'
     }
@@ -30,6 +32,7 @@ export const ROUTES: Routes = [
   {
     path: 'user-profile',
     component: UserProfileComponent,
+    canActivate: [AuthGuard],
     data: {
       title: 'Perfil de usuario'
     }
@@ -37,6 +40,7 @@ export const ROUTES: Routes = [
   {
     path: 'resources',
     loadChildren: () => import('./modules/resources/resources.module').then(m => m.ResourcesModule),
+    canActivate: [AuthGuard],
     data: {
       title: 'Recursos'
     }

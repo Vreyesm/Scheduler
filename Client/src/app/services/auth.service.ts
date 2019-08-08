@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { UserData } from '../models';
 import { Observable } from 'rxjs';
 import * as jwt_decode from 'jwt-decode';
+import { ok } from 'assert';
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +14,11 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   login(credentials: UserData) {
-    return this.http.post<Response>(AuthService.API_ROOT + '/Login', credentials);
+    return this.http.post<Response>(AuthService.API_ROOT + 'Login', credentials);
   }
 
   register(user: UserData): Observable<UserData> {
-    return this.http.post<UserData>(AuthService.API_ROOT + '/Register', user);
+    return this.http.post<UserData>(AuthService.API_ROOT + 'Register', user);
   }
 
   getToken(): any {
@@ -38,20 +39,26 @@ export class AuthService {
     }
   }
 
-  getRole(): string {
-    let token = this.getToken();
+  getRole(): number {
+    /*let token = this.getToken();
     if (!token) { token = this.getToken(); }
     if (!token) { return ''; }
 
     const decoded = jwt_decode<Decoded>(this.getToken());
     // return "Admin";
-    return decoded.role;
+    return decoded.role;*/
+    return +localStorage.getItem('role');
+  }
+
+  getUserData(): Observable<UserData> {
+    return this.http.get<Userdata>();
   }
 
   logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_user');
+    localStorage.removeItem('role');
     localStorage.clear();
   }
 
@@ -82,7 +89,7 @@ export class AuthService {
 export interface Response {
   id: string;
   token: string;
-
+  role: string;
 }
 
 export interface Decoded {

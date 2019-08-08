@@ -1,13 +1,13 @@
 <div class="main-content">
-  <div fxLayout="column" class="container-fluid">
+  <div fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="5px" class="container-fluid">
     <!--flex-direction: column;-->
     <div fxLayout="row">
       <h3 class="title">
-        Modulos
+        Módulos
       </h3>
     </div>
-    <div fxLayout="row" class="data-options">
-      <div fxLayout="column">
+    <div fxLayout="row" fxLayoutAlign="space-between start" >
+      <div [hidden]="!isAdmin()">
         <mat-form-field>
           <mat-label>Carrera</mat-label>
           <mat-select [(value)]="idCareer">
@@ -17,7 +17,7 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div fxLayout="column">
+      <div style="margin: 10px" fxFlex="end">
         <button (click)="addSubject()" [disabled]="!idCareer" mat-raised-button class="btn-success pull-right">
           <mat-icon>add</mat-icon>
           Agregar
@@ -62,8 +62,9 @@
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>
 
-      <mat-paginator class="mat-elevation-z1" [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"
-        *ngIf="subjects">
+      <mat-paginator  class="mat-elevation-z1" [length]="100" 
+                      [pageSize]="10" 
+                      [pageSizeOptions]="[5, 10, 25, 100]">
       </mat-paginator>
 
     </div>

@@ -42,6 +42,7 @@ import { InterfaceModule } from './modules/interface/interface.module';
 import { AddTeacherComponent } from './modules/resources/teachers/add-teacher/add-teacher.component';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { LoginComponent } from './components/login/login.component';
+import { AuthGuard } from './guards/auth.guard';
 
 @NgModule({
   imports: [
@@ -86,7 +87,8 @@ import { LoginComponent } from './components/login/login.component';
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,
       multi: true
-    }
+    }, 
+    AuthGuard
   ],
   entryComponents: [
     AddBuildingComponent,
