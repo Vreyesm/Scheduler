@@ -13,6 +13,7 @@ import { SectionService } from '../../../../services/section.service';
 import { TeacherService } from '../../../../services/teacher.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../services/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-subjects-list',
@@ -21,16 +22,13 @@ import { AuthService } from '../../../../services/auth.service';
 })
 export class SubjectsListComponent implements OnInit {
 
-  careers: Career[];
-  idCareer: number;
-  subjects: Subject[];
-  sections: Section[];
+  sections: Section[] = [];
   teachers: UserData[];
-  dataSource = new MatTableDataSource<Section>(this.sections);
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  careers: Career[];
+  subjects: Subject[];
+  idCareer: number;
 
-  displayedColumns: string[] = ['name', 'teacher', 'students', 'options'];
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  data: Observable<Section[]>;
 
   constructor(public dialog: MatDialog,
               private router: Router,
@@ -42,9 +40,33 @@ export class SubjectsListComponent implements OnInit {
 
   ngOnInit() {
     this.loadTeachers();
-    // this.loadCareers();
+    this.loadRole();
   }
+  loadRole() {
+    const role = this.authService.getRole();
+    const userId = this.authService.getId();
 
+    // console.log('role: ' + role);
+
+    if (role === UserType.Professor) {
+      this.data = this.sectionService.getByTeacher(userId);
+    } else if (role === UserType.Director) {
+      let career: Career;
+      this.careerService.getCareerByTeacher(userId).subscribe(data => {
+        career = data;
+      },
+      () => {},
+      () => {
+        sessionStorage.setItem('career', '' + career.id);
+        this.data = this.careerService.getSectionsByCareer(career.id);
+      });
+    } else if (role === UserType.Admin) {
+      // this.data = this.sectionService.getAll();
+      if (+sessionStorage.getItem('career') !== 0) {
+        this.data = this.careerService.getSectionsByCareer(+sessionStorage.getItem('career'));
+      }
+    }
+  }
   loadTeachers() {
     this.teacherService.getTeachers().subscribe(data => {
       this.teachers = data;
@@ -78,10 +100,6 @@ export class SubjectsListComponent implements OnInit {
             });
           }
         });
-        this.sections = sections;
-        this.dataSource = new MatTableDataSource<Section>(this.sections);
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
 
       }
     });
@@ -104,9 +122,7 @@ export class SubjectsListComponent implements OnInit {
         }
       });
       this.sections = sections;
-      this.dataSource = new MatTableDataSource<Section>(this.sections);
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
+      this.loadRole();
     }
   }
 
@@ -128,35 +144,10 @@ export class SubjectsListComponent implements OnInit {
         });
         this.subjectService.add(subject, this.idCareer).subscribe(data => {
           this.loadCareers();
+          this.loadRole();
         });
       }
     });
-  }
-
-  selectSchedule(section: Section) {
-    const dialogRef = this.dialog.open(SectionScheduleComponent, {
-      width: '900px',
-      data: section
-    });
-  }
-
-  deleteSection(section: Section) {
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      data: section.name
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.sectionService.delete(section.id).subscribe(data => {
-          this.loadCareers();
-        });
-      }
-    });
-  }
-
-  goToSchedule(sectionId: number) {
-    sessionStorage.setItem('career', '' + this.idCareer);
-    this.router.navigateByUrl('resources/subjects/' + sectionId + '/schedule');
   }
 
   isAdmin(): boolean {

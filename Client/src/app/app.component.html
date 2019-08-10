@@ -1,9 +1,9 @@
 <div class="wrapper">
-  <div class="sidebar" data-color="orange" data-background-color="white" data-image="./assets/img/blank.jpg" *ngIf="logged()" >
+  <div class="sidebar" data-color="orange" data-background-color="white" data-image="./assets/img/blank.jpg" *ngIf="logged() && isAdmin()" >
     <app-sidebar></app-sidebar>
     <div class="sidebar-background" style="background-image: url(./assets/img/blank.jpg)"></div>
   </div>
-  <div class="main-panel" [ngClass]="{login: !logged()}">
+  <div class="main-panel" [ngClass]="{login: !logged() || !isAdmin()}">
     <app-navbar *ngIf="logged()"></app-navbar>
     <router-outlet></router-outlet>
     <!--<app-footer></app-footer>-->

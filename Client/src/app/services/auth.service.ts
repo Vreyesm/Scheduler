@@ -50,10 +50,6 @@ export class AuthService {
     return +localStorage.getItem('role');
   }
 
-  getUserData(): Observable<UserData> {
-    return this.http.get<Userdata>();
-  }
-
   logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('access_token');

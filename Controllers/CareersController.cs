@@ -55,6 +55,44 @@ namespace Scheduler.Controllers
             return career;
         }
 
+        // GET: api/Careers/Teacher/5dfg-dsf43-dfstg
+        [HttpGet("Teacher/{teacherId}")]
+        public async Task<ActionResult<Career>> GetCareerByTeacher(string teacherId)
+        {
+            var career = await _context.Careers
+                .Where(c => c.DirectorId == teacherId)
+                .Include(c => c.Subjects)
+                .ThenInclude(s => s.Sections)
+                .FirstOrDefaultAsync();
+
+            if (career == null)
+            {
+                return NotFound();
+            }
+
+            return career;
+        }
+
+        // GET: api/Careers/5/Sections
+        [HttpGet("{id}/Sections")]
+        public async Task<ActionResult<IEnumerable<Section>>> GetSectionsByCareer(int id)
+        {
+            List<Section> sections = new List<Section>();
+
+            var career = await _context.Careers
+                .Where(c => c.ID == id)
+                .Include(c => c.Subjects)
+                .ThenInclude(s => s.Sections)
+                .FirstOrDefaultAsync();
+            
+            foreach (Subject subject in career.Subjects) 
+            {
+                sections.AddRange(subject.Sections);
+            }
+
+            return Ok(sections);
+        }
+
         // PUT: api/Careers/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCareer(int id, Career career)

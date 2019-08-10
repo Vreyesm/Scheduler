@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 import { AuthService } from '../services/auth.service';
+import { UserType } from '../models';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -14,11 +15,12 @@ export class AuthGuard implements CanActivate {
     const isTokenExpired = this.auth.isTokenExpired();
     const isUserLogged = this.auth.isUserLogged();
     const userRole = this.auth.getRole();
-    
+
     if (isUserLogged && !isTokenExpired) {
-      // if (route.url[0].path === 'login') { // just in case
-      //  this.router.navigate(['/resources']);
-      // }
+      if (userRole === UserType.Director) {
+        // this.router.navigateByUrl('resources/subjects');
+        return true;
+      }
 
       // No role restriction
       if (!route.data.role) {

@@ -37,6 +37,10 @@ namespace Scheduler.Data
                 .WithMany(b => b.Classrooms)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Assignation>()
+                .HasOne(a => a.Section)
+                .WithMany(s => s.Assignations)
+                .OnDelete(DeleteBehavior.Cascade);
             /*modelBuilder.Entity<Building>()
                 .HasMany(b => b.Classrooms)
                 .WithOne(c => c.Building)

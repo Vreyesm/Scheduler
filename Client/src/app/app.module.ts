@@ -14,7 +14,6 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { TableListComponent } from './table-list/table-list.component';
 import { TypographyComponent } from './typography/typography.component';
 import { IconsComponent } from './icons/icons.component';
-import { NotificationsComponent } from './notifications/notifications.component';
 import { AddBuildingComponent } from './modules/resources/buildings/add-building/add-building.component';
 import { AddClassroomComponent } from './modules/resources/buildings/add-classroom/add-classroom.component';
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
@@ -72,15 +71,13 @@ import { AuthGuard } from './guards/auth.guard';
     TableListComponent,
     TypographyComponent,
     IconsComponent,
-    NotificationsComponent,
     AddBuildingComponent,
     AddClassroomComponent,
     AddCareerComponent,
     DeleteDialogComponent,
     AddSubjectComponent,
     AddTeacherComponent,
-    LoginComponent
-
+    LoginComponent,
   ],
   providers: [
     {

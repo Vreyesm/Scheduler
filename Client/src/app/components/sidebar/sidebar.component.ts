@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { UserType } from '../../models';
 declare const $: any;
 declare interface RouteInfo {
     path: string;
@@ -10,7 +11,6 @@ declare interface RouteInfo {
 export const ROUTES: RouteInfo[] = [
     { path: '/dashboard', title: 'Home',  icon: 'dashboard', class: '' },
     { path: '/resources', title: 'Recursos', icon: 'content_paste', class: ''},
-    { path: '/user-profile', title: 'Perfil de usuario',  icon: 'person', class: '' }
     //{ path: '/table-list', title: 'Table List',  icon:'content_paste', class: '' },
     //{ path: '/typography', title: 'Typography',  icon:'library_books', class: '' },
     //{ path: '/icons', title: 'Icons',  icon:'bubble_chart', class: '' },
@@ -36,8 +36,13 @@ export class SidebarComponent implements OnInit {
           return false;
       }
       return true;
-  };
+  }
+
   logged(): boolean {
     return this.authService.isUserLogged() && !this.authService.isTokenExpired();
+  }
+
+  isAdmin(): boolean {
+    return this.authService.getRole() === UserType.Admin;
   }
 }

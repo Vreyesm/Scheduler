@@ -24,50 +24,7 @@
         </button>
       </div>
     </div>
-    <div fxFlexFill >
-      <mat-table [dataSource]="dataSource" matSort  class="mat-elevation-z1" [class.hidden]="!subjects">
-
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-          <mat-header-cell class="name-cell" *matHeaderCellDef> Nombre </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="teacher">
-          <mat-header-cell class="name-cell" *matHeaderCellDef>Profesor</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.professor.name}} </mat-cell>
-        </ng-container>
-        <!-- Stundents number Column -->
-        <ng-container matColumnDef="students">
-          <mat-header-cell mat-sort-header class="name-cell" *matHeaderCellDef> Alumnos estimados </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.students}} </mat-cell>
-        </ng-container>
-
-        <!-- Options Column -->
-        <ng-container matColumnDef="options">
-          <mat-header-cell *matHeaderCellDef> Opciones </mat-header-cell>
-          <mat-cell class="options-cell" *matCellDef="let element">
-            <button (click)=goToSchedule(element.id) mat-raised-button class="btn-success" style="margin-right: 5px">
-              <mat-icon>view_list</mat-icon>
-              <!--Ver salas-->
-            </button>
-            <button (click)="deleteSection(element)" mat-raised-button class="btn-danger">
-              <mat-icon>delete</mat-icon>
-              <!--Eliminar-->
-            </button>
-
-          </mat-cell>
-        </ng-container>
-
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-      </mat-table>
-
-      <mat-paginator  class="mat-elevation-z1" [length]="100" 
-                      [pageSize]="10" 
-                      [pageSizeOptions]="[5, 10, 25, 100]">
-      </mat-paginator>
-
-    </div>
+    <app-sections-table *ngIf="data" [values]="data"></app-sections-table>
   </div>
 
   <ng-template #noSubjects>

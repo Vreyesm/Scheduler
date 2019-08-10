@@ -1,9 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Career} from '../../../../models';
+import {Career, UserData, UserType} from '../../../../models';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog} from '@angular/material/dialog';
-import {CareerService} from '../../../../services/career.service';
+import {CareerService, TeacherService} from '../../../../services';
 import {AddCareerComponent} from '../add-career/add-career.component';
 import {DeleteDialogComponent} from '../../../../components/delete-dialog/delete-dialog.component';
 
@@ -15,16 +15,19 @@ import {DeleteDialogComponent} from '../../../../components/delete-dialog/delete
 export class CareersListComponent implements OnInit {
 
   careers: Career[];
+  teachers: UserData[];
   dataSource = new MatTableDataSource<Career>(this.careers);
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   displayedColumns: string[] = ['name', 'options'];
 
   constructor(public dialog: MatDialog,
-              private careerService: CareerService) { }
+              private careerService: CareerService,
+              private teacherService: TeacherService) { }
 
   ngOnInit() {
     this.loadCareers();
+    this.loadTeachers();
   }
 
   loadCareers() {
@@ -32,7 +35,12 @@ export class CareersListComponent implements OnInit {
       this.careers = data;
       this.dataSource = new MatTableDataSource<Career>(this.careers);
       this.dataSource.paginator = this.paginator;
-      console.log(this.paginator);
+    });
+  }
+
+  loadTeachers() {
+    this.teacherService.getTeachers().subscribe(data => {
+      this.teachers = data;
     });
   }
 
@@ -57,7 +65,9 @@ export class CareersListComponent implements OnInit {
   }
 
   editCareer(career: Career) {
-    const oldCareer = JSON.parse(JSON.stringify(career));
+    const oldCareer: Career = JSON.parse(JSON.stringify(career));
+    const oldTeacher: UserData = this.teachers.find(t => t.id === oldCareer.directorId );
+
     const dialogRef = this.dialog.open(AddCareerComponent, {
       width: '300px',
       data:
@@ -67,11 +77,20 @@ export class CareersListComponent implements OnInit {
         }
     });
     dialogRef.afterClosed().subscribe(result => {
-      const newCareer = result;
+      const newCareer: Career = result;
       if (newCareer) {
-        console.log(career);
         this.careerService.edit(newCareer).subscribe(data => {
           this.loadCareers();
+        },
+        () => {},
+        () => {
+          const newTeacher: UserData = this.teachers.find( t => t.id === newCareer.directorId);
+          if (oldTeacher !== newTeacher ) {
+            oldTeacher.type = UserType.Professor; // downgraded
+            newTeacher.type = UserType.Director; // ascended
+            this.teacherService.update(oldTeacher).subscribe();
+            this.teacherService.update(newTeacher).subscribe();
+          }
         });
       }
     });

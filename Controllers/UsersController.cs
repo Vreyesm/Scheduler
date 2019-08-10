@@ -39,7 +39,7 @@ namespace Scheduler.Controllers
         [HttpGet("Teachers/Count")]
         public async Task<ActionResult> CountTeachers()
         {
-            var teachers = await _context.UsersData.Where(u => u.Type == UserType.Professor).ToListAsync();
+            var teachers = await _context.UsersData.Where(u => u.Type == UserType.Professor || u.Type == UserType.Director).ToListAsync();
 
             return Ok(teachers.Count());
         }

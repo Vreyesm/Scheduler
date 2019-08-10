@@ -14,8 +14,14 @@ export class SectionService {
   count(): Observable<number> {
     return this.http.get<number>(SectionService.API_ROOT + '/count');
   }
+  getAll(): Observable<Section[]> {
+    return this.http.get<Section[]>(SectionService.API_ROOT);
+  }
   get(id: number): Observable<Section> {
     return this.http.get<Section>(SectionService.API_ROOT + '/' + id);
+  }
+  getByTeacher(id: string): Observable<Section[]> {
+    return this.http.get<Section[]>(SectionService.API_ROOT + '/Teacher/' + id);
   }
   update(section: Section): Observable<any> {
     return this.http.put<any>(SectionService.API_ROOT + '/' + section.id, section);
