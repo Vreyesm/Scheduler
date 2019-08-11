@@ -7,6 +7,7 @@ import {Subject} from 'rxjs';
 import { TeacherService } from '../../../../services/teacher.service';
 import { AuthService } from '../../../../services/auth.service';
 import { AddTeacherComponent } from '../add-teacher/add-teacher.component';
+import { DeleteDialogComponent } from '../../../../components/delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-teachers-list',
@@ -79,36 +80,46 @@ export class TeachersListComponent implements OnInit {
       }
     });
   }
-/*
 
-  addSubject() {
-    let subject = new Subject();
-    const dialogRef = this.dialog.open(AddSubjectComponent, {
-      // width: '500px',
+  deleteTeacher(teacher: UserData) {
+      const dialogRef = this.dialog.open(DeleteDialogComponent, {
+        data: 'Profesor ' + teacher.name,
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.teacherService.delete(teacher.id).subscribe(response => {
+            this.loadTeachers();
+          });
+        }
+      });
+  }
+  /*
+  editTeacher(teacher: UserData) {
+    const oldTeacher: UserData = JSON.parse(JSON.stringify(teacher));
+    const dialogRef = this.dialog.open(AddTeacherComponent, {
+      width: '300px',
       data: {
-        element: subject,
-        action: 'Crear'
+        element: oldTeacher,
+        action: 'Editar'
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      subject = result;
-      if (subject) {
-        subject.sections.forEach(section => {
-          section.name = subject.name + ' - ' + section.name;
-        });
-        this.subjectService.add(subject, this.idCareer).subscribe(data => {
-          this.loadCareers();
+      const newTeacher: UserData = result;
+      if (newTeacher) {
+        let response;
+        this.authService.register(user).subscribe(data => {
+          response = data;
+        },
+        () => {},
+        () => {
+          teacher.id = response.id;
+          teacher.name = user.name;
+          teacher.type = UserType.Professor;
+          this.teacherService.add(teacher).subscribe(data => {
+            this.loadTeachers();
+          });
         });
       }
-    });
-  }
-
-  selectSchedule(section: Section ) {
-    const dialogRef = this.dialog.open(SectionScheduleComponent, {
-      width: '900px',
-      data: section
-    });
-  }
-*/
+  }*/
 }

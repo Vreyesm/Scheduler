@@ -12,20 +12,19 @@ import Swal from 'sweetalert2';
 })
 export class LoginComponent implements OnInit {
 
-  loginForm = this.fb.group ({
-  email: ['', [Validators.required, Validators.email]],
-  password:  ['', [Validators.required, Validators.minLength(6)]]
+  loginForm = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]]
   });
 
   constructor(private fb: FormBuilder,
-              private authService: AuthService,
-              private router: Router) { }
+    private authService: AuthService,
+    private router: Router) { }
 
   ngOnInit() {
     if (this.authService.isUserLogged() && !this.authService.isTokenExpired()) {
       const role = this.authService.getRole();
-      if (role === UserType.Director) {
-        console.log('it\'s a director');
+      if (role === UserType.Director || role === UserType.Professor) {
         this.router.navigateByUrl('resources/subjects');
       } else {
         this.router.navigateByUrl('dashboard');
@@ -38,33 +37,33 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('id_user', data.id);
       localStorage.setItem('role', data.role);
     },
-    () => {
-      Swal.fire({
-        position: 'top-end',
-        type: 'error',
-        title: 'Error al iniciar sesión',
-        showConfirmButton: false,
-        timer: 1500,
-        toast: true
-      });
-    },
-    () => {
-      Swal.fire({
-        position: 'top-end',
-        type: 'success',
-        title: 'Sesión iniciada',
-        showConfirmButton: false,
-        timer: 1500,
-        toast: true
-      }).then(result => {
+      () => {
+        Swal.fire({
+          position: 'top-end',
+          type: 'error',
+          title: 'Error al iniciar sesión',
+          showConfirmButton: false,
+          timer: 1500,
+          toast: true
+        });
+      },
+      () => {
+        Swal.fire({
+          position: 'top-end',
+          type: 'success',
+          title: 'Sesión iniciada',
+          showConfirmButton: false,
+          timer: 1500,
+          toast: true
+        });
         const role = +this.authService.getRole();
         if (role === UserType.Director || role === UserType.Professor) {
-        this.router.navigateByUrl('resources/subjects');
-      } else {
-        this.router.navigateByUrl('dashboard');
-      }
+          console.log('it\'s a director or a teacher');
+          this.router.navigateByUrl('resources/subjects');
+        } else {
+          this.router.navigateByUrl('dashboard');
+        }
       });
-    });
   }
   get email() { return this.loginForm.get('email'); }
 

@@ -82,7 +82,7 @@ namespace Scheduler.Data
 
             foreach(string line in lines)
             {
-                Career career = new Career { DirectorId = context.UsersData.Last().Id, Name = line };
+                Career career = new Career { DirectorId = context.UsersData.Last().Id, Name = line, IsCompleted=false };
                 await context.Careers.AddAsync(career);
             }
 

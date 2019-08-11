@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Scheduler.Migrations
 {
-    public partial class IntialCreate : Migration
+    public partial class FirstMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -58,6 +58,21 @@ namespace Scheduler.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Buildings", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Careers",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Name = table.Column<string>(nullable: true),
+                    DirectorId = table.Column<string>(nullable: true),
+                    IsCompleted = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Careers", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -192,6 +207,26 @@ namespace Scheduler.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Subjects",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Name = table.Column<string>(nullable: true),
+                    CareerID = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Subjects", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Subjects_Careers_CareerID",
+                        column: x => x.CareerID,
+                        principalTable: "Careers",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Classrooms",
                 columns: table => new
                 {
@@ -215,46 +250,6 @@ namespace Scheduler.Migrations
                         name: "FK_Classrooms_Schedules_ScheduleID",
                         column: x => x.ScheduleID,
                         principalTable: "Schedules",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Careers",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Name = table.Column<string>(nullable: true),
-                    DirectorId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Careers", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Careers_UsersData_DirectorId",
-                        column: x => x.DirectorId,
-                        principalTable: "UsersData",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Subjects",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Name = table.Column<string>(nullable: true),
-                    CareerID = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Subjects", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Subjects_Careers_CareerID",
-                        column: x => x.CareerID,
-                        principalTable: "Careers",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -357,7 +352,7 @@ namespace Scheduler.Migrations
                         column: x => x.SectionID,
                         principalTable: "Sections",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -428,11 +423,6 @@ namespace Scheduler.Migrations
                 column: "SectionID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Careers_DirectorId",
-                table: "Careers",
-                column: "DirectorId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Classrooms_BuildingID",
                 table: "Classrooms",
                 column: "BuildingID");
@@ -483,6 +473,9 @@ namespace Scheduler.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
+                name: "UsersData");
+
+            migrationBuilder.DropTable(
                 name: "Classrooms");
 
             migrationBuilder.DropTable(
@@ -499,9 +492,6 @@ namespace Scheduler.Migrations
 
             migrationBuilder.DropTable(
                 name: "Careers");
-
-            migrationBuilder.DropTable(
-                name: "UsersData");
         }
     }
 }

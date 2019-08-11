@@ -4,15 +4,11 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import { CareerService } from '../../../../services/career.service';
 import { AddSubjectComponent } from '../add-subject/add-subject.component';
-import { SubjectsService } from '../../../../services/subjects.service';
 import { SectionScheduleComponent } from '../section-schedule/section-schedule.component';
 import { DeleteDialogComponent } from '../../../../components/delete-dialog/delete-dialog.component';
-import { SectionService } from '../../../../services/section.service';
-import { TeacherService } from '../../../../services/teacher.service';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../../services/auth.service';
+import { AuthService, SectionService, TeacherService, SubjectsService, CareerService } from '../../../../services';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -27,6 +23,9 @@ export class SubjectsListComponent implements OnInit {
   careers: Career[];
   subjects: Subject[];
   idCareer: number;
+  career: Career;
+  teacher: UserData;
+  nameToShow: string;
 
   data: Observable<Section[]>;
 
@@ -40,15 +39,15 @@ export class SubjectsListComponent implements OnInit {
 
   ngOnInit() {
     this.loadTeachers();
-    this.loadRole();
   }
   loadRole() {
     const role = this.authService.getRole();
     const userId = this.authService.getId();
 
-    // console.log('role: ' + role);
 
     if (role === UserType.Professor) {
+      this.teacher = this.teachers.find(t => t.id === this.authService.getId());
+      this.nameToShow = this.teacher.name;
       this.data = this.sectionService.getByTeacher(userId);
     } else if (role === UserType.Director) {
       let career: Career;
@@ -61,7 +60,6 @@ export class SubjectsListComponent implements OnInit {
         this.data = this.careerService.getSectionsByCareer(career.id);
       });
     } else if (role === UserType.Admin) {
-      // this.data = this.sectionService.getAll();
       if (+sessionStorage.getItem('career') !== 0) {
         this.data = this.careerService.getSectionsByCareer(+sessionStorage.getItem('career'));
       }
@@ -80,27 +78,22 @@ export class SubjectsListComponent implements OnInit {
         } else {
           this.loadCareers();
         }
+        this.loadRole();
       });
   }
 
   loadCareers() {
     this.careerService.getCareers().subscribe(data => {
       this.careers = data;
-      const sections = [];
       const career = this.careers.find(c => c.id === this.idCareer);
       if (career) {
-        this.subjects = career.subjects;
-        this.subjects.forEach(s => {
-          if (s.sections) {
-            s.sections.forEach(section => {
-              const professor = this.teachers.find(t => t.id === section.professorId);
-              section.professor = professor;
-              sections.push(section);
-              // console.log(section);
-            });
-          }
-        });
-
+        this.career = career;
+      }
+    },
+    () => {},
+    () => {
+      if (this.isAdmin() || this.isDirector()) {
+        this.nameToShow = this.career.name;
       }
     });
   }
@@ -109,6 +102,8 @@ export class SubjectsListComponent implements OnInit {
     sessionStorage.setItem('career', '' + this.idCareer);
     const career = this.careers.find(c => c.id === this.idCareer);
     if (career) {
+      this.career = career;
+      this.nameToShow = this.career.name;
       this.subjects = career.subjects;
       const sections = [];
       this.subjects.forEach(s => {
@@ -117,7 +112,6 @@ export class SubjectsListComponent implements OnInit {
             const professor = this.teachers.find(t => t.id === section.professorId);
             section.professor = professor;
             sections.push(section);
-            // console.log(section);
           });
         }
       });
@@ -143,7 +137,7 @@ export class SubjectsListComponent implements OnInit {
           section.name = subject.name + ' - ' + section.name;
         });
         this.subjectService.add(subject, this.idCareer).subscribe(data => {
-          this.loadCareers();
+          // this.loadCareers();
           this.loadRole();
         });
       }
@@ -152,5 +146,13 @@ export class SubjectsListComponent implements OnInit {
 
   isAdmin(): boolean {
     return this.authService.getRole() === UserType.Admin;
+  }
+
+  isDirector(): boolean {
+    return this.authService.getRole() === UserType.Director;
+  }
+
+  changeCompleted() {
+    this.career.isCompleted = !this.career.isCompleted;
   }
 }

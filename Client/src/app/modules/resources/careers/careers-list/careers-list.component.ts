@@ -87,10 +87,11 @@ export class CareersListComponent implements OnInit {
           const newTeacher: UserData = this.teachers.find( t => t.id === newCareer.directorId);
           if (oldTeacher !== newTeacher ) {
             oldTeacher.type = UserType.Professor; // downgraded
-            newTeacher.type = UserType.Director; // ascended
             this.teacherService.update(oldTeacher).subscribe();
-            this.teacherService.update(newTeacher).subscribe();
           }
+          newTeacher.type = UserType.Director; // ascended
+          this.teacherService.update(newTeacher).subscribe();
+
         });
       }
     });

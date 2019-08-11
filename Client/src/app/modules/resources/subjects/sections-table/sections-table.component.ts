@@ -101,7 +101,6 @@ export class SectionsTableComponent implements OnInit, OnChanges {
   }
 
   goToSchedule(sectionId: number) {
-    sessionStorage.setItem('career', '' + this.idCareer);
     this.router.navigateByUrl('resources/subjects/' + sectionId + '/schedule');
   }
 

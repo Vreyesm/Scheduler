@@ -27,5 +27,8 @@ export class TeacherService {
   update(teacher: UserData): Observable<any> {
     return this.http.put<any>(TeacherService.API_ROOT + '/' + teacher.id, teacher);
   }
+  delete(id: string) {
+    return this.http.delete<any>(TeacherService.API_ROOT + '/' + id);
+  }
 
 }

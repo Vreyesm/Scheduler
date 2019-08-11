@@ -100,7 +100,7 @@ namespace Scheduler.Controllers
 
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<UserData>> DeleteUser(int id)
+        public async Task<ActionResult<UserData>> DeleteUser(string id)
         {
             var user = await _context.UsersData.FindAsync(id);
             if (user == null)
