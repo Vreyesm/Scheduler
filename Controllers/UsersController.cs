@@ -32,21 +32,21 @@ namespace Scheduler.Controllers
         [HttpGet("Teachers")]
         public async Task<ActionResult<IEnumerable<UserData>>> GetTeachers()
         {
-            return await _context.UsersData.Where(u => u.Type == UserType.Professor).ToListAsync();
+            return await _context.UsersData.Where(u => u.Type == UserType.Professor || u.Type == UserType.Director).ToListAsync();
         }
 
         // GET: api/Users/Teachers/Count
         [HttpGet("Teachers/Count")]
         public async Task<ActionResult> CountTeachers()
         {
-            var teachers = await _context.UsersData.Where(u => u.Type == UserType.Professor).ToListAsync();
+            var teachers = await _context.UsersData.Where(u => u.Type == UserType.Professor || u.Type == UserType.Director).ToListAsync();
 
             return Ok(teachers.Count());
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserData>> GetUser(int id)
+        public async Task<ActionResult<UserData>> GetUser(string id)
         {
             var user = await _context.UsersData.FindAsync(id);
 
@@ -100,7 +100,7 @@ namespace Scheduler.Controllers
 
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<UserData>> DeleteUser(int id)
+        public async Task<ActionResult<UserData>> DeleteUser(string id)
         {
             var user = await _context.UsersData.FindAsync(id);
             if (user == null)

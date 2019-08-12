@@ -10,8 +10,8 @@ using Scheduler.Data;
 namespace Scheduler.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190801010535_IntialCreate")]
-    partial class IntialCreate
+    [Migration("20190811202636_FirstMigration")]
+    partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -255,11 +255,11 @@ namespace Scheduler.Migrations
 
                     b.Property<string>("DirectorId");
 
+                    b.Property<bool>("IsCompleted");
+
                     b.Property<string>("Name");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("DirectorId");
 
                     b.ToTable("Careers");
                 });
@@ -414,8 +414,9 @@ namespace Scheduler.Migrations
                         .HasForeignKey("ScheduleID");
 
                     b.HasOne("Scheduler.Models.Section", "Section")
-                        .WithMany()
-                        .HasForeignKey("SectionID");
+                        .WithMany("Assignations")
+                        .HasForeignKey("SectionID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Scheduler.Models.AssignationRequest", b =>
@@ -431,13 +432,6 @@ namespace Scheduler.Migrations
                     b.HasOne("Scheduler.Models.Section", "Section")
                         .WithMany()
                         .HasForeignKey("SectionID");
-                });
-
-            modelBuilder.Entity("Scheduler.Models.Career", b =>
-                {
-                    b.HasOne("Scheduler.Models.UserData", "Director")
-                        .WithMany()
-                        .HasForeignKey("DirectorId");
                 });
 
             modelBuilder.Entity("Scheduler.Models.Classroom", b =>

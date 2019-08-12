@@ -13,7 +13,7 @@ namespace Scheduler.Models
         public string Name { get; set; }
         public int Students { get; set; }
         public string ProfessorId { get; set; }
-
+        public ICollection<Assignation> Assignations { get; set; } 
         // Section schedule as array of boolean values
         // monday = "true,true,false,..."; -> Monday[] = {true, true, false,...}
         public string MondayData { get; set; }
@@ -111,6 +111,7 @@ namespace Scheduler.Models
 
         public Section()
         {
+            Assignations = new List<Assignation>();
         }
     }
 }

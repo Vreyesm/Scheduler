@@ -49,6 +49,12 @@ namespace Scheduler.Controllers
             return section;
         }
 
+        // GET: api/Sections/Teacher/asdkfjh-sdf-34
+        [HttpGet("Teacher/{id}")]
+        public async Task<ActionResult<IEnumerable<Section>>> GetSectionsByTeacher([FromRoute] string id) {
+            return await _context.Sections.Where(s => s.ProfessorId == id).ToListAsync();
+        }
+
         // PUT: api/Sections/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSection(int id, Section section)
@@ -99,6 +105,7 @@ namespace Scheduler.Controllers
                 return NotFound();
             }
 
+            //var assignations = await _context.Assignations.Where(a => a.Section)
             _context.Sections.Remove(section);
             await _context.SaveChangesAsync();
 

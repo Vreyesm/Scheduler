@@ -11,6 +11,7 @@ namespace Scheduler.Models
         public string Name { get; set; }
         public string DirectorId { get; set; }
         public List<Subject> Subjects { get; set; }
+        public Boolean IsCompleted { get; set; }
 
         public Career(int iD, string name, string director)
         {

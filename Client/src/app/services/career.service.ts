@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Career, Subject} from '../models';
+import {Career, Subject, Section} from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +12,9 @@ export class CareerService {
   constructor(private http: HttpClient) { }
   getCareers(): Observable<Career[]> {
     return this.http.get<Career[]>(CareerService.API_ROOT);
+  }
+  getCareerByTeacher(teacherId: string): Observable<Career> {
+    return this.http.get<Career>(CareerService.API_ROOT + '/Teacher/' + teacherId);
   }
   add(career: Career): Observable<Career> {
     return this.http.post<Career>(CareerService.API_ROOT, career);
@@ -24,5 +27,8 @@ export class CareerService {
   }
   delete(id: number): Observable<any> {
     return this.http.delete<any>(CareerService.API_ROOT + '/' + id);
+  }
+  getSectionsByCareer(id: number): Observable<Section[]> {
+    return this.http.get<Section[]>(CareerService.API_ROOT + '/' + id + '/Sections');
   }
 }

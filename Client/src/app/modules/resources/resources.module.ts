@@ -25,6 +25,10 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./subjects/subjects.module').then(m => m.SubjectsModule)
       },
       {
+        path: 'sections',
+        loadChildren: () => import('./subjects/subjects.module').then(m => m.SubjectsModule)
+      },
+      {
         path: 'teachers',
         loadChildren: () => import('./teachers/teachers.module').then(m => m.TeachersModule)
       }

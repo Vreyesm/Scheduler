@@ -5,4 +5,5 @@ export class Career {
   name: string;
   subjects: Subject[];
   directorId: string;
+  isCompleted: boolean;
 }
