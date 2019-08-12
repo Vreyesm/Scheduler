@@ -80,11 +80,11 @@ import { AuthGuard } from './guards/auth.guard';
     LoginComponent,
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ApiInterceptor,
-      multi: true
-    }, 
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: ApiInterceptor,
+    //   multi: true
+    // },
     AuthGuard
   ],
   entryComponents: [
