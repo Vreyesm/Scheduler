@@ -1,15 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Subject, Section, Career, UserData, UserType } from '../../../../models';
-import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { AddSubjectComponent } from '../add-subject/add-subject.component';
-import { SectionScheduleComponent } from '../section-schedule/section-schedule.component';
-import { DeleteDialogComponent } from '../../../../components/delete-dialog/delete-dialog.component';
 import { Router } from '@angular/router';
 import { AuthService, SectionService, TeacherService, SubjectsService, CareerService } from '../../../../services';
 import { Observable } from 'rxjs';
+import { CompletedCareerComponent } from '../completed-career/completed-career.component';
 
 @Component({
   selector: 'app-subjects-list',
@@ -153,6 +149,19 @@ export class SubjectsListComponent implements OnInit {
   }
 
   changeCompleted() {
-    this.career.isCompleted = !this.career.isCompleted;
+    if (this.career.isCompleted === false) {
+      const dialogRef = this.dialog.open(CompletedCareerComponent, {
+        data: this.career.name
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.career.isCompleted = !this.career.isCompleted;
+          this.careerService.edit(this.career).subscribe(data => {});
+        }
+      });
+    } else {
+      this.career.isCompleted = !this.career.isCompleted;
+    }
   }
 }
