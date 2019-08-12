@@ -21,6 +21,13 @@ namespace Scheduler.Controllers
             _context = context;
         }
 
+        [HttpGet("Simulate")]
+        public async Task<IActionResult> SimulateAssignation()
+        {
+            await DbInitializer.DoTheMath(_context);
+            return Ok();
+        }
+
         // GET: api/Schedules
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Schedule>>> GetSchedules()

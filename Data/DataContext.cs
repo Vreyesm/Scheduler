@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Scheduler.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Scheduler.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext
     {
         public DbSet<Assignation> Assignations { get; set; }
         public DbSet<AssignationRequest> AssignationRequests { get; set; }
@@ -17,7 +18,7 @@ namespace Scheduler.Data
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<Subject> Subjects { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<UserData> UsersData { get; set; }
 
         public DataContext() : base()
         {
@@ -36,6 +37,10 @@ namespace Scheduler.Data
                 .WithMany(b => b.Classrooms)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Assignation>()
+                .HasOne(a => a.Section)
+                .WithMany(s => s.Assignations)
+                .OnDelete(DeleteBehavior.Cascade);
             /*modelBuilder.Entity<Building>()
                 .HasMany(b => b.Classrooms)
                 .WithOne(c => c.Building)

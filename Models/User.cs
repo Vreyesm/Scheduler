@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,21 +8,20 @@ namespace Scheduler.Models
 {
     public class User
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public UserType Type;
-        public string Password;
+        [Key]
+        public long ID { get; set; }
 
-        public User(int id, string name, UserType type, string password)
-        {
-            Id = id;
-            Name = name;
-            Type = type;
-            Password = password;
-        }
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
 
-        public User()
-        {
-        }
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+
+
     }
 }

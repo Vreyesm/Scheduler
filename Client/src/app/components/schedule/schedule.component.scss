@@ -1,0 +1,46 @@
+
+/*td:hover {
+  background-color: #e8e8e8;
+}*/
+table {
+    background-color: white;
+}
+td > button {
+    width: 90%;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+}
+
+th, td {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+}
+.table td, table th {
+    text-align: center;   
+ }
+/*
+mat-row {
+    //border: 1px solid #e7e7e7;
+    //font-weight: bold;
+    min-height: 30px !important;
+    height: 40px;
+}
+.cdk-column-monday {
+    justify-content: center;
+}
+.cdk-column-tuesday {
+    justify-content: center;
+}
+.cdk-column-wednesday {
+    justify-content: center;
+}
+.cdk-column-thursday {
+    justify-content: center;
+}
+.cdk-column-friday {
+    justify-content: center;
+}
+.cdk-column-saturday {
+    justify-content: center;
+}
+*/

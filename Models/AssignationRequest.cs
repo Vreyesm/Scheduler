@@ -8,7 +8,7 @@ namespace Scheduler.Models
     public class AssignationRequest
     {
         public int ID { get; set; }
-        public User Professor { get; set; }
+        public UserData Professor { get; set; }
         public Section Section { get; set; }
         public Classroom Classroom { get; set; }
         public DayOfWeek Day { get; set; }
@@ -16,7 +16,7 @@ namespace Scheduler.Models
         public DateTime Expiration { get; set; }
         public string Comment { get; set; }
 
-        public AssignationRequest(int iD, User professor, Section section, Classroom classroom, DayOfWeek day, int block, DateTime expiration, string comment)
+        public AssignationRequest(int iD, UserData professor, Section section, Classroom classroom, DayOfWeek day, int block, DateTime expiration, string comment)
         {
             ID = iD;
             Professor = professor;

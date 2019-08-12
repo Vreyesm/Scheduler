@@ -3,6 +3,7 @@ import {ROUTES} from '../sidebar/sidebar.component';
 import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {distinctUntilChanged, filter} from 'rxjs/operators';
+import { AuthService, TeacherService } from '../../services';
 
 @Component({
   selector: 'app-navbar',
@@ -16,8 +17,14 @@ export class NavbarComponent implements OnInit {
   private toggleButton: any;
   private sidebarVisible: boolean;
   public breadcrumbs: IBreadCrumb[];
+  public userName: string;
 
-  constructor(location: Location, private element: ElementRef, private router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(location: Location,
+              private element: ElementRef,
+              private router: Router,
+              private activatedRoute: ActivatedRoute,
+              private authService: AuthService,
+              private teacherService: TeacherService) {
     this.location = location;
     this.sidebarVisible = false;
   }
@@ -40,6 +47,10 @@ export class NavbarComponent implements OnInit {
       distinctUntilChanged(),
     ).subscribe(() => {
       this.breadcrumbs = this.buildBreadCrumb(this.activatedRoute.root);
+    });
+
+    this.teacherService.get(this.authService.getId()).subscribe(data => {
+      this.userName = data.name;
     });
   }
 
@@ -170,6 +181,11 @@ export class NavbarComponent implements OnInit {
       return this.buildBreadCrumb(route.firstChild, nextUrl, newBreadcrumbs);
     }
     return newBreadcrumbs;
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigateByUrl('login');
   }
 }
 

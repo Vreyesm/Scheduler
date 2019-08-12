@@ -14,7 +14,6 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { TableListComponent } from './table-list/table-list.component';
 import { TypographyComponent } from './typography/typography.component';
 import { IconsComponent } from './icons/icons.component';
-import { NotificationsComponent } from './notifications/notifications.component';
 import { AddBuildingComponent } from './modules/resources/buildings/add-building/add-building.component';
 import { AddClassroomComponent } from './modules/resources/buildings/add-classroom/add-classroom.component';
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
@@ -38,6 +37,11 @@ import {
 } from '@angular/material';
 import {AddCareerComponent} from './modules/resources/careers/add-career/add-career.component';
 import { AddSubjectComponent } from './modules/resources/subjects/add-subject/add-subject.component';
+import { InterfaceModule } from './modules/interface/interface.module';
+import { AddTeacherComponent } from './modules/resources/teachers/add-teacher/add-teacher.component';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { LoginComponent } from './components/login/login.component';
+import { AuthGuard } from './guards/auth.guard';
 
 @NgModule({
   imports: [
@@ -56,7 +60,9 @@ import { AddSubjectComponent } from './modules/resources/subjects/add-subject/ad
     AppRoutingModule,
     MatPaginatorModule,
     FlexLayoutModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    InterfaceModule,
+    ButtonsModule.forRoot()
   ],
   declarations: [
     AppComponent,
@@ -65,26 +71,28 @@ import { AddSubjectComponent } from './modules/resources/subjects/add-subject/ad
     TableListComponent,
     TypographyComponent,
     IconsComponent,
-    NotificationsComponent,
     AddBuildingComponent,
     AddClassroomComponent,
     AddCareerComponent,
     DeleteDialogComponent,
-    AddSubjectComponent
-
+    AddSubjectComponent,
+    AddTeacherComponent,
+    LoginComponent,
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,
       multi: true
-    }
+    }, 
+    AuthGuard
   ],
   entryComponents: [
     AddBuildingComponent,
     AddClassroomComponent,
     AddCareerComponent,
     AddSubjectComponent,
+    AddTeacherComponent,
     DeleteDialogComponent,
   ],
   bootstrap: [AppComponent]

@@ -28,6 +28,13 @@ namespace Scheduler.Controllers
             return await _context.Subjects.ToListAsync();
         }
 
+        // GET: api/subjects/count
+        [HttpGet("count")]
+        public async Task<int> CountSubjects() 
+        {
+            return await _context.Subjects.CountAsync();
+        }
+
         // GET: api/Subjects/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Subject>> GetSubject(int id)

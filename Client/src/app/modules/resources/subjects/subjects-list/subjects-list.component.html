@@ -1,14 +1,15 @@
 <div class="main-content">
-  <div fxLayout="column" class="container-fluid">
+  <div fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="5px" class="container-fluid">
     <!--flex-direction: column;-->
-    <div fxLayout="row">
+    <div fxLayout="row" fxLayoutAlign="space-between start">
       <h3 class="title">
-        Modulos
+        Módulos de: {{ nameToShow }}
       </h3>
+
     </div>
-    <div fxLayout="row" class="data-options">
-      <div fxLayout="column">
-        <mat-form-field>
+    <div  fxLayout="row" [hidden]="!isAdmin()">
+      <div fxFlex="start" fxFlex=30%>
+        <mat-form-field  >
           <mat-label>Carrera</mat-label>
           <mat-select [(value)]="idCareer">
             <mat-option (click)="careerChange()" *ngFor="let career of careers" [value]="career.id">
@@ -17,58 +18,24 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div fxLayout="column">
+      <div style="margin: 10px" fxFlex="end">
         <button (click)="addSubject()" [disabled]="!idCareer" mat-raised-button class="btn-success pull-right">
           <mat-icon>add</mat-icon>
           Agregar
         </button>
       </div>
     </div>
-    <div fxFlexFill >
-      <mat-table [dataSource]="dataSource" matSort  class="mat-elevation-z1" [class.hidden]="!subjects">
-
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-          <mat-header-cell class="name-cell" *matHeaderCellDef> Nombre </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
-        </ng-container>
-
-        <!-- Stundents number Column -->
-        <ng-container matColumnDef="students">
-          <mat-header-cell mat-sort-header class="name-cell" *matHeaderCellDef> Alumnos estimados </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.students}} </mat-cell>
-        </ng-container>
-
-        <!-- Options Column -->
-        <ng-container matColumnDef="options">
-          <mat-header-cell *matHeaderCellDef> Opciones </mat-header-cell>
-          <mat-cell class="options-cell" *matCellDef="let element">
-            <button mat-raised-button class="btn-success" style="margin-right: 5px">
-              <mat-icon>list</mat-icon>
-              <!--Ver salas-->
-            </button>
-            <button mat-raised-button class="btn-primary" style="margin-right: 5px">
-              <mat-icon>create</mat-icon>
-              <!--Editar-->
-            </button>
-            <button mat-raised-button class="btn-danger">
-              <mat-icon>delete</mat-icon>
-              <!--Eliminar-->
-            </button>
-
-          </mat-cell>
-        </ng-container>
-
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-      </mat-table>
-
-      <mat-paginator class="mat-elevation-z1" [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"
-        *ngIf="subjects">
-      </mat-paginator>
-
+    <div *ngIf="career" fxLayout="row" fxLayoutAlign="end center">
+        <p style="margin-bottom: 0px !important">Asignación de horarios:</p>
+        <button class="btn btn-sm button-completed" type="button" (click)="changeCompleted()"
+          [disabled]="!isDirector()"
+          [class.btn-success]="career?.isCompleted" [class.btn-outline-success]="!career?.isCompleted">
+          {{career.isCompleted ? 'Completada' : 'No completada'}}
+        </button>
     </div>
+    <app-sections-table *ngIf="data" [values]="data"></app-sections-table>
   </div>
+  
 
   <ng-template #noSubjects>
     <div>

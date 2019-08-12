@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ResourcesLandingComponent } from './resources-landing/resources-landing.component';
 import { RouterModule } from '@angular/router';
-import {BuildingsModule} from './buildings/buildings.module';
 
 @NgModule({
   declarations: [ResourcesLandingComponent],
@@ -24,6 +23,14 @@ import {BuildingsModule} from './buildings/buildings.module';
       {
         path: 'subjects',
         loadChildren: () => import('./subjects/subjects.module').then(m => m.SubjectsModule)
+      },
+      {
+        path: 'sections',
+        loadChildren: () => import('./subjects/subjects.module').then(m => m.SubjectsModule)
+      },
+      {
+        path: 'teachers',
+        loadChildren: () => import('./teachers/teachers.module').then(m => m.TeachersModule)
       }
     ]),
   ]

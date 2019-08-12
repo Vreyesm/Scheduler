@@ -23,16 +23,32 @@ namespace Scheduler.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserData>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.UsersData.ToListAsync();
+        }
+
+        // GET: api/Users/Teachers
+        [HttpGet("Teachers")]
+        public async Task<ActionResult<IEnumerable<UserData>>> GetTeachers()
+        {
+            return await _context.UsersData.Where(u => u.Type == UserType.Professor || u.Type == UserType.Director).ToListAsync();
+        }
+
+        // GET: api/Users/Teachers/Count
+        [HttpGet("Teachers/Count")]
+        public async Task<ActionResult> CountTeachers()
+        {
+            var teachers = await _context.UsersData.Where(u => u.Type == UserType.Professor || u.Type == UserType.Director).ToListAsync();
+
+            return Ok(teachers.Count());
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<UserData>> GetUser(string id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.UsersData.FindAsync(id);
 
             if (user == null)
             {
@@ -44,9 +60,9 @@ namespace Scheduler.Controllers
 
         // PUT: api/Users/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutUser(string id, UserData user)
         {
-            if (id != user.Id)
+            if (!id.Equals(user.Id))
             {
                 return BadRequest();
             }
@@ -74,9 +90,9 @@ namespace Scheduler.Controllers
 
         // POST: api/Users
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<UserData>> PostUser(UserData user)
         {
-            _context.Users.Add(user);
+            _context.UsersData.Add(user);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
@@ -84,23 +100,23 @@ namespace Scheduler.Controllers
 
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<User>> DeleteUser(int id)
+        public async Task<ActionResult<UserData>> DeleteUser(string id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.UsersData.FindAsync(id);
             if (user == null)
             {
                 return NotFound();
             }
 
-            _context.Users.Remove(user);
+            _context.UsersData.Remove(user);
             await _context.SaveChangesAsync();
 
             return user;
         }
 
-        private bool UserExists(int id)
+        private bool UserExists(string id)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return _context.UsersData.Any(e => e.Id == id);
         }
     }
 }

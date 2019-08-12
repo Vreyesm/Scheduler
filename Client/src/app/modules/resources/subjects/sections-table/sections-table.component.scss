@@ -1,0 +1,20 @@
+table {
+  width: 100%;
+}
+
+.cdk-column-options,
+.cdk-column-students,
+.cdk-column-teacher  {
+  justify-content: center;
+}
+
+/*.container-fluid {
+    display: flex;
+    flex-direction: column;
+  }*/
+
+.data-options {
+  //display: flex;
+  //flex-direction: row;
+  justify-content: space-between;
+}

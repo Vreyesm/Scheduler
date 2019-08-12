@@ -1,7 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { DialogData } from '../../../../models';
+import { DialogData, UserData } from '../../../../models';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl, FormGroup, FormArray, FormBuilder } from '@angular/forms';
+import { TeacherService } from '../../../../services/teacher.service';
 
 @Component({
   selector: 'app-add-subject',
@@ -21,18 +22,28 @@ export class AddSubjectComponent implements OnInit {
     }
   );
 
+  teachers: UserData[];
 
   constructor(public dialogRef: MatDialogRef<AddSubjectComponent>,
               @Inject(MAT_DIALOG_DATA)public data: DialogData,
-              private formBuilder: FormBuilder) { }
+              private formBuilder: FormBuilder,
+              private teacherService: TeacherService) { }
 
   ngOnInit() {
+    this.loadTeachers();
+  }
+
+  loadTeachers() {
+    this.teacherService.getTeachers().subscribe(data => {
+      this.teachers = data;
+    });
   }
 
   createSection(): FormGroup {
     return this.formBuilder.group({
       name: [''],
-      students: ['']
+      students: [''],
+      professorId: ['']
     });
   }
 
