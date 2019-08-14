@@ -49,6 +49,8 @@ export class SubjectsListComponent implements OnInit {
       let career: Career;
       this.careerService.getCareerByTeacher(userId).subscribe(data => {
         career = data;
+        this.idCareer = career.id;
+        this.nameToShow = career.name;
       },
       () => {},
       () => {
@@ -68,12 +70,11 @@ export class SubjectsListComponent implements OnInit {
       () => { },
       () => {
         const previousCareer = +sessionStorage.getItem('career');
-        if (previousCareer) {
+        if (previousCareer && this.authService.getRole() === UserType.Admin) {
           this.idCareer = previousCareer;
-          this.loadCareers();
         } else {
-          this.loadCareers();
         }
+        this.loadCareers();
         this.loadRole();
       });
   }
@@ -89,7 +90,9 @@ export class SubjectsListComponent implements OnInit {
     () => {},
     () => {
       if (this.isAdmin() || this.isDirector()) {
-        this.nameToShow = this.career.name;
+        if (this.career) {
+          this.nameToShow = this.career.name;
+        }
       }
     });
   }
@@ -112,7 +115,7 @@ export class SubjectsListComponent implements OnInit {
         }
       });
       this.sections = sections;
-      this.loadRole();
+      this.loadRole(); // to change the data on the table
     }
   }
 
@@ -134,7 +137,7 @@ export class SubjectsListComponent implements OnInit {
         });
         this.subjectService.add(subject, this.idCareer).subscribe(data => {
           // this.loadCareers();
-          this.loadRole();
+          this.loadRole(); // to update the data on the table
         });
       }
     });

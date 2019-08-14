@@ -18,3 +18,12 @@ mat-table {
   display: flex;
   justify-content: center;
 }
+
+.cdk-column-available {
+  display: flex;
+  justify-content: center;
+}
+
+.button-completed {
+  min-width: 83px !important;
+}

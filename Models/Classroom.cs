@@ -12,6 +12,7 @@ namespace Scheduler.Models
         public string Name { get; set; }
         public int Capacity { get; set; }
         public Schedule Schedule { get; set; }
+        public bool Available { get; set; }
         [JsonIgnore]
         public Building Building { get; set; }
 
