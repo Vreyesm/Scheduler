@@ -82,11 +82,11 @@ import { CompletedCareerComponent } from './modules/resources/subjects/completed
     CompletedCareerComponent,
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ApiInterceptor,
-      multi: true
-    },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: ApiInterceptor,
+    //   multi: true
+    // },
     AuthGuard
   ],
   entryComponents: [
