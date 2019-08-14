@@ -38,6 +38,13 @@ namespace Scheduler.Controllers
             return await _context.Careers.CountAsync();
         }
 
+        // GET: api/Careers/Completed
+        [HttpGet("Completed")]
+        public async Task<ActionResult<IEnumerable<Career>>> GetCompletedCareers()
+        {
+            return await _context.Careers.Where(c => c.IsCompleted == true).ToListAsync();
+        }
+
         // GET: api/Careers/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Career>> GetCareer(int id)
