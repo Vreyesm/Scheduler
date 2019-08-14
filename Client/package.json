@@ -41,7 +41,7 @@
     "ngx-bootstrap": "^5.1.0",
     "ngx-spinner": "^8.0.3",
     "perfect-scrollbar": "1.1.0",
-    "popper.js": "1.14.3",
+    "popper.js": "1.15.0",
     "rxjs": "~6.5.2",
     "rxjs-compat": "6.3.3",
     "sweetalert2": "^8.15.2",
