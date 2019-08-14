@@ -1,0 +1,8 @@
+<h3 mat-dialog-title>Enviar solicitud de asignación</h3>
+<div mat-dialog-content>
+  <h4 #cancel>¿Está seguro que desea enviar la solicitud de asignación para la carrera: {{data}}?</h4>
+</div>
+<div mat-dialog-actions class="pull-right">
+  <button mat-raised-button  (click)="close()" style="margin-right: 5px">Cancelar</button>
+  <button mat-raised-button [mat-dialog-close]="data" class="btn-success" >Aceptar</button>
+</div>

@@ -42,6 +42,7 @@ import { AddTeacherComponent } from './modules/resources/teachers/add-teacher/ad
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
+import { CompletedCareerComponent } from './modules/resources/subjects/completed-career/completed-career.component';
 
 @NgModule({
   imports: [
@@ -78,6 +79,7 @@ import { AuthGuard } from './guards/auth.guard';
     AddSubjectComponent,
     AddTeacherComponent,
     LoginComponent,
+    CompletedCareerComponent,
   ],
   providers: [
     // {
@@ -94,6 +96,7 @@ import { AuthGuard } from './guards/auth.guard';
     AddSubjectComponent,
     AddTeacherComponent,
     DeleteDialogComponent,
+    CompletedCareerComponent
   ],
   bootstrap: [AppComponent]
 })

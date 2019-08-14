@@ -3,7 +3,8 @@ import {ROUTES} from '../sidebar/sidebar.component';
 import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {distinctUntilChanged, filter} from 'rxjs/operators';
-import { AuthService, TeacherService } from '../../services';
+import { AuthService, TeacherService, CareerService } from '../../services';
+import { UserType, Career } from '../../models';
 
 @Component({
   selector: 'app-navbar',
@@ -19,12 +20,15 @@ export class NavbarComponent implements OnInit {
   public breadcrumbs: IBreadCrumb[];
   public userName: string;
 
+  completedCareers: Career[];
+
   constructor(location: Location,
               private element: ElementRef,
               private router: Router,
               private activatedRoute: ActivatedRoute,
               private authService: AuthService,
-              private teacherService: TeacherService) {
+              private teacherService: TeacherService,
+              private careerService: CareerService) {
     this.location = location;
     this.sidebarVisible = false;
   }
@@ -52,6 +56,9 @@ export class NavbarComponent implements OnInit {
     this.teacherService.get(this.authService.getId()).subscribe(data => {
       this.userName = data.name;
     });
+
+    this.loadCompletedCareers();
+
   }
 
   sidebarOpen() {
@@ -186,6 +193,16 @@ export class NavbarComponent implements OnInit {
   logout() {
     this.authService.logout();
     this.router.navigateByUrl('login');
+  }
+
+  isAdmin(): boolean {
+    return this.authService.getRole() === UserType.Admin;
+  }
+
+  loadCompletedCareers() {
+    this.careerService.getCompletedCareers().subscribe(data => {
+      this.completedCareers = data;
+    });
   }
 }
 

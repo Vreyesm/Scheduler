@@ -31,4 +31,7 @@ export class CareerService {
   getSectionsByCareer(id: number): Observable<Section[]> {
     return this.http.get<Section[]>(CareerService.API_ROOT + '/' + id + '/Sections');
   }
+  getCompletedCareers() {
+    return this.http.get<Career[]>(CareerService.API_ROOT + '/Completed');
+  }
 }
