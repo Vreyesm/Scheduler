@@ -42,7 +42,7 @@
         <ng-container matColumnDef="options" >
           <mat-header-cell *matHeaderCellDef> Opciones </mat-header-cell>
           <mat-cell *matCellDef="let element">
-            <button routerLink="/resources/buildings/classroom" mat-raised-button class="btn-success" style="margin-right: 5px">
+            <button [routerLink]="[element.id]" mat-raised-button class="btn-success" style="margin-right: 5px">
               <mat-icon>list</mat-icon>
               <!--Ver hoarios-->
             </button>

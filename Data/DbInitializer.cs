@@ -70,6 +70,14 @@ namespace Scheduler.Data
             {
                 string[] values = line.Split(";");
                 Classroom classroom = new Classroom { Name = values[0], Capacity = Int32.Parse(values[1]), Available=true };
+                string data = "false;false;false;false;false;false;false;false;false;false;false";
+                classroom.MondayData = data;
+                classroom.TuesdayData = data;
+                classroom.WednesdayData = data;
+                classroom.ThursdayData = data;
+                classroom.FridayData = data;
+                classroom.SaturdayData = data;
+                
                 building.Classrooms.Add(classroom);
                 //await context.Classrooms.AddAsync(classroom);
 
@@ -343,9 +351,11 @@ namespace Scheduler.Data
                         List<Assignation> assignations = new List<Assignation>();
                         for (int j = 0; j <= span; j++)
                         {
-                            Assignation a = new Assignation { Section = section, Block = block, Classroom = classroom, Day = day };
+                            classroom.MarkBLock(day, block);
+                            Assignation a = new Assignation { Section = section, Block = block + j, Classroom = classroom, Day = day };
                             assignations.Add(a);
                         }
+                        context.Entry(classroom).State = EntityState.Modified;
                         context.Assignations.AddRange(assignations);
                         await context.SaveChangesAsync();
                         return true;
