@@ -13,6 +13,8 @@ namespace Scheduler.Models
         public string Name { get; set; }
         public int Students { get; set; }
         public string ProfessorId { get; set; }
+        
+        [JsonIgnore]
         public ICollection<Assignation> Assignations { get; set; } 
         // Section schedule as array of boolean values
         // monday = "true,true,false,..."; -> Monday[] = {true, true, false,...}

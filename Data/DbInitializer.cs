@@ -316,24 +316,26 @@ namespace Scheduler.Data
                     Console.WriteLine("Classroom hasn't enough space");
                     break;
                 }
-                var assignation = await context.Assignations.Where(a => a.Classroom == classroom && a.Day == day && a.Block == block).ToListAsync();
-                if (assignation.Count() == 0)
+                // var assignation = await context.Assignations.Where(a => a.Classroom == classroom && a.Day == day && a.Block == block).ToListAsync();
+                bool isAlreadyInUse = classroom.GetArrayByDay(day)[block];
+                if (!isAlreadyInUse)
                 {
                     Console.WriteLine("Found a space");
                     int i = span;
-                    int currentBlock = block;
+                    int currentBlock = block; // the first block in the group of blocks (if there's any)
 
                     bool available = true;
-                    while (i > 0) // to check if we have more space
+                    while (i > 0) // check if we have (and need) more space
                     {
-                        var extra = await context.Assignations.Where(a => a.Classroom == classroom && a.Day == day && a.Block == currentBlock).ToListAsync();
-                        if (extra.Count() == 0) // another match (for the next block)
+                        //var extra = await context.Assignations.Where(a => a.Classroom == classroom && a.Day == day && a.Block == currentBlock).ToListAsync();
+                        isAlreadyInUse = classroom.GetArrayByDay(day)[currentBlock + 1];
+                        if (!isAlreadyInUse) // another match (for the next block)
                         {
 
-                            i--;
-                            currentBlock++;
+                            i--; // one block less to check
+                            currentBlock++; // next block
                         }
-                        else // failure for this classroom
+                        else // classroom has not enough space
                         {
                             // try with the next classroom
                             index--;
@@ -351,7 +353,7 @@ namespace Scheduler.Data
                         List<Assignation> assignations = new List<Assignation>();
                         for (int j = 0; j <= span; j++)
                         {
-                            classroom.MarkBLock(day, block);
+                            classroom.MarkBLock(day, block + j);
                             Assignation a = new Assignation { Section = section, Block = block + j, Classroom = classroom, Day = day };
                             assignations.Add(a);
                         }
