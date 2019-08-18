@@ -42,7 +42,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { NgxSpinnerModule } from 'ngx-spinner';
-
+import {MatDividerModule} from '@angular/material/divider';
 
 @NgModule({
   exports: [
@@ -90,6 +90,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     ScrollingModule,
     FlexLayoutModule,
     NgxSpinnerModule,
+    MatDividerModule
   ]
 })
 export class InterfaceModule { }

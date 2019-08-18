@@ -67,12 +67,30 @@ export class ClassroomViewComponent implements OnInit {
           let assignations: Assignation[];
           this.assignationService.getAssignationsByClassroom(this.idClassroom).subscribe(data => {
             assignations = data;
-            console.log(assignations);
             const monday: Assignation[] = assignations.filter(a => a.day === WeekDay.Monday);
             monday.forEach(a => {
               this.sectionsNames.monday[a.block] = a.section.name;
             });
-            console.log(this.sectionsNames.monday);
+            const tuesday: Assignation[] = assignations.filter(a => a.day === WeekDay.Tuesday);
+            tuesday.forEach(a => {
+              this.sectionsNames.tuesday[a.block] = a.section.name;
+            });
+            const wednesday: Assignation[] = assignations.filter(a => a.day === WeekDay.Wednesday);
+            wednesday.forEach(a => {
+              this.sectionsNames.wednesday[a.block] = a.section.name;
+            });
+            const thursday: Assignation[] = assignations.filter(a => a.day === WeekDay.Thursday);
+            thursday.forEach(a => {
+              this.sectionsNames.thursday[a.block] = a.section.name;
+            });
+            const friday: Assignation[] = assignations.filter(a => a.day === WeekDay.Friday);
+            friday.forEach(a => {
+              this.sectionsNames.friday[a.block] = a.section.name;
+            });
+            const saturday: Assignation[] = assignations.filter(a => a.day === WeekDay.Saturday);
+            saturday.forEach(a => {
+              this.sectionsNames.saturday[a.block] = a.section.name;
+            });
           });
         });
     });
