@@ -18,7 +18,7 @@ namespace Scheduler.Data
             { // Database didn't exists
                 SeedRoles(roleManager, context, userManager).Wait();
                 SeedClassrooms(context).Wait();
-                SeedCareers(context).Wait();
+                SeedCareers(context, userManager).Wait();
                 SeedSections(context, userManager).Wait();
                 //DoTheMath(context).Wait();
 
@@ -30,7 +30,7 @@ namespace Scheduler.Data
         private async static Task SeedRoles(RoleManager<IdentityRole> roleManager, DataContext context, UserManager<IdentityUser> userManager)
         {
             string[] roleNames = { "Admin", "Director", "Professor", "Student" };
-            
+
             IdentityResult roleResult;
 
             foreach (var roleName in roleNames)
@@ -43,14 +43,14 @@ namespace Scheduler.Data
                 }
             }
 
-            var admin = new User { Email = "admin@scheduler.cl", Password = "12345678" };
+            var admin = new User { Email = "admin@scheduler.cl", Password = "123456" };
             var user = new IdentityUser { UserName = admin.Email, Email = admin.Email };
             var result = await userManager.CreateAsync(user, admin.Password);
             if (result.Succeeded)
             {
                 result = await userManager.AddToRoleAsync(user, "Admin");
 
-                var userData = new UserData { Id = user.Id, Name = "Administrador", Type = UserType.Admin};
+                var userData = new UserData { Id = user.Id, Name = "Administrador", Type = UserType.Admin };
                 await context.UsersData.AddAsync(userData);
 
             }
@@ -63,32 +63,49 @@ namespace Scheduler.Data
             string fileName = "classrooms.csv";
             string[] lines = File.ReadAllLines(fileName);
 
+            Building building = new Building{Name="Gran Edificio", Classrooms = new List<Classroom>() };
+            await context.Buildings.AddAsync(building);
+
             foreach (string line in lines)
             {
                 string[] values = line.Split(";");
-                Classroom classroom = new Classroom { Name=values[0], Capacity=Int32.Parse(values[1]) };
-                await context.Classrooms.AddAsync(classroom);
-                
+                Classroom classroom = new Classroom { Name = values[0], Capacity = Int32.Parse(values[1]), Available=true };
+                building.Classrooms.Add(classroom);
+                //await context.Classrooms.AddAsync(classroom);
+
             }
 
             await context.SaveChangesAsync();
-            
+
         }
 
-        private async static Task SeedCareers(DataContext context)
+        private async static Task SeedCareers(DataContext context, UserManager<IdentityUser> userManager)
         {
             string file = "careers.csv";
             string[] lines = File.ReadAllLines(file);
 
-            foreach(string line in lines)
+            foreach (string line in lines)
             {
-                Career career = new Career { DirectorId = context.UsersData.Last().Id, Name = line, IsCompleted=false };
+                string[] values = line.Split(";");
+                //UserData Director = new UserData {na}
+                User director = new User {Email = values[1]+"@utalca.cl", Password="123456"};
+                var user = new IdentityUser { UserName = director.Email, Email = director.Email };
+                var result = await userManager.CreateAsync(user, director.Password);
+                if (result.Succeeded)
+                {
+                    result = await userManager.AddToRoleAsync(user, "Director");
+
+                    var directorData = new UserData { Id = user.Id, Name = "Director "+values[1], Type = UserType.Director };
+                    await context.UsersData.AddAsync(directorData);
+
+                }
+                Career career = new Career { DirectorId = user.Id, Name = values[0], IsCompleted = false };
                 await context.Careers.AddAsync(career);
             }
 
             await context.SaveChangesAsync();
         }
-        
+
         private async static Task SeedSections(DataContext context, UserManager<IdentityUser> userManager)
         {
             string fileName = "sections.csv";
@@ -109,17 +126,17 @@ namespace Scheduler.Data
 
             }
 
-            foreach ( string line in lines)
+            foreach (string line in lines)
             {
                 string[] values = line.Split(";");
                 string secctionName = values[0];
                 int careerId = r.Next(1, context.Careers.Count());
                 Career career = context.Careers.Single(c => c.ID == careerId);
-                
+
                 Subject subject = new Subject { Name = values[0], Sections = new List<Section>() };
                 await context.Subjects.AddAsync(subject);
 
-                Section section = new Section { Name = values[0], Students = r.Next(15, 60), ProfessorId=professorData.Id };
+                Section section = new Section { Name = values[0], Students = r.Next(15, 60), ProfessorId = professorData.Id };
                 subject.Sections.Add(section);
 
                 for (int i = 0; i < 6; i++)
@@ -128,10 +145,10 @@ namespace Scheduler.Data
 
                     for (int j = 0; j < 11; j++)
                     {
-                        day[j] = values[(11 * i) + (1 + j)].Equals("") ? false: true;
-                        
+                        day[j] = values[(11 * i) + (1 + j)].Equals("") ? false : true;
+
                     }
-                    switch(i)
+                    switch (i)
                     {
                         case 0:
                             section.Monday = day;
@@ -167,8 +184,8 @@ namespace Scheduler.Data
         public async static Task DoTheMath(DataContext context)
         {
             Console.WriteLine("Do The Math");
-            List<Section> sections = context.Sections.ToList();
-            List<Classroom> classrooms = context.Classrooms.ToList();
+            List<Section> sections = await context.Sections.ToListAsync();
+            List<Classroom> classrooms = await context.Classrooms.Where(c => c.Available).ToListAsync();
 
             foreach (Classroom c in classrooms)
             {
@@ -187,7 +204,7 @@ namespace Scheduler.Data
             {
                 Console.WriteLine("Section: " + section.Name);
                 int i;
-                
+
                 // monday
                 for (i = 0; i < 11; i++)
                 {
@@ -195,7 +212,7 @@ namespace Scheduler.Data
                     {
                         int count = 0;
                         int index = i;
-                        while(index <10 && section.Monday[index++ + 1]) { count++; }
+                        while (index < 10 && section.Monday[index++ + 1]) { count++; }
                         await Search(context, classrooms, section, DayOfWeek.Monday, i, count);
                         i += count;
                     }
@@ -213,7 +230,7 @@ namespace Scheduler.Data
                         i += count;
                     }
                 }
-                
+
                 // wednesday
                 for (i = 0; i < 11; i++)
                 {
@@ -265,7 +282,7 @@ namespace Scheduler.Data
                         i += count;
                     }
                 }
-                
+
             }
             Console.WriteLine("Missed: " + missed);
         }
@@ -321,7 +338,7 @@ namespace Scheduler.Data
                     }
                     // Console.WriteLine("Section: " + section.Name);
                     // Console.WriteLine("Day: " + day);
-                    if(available)
+                    if (available)
                     {
                         List<Assignation> assignations = new List<Assignation>();
                         for (int j = 0; j <= span; j++)
@@ -336,7 +353,7 @@ namespace Scheduler.Data
                     }
 
 
-                } 
+                }
                 else
                 {
                     // continue with the next classroom

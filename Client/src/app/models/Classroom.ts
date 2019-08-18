@@ -4,4 +4,5 @@ export class Classroom {
   capacity = 0;
   scheduleId: number;
   buildingId: number;
+  available: boolean;
 }

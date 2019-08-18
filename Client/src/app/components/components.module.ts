@@ -6,7 +6,6 @@ import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { InterfaceModule } from '../modules/interface/interface.module';
-
 @NgModule({
   imports: [
     CommonModule,
@@ -21,7 +20,7 @@ import { InterfaceModule } from '../modules/interface/interface.module';
   exports: [
     FooterComponent,
     NavbarComponent,
-    SidebarComponent
+    SidebarComponent,
   ]
 })
 export class ComponentsModule { }
