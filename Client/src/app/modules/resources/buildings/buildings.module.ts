@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { BuildingsListComponent } from './buildings-list/buildings-list.component';
 import { RouterModule } from '@angular/router';
 
-import { ClassroomViewComponent } from './classroom-view/classroom-view.component';
+
 
 
 // Material
@@ -18,28 +18,25 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 
+
 import {ClassroomsModule} from './classrooms/classrooms.module';
 import {ClassroomsListComponent} from './classrooms/classrooms-list/classrooms-list.component';
+import { ComponentsModule } from '../../../components/components.module';
+
 
 @NgModule({
-  declarations: [BuildingsListComponent, ClassroomViewComponent],
+  declarations: [BuildingsListComponent],
   imports: [
     CommonModule,
     MatExpansionModule,
     MatTableModule,
+    ComponentsModule,
     RouterModule.forChild([
       {
         path: '',
         component: BuildingsListComponent,
         data: {
           title: 'Edificios',
-        }
-      },
-      {
-        path: 'classroom',
-        component: ClassroomViewComponent,
-        data: {
-          title: 'Sala'
         }
       },
       {

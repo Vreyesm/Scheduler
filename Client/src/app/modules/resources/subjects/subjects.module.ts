@@ -14,15 +14,16 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatSelectModule } from '@angular/material/select';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { SectionScheduleComponent } from './section-schedule/section-schedule.component';
-import { ScheduleComponent } from '../../../components/schedule/schedule.component';
+import { ComponentsModule } from '../../../components/components.module';
 import { InterfaceModule } from '../../interface/interface.module';
 import { SectionsTableComponent } from './sections-table/sections-table.component';
 @NgModule({
-  declarations: [SubjectsListComponent, SectionScheduleComponent, ScheduleComponent, SectionsTableComponent],
+  declarations: [SubjectsListComponent, SectionScheduleComponent, SectionsTableComponent],
   imports: [
     CommonModule,
     FormsModule,
     InterfaceModule,
+    ComponentsModule,
     ReactiveFormsModule,
     RouterModule.forChild([
       {

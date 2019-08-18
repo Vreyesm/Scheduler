@@ -5,4 +5,10 @@ export class Classroom {
   scheduleId: number;
   buildingId: number;
   available: boolean;
+  mondayData = '';
+  tuesdayData = '';
+  wednesdayData = '';
+  thursdayData = '';
+  fridayData = '';
+  saturdayData = '';
 }
