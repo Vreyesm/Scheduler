@@ -46,6 +46,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { CompletedCareerComponent } from './modules/resources/subjects/completed-career/completed-career.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
+
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -84,6 +85,7 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
     LoginComponent,
     CompletedCareerComponent,
     LoaderComponent,
+    // AssignationDialogComponent
   ],
   providers: [
     {
@@ -100,7 +102,8 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
     AddSubjectComponent,
     AddTeacherComponent,
     DeleteDialogComponent,
-    CompletedCareerComponent
+    CompletedCareerComponent,
+    // AssignationDialogComponent
   ],
   bootstrap: [AppComponent]
 })
