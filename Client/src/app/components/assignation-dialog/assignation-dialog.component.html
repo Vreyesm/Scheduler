@@ -1,0 +1,23 @@
+<h3 mat-dialog-title>Asignación Automática</h3>
+<div mat-dialog-content fxLayout="column" fxLayoutGap="5px" style="padding-bottom: 5px ">
+  <h4>¿Qué tipo de asignación desea realizar?</h4>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <button 
+        matTooltip="Elimina todas las asignaciones anteriores y realiza el proceso de nuevo"
+        matTooltipPosition="above"
+        mat-raised-button
+        [mat-dialog-close]="1"> <!-- 1 means full assignation-->
+        Asignar todo
+    </button>
+    <button 
+        matTooltip="Realiza una asignación para las secciones faltantes"
+        matTooltipPosition="above"
+        mat-raised-button
+        [mat-dialog-close]="2"> <!-- 2 means assignation of the remaindings-->
+        Asignar restante
+    </button>
+  </div>
+</div>
+<div mat-dialog-actions class="pull-right">
+  <button mat-raised-button (click)="close()" class="btn-danger" >Cancelar</button>
+</div>

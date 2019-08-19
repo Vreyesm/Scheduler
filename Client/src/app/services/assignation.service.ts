@@ -14,4 +14,12 @@ export class AssignationService {
   getAssignationsByClassroom(idClassroom: number): Observable<Assignation[]> {
     return this.http.get<Assignation[]>(AssignationService.API_ROOT + '/Classroom/' + idClassroom);
   }
+
+  deleteAllAsignations(): Observable<any> {
+    return this.http.delete<any>(AssignationService.API_ROOT + '/All');
+  }
+
+  autoAssignations(): Observable<any> {
+    return this.http.get<any>(AssignationService.API_ROOT + '/Auto');
+  }
 }

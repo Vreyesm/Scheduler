@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Scheduler.Data
 {
@@ -189,9 +190,10 @@ namespace Scheduler.Data
 
         // start at: 00:42 AM
         // finished at: 00:12 AM (next day)
-        public async static Task DoTheMath(DataContext context)
+        public async static Task<Object> DoTheMath(DataContext context)
         {
             Console.WriteLine("Do The Math");
+            int counter = 0;
             List<Section> sections = await context.Sections.ToListAsync();
             List<Classroom> classrooms = await context.Classrooms.Where(c => c.Available).ToListAsync();
 
@@ -218,6 +220,14 @@ namespace Scheduler.Data
                 {
                     if (section.Monday[i])
                     {
+                        // await context.Assignations.SingleOrDefaultAsync(a => a.Section.ID == section.ID && a.Day == DayOfWeek.Monday && a.Block == i);
+                        var check = await context.Assignations.Where(a => a.Section.ID == section.ID && a.Day == DayOfWeek.Monday && a.Block == i).ToListAsync();
+
+                        if (check.Count != 0){
+                            counter++;
+                            continue;
+                        }
+
                         int count = 0;
                         int index = i;
                         while (index < 10 && section.Monday[index++ + 1]) { count++; }
@@ -231,6 +241,14 @@ namespace Scheduler.Data
                 {
                     if (section.Tuesday[i])
                     {
+                        // await context.Assignations.SingleOrDefaultAsync(a => a.Section.ID == section.ID && a.Day == DayOfWeek.Tuesday && a.Block == i);
+                        var check = await context.Assignations.Where(a => a.Section.ID == section.ID && a.Day == DayOfWeek.Tuesday && a.Block == i).ToListAsync();
+
+                        if (check.Count != 0){
+                            counter++;
+                            continue;
+                        }
+
                         int count = 0;
                         int index = i;
                         while (index < 10 && section.Tuesday[index++ + 1]) { count++; }
@@ -244,6 +262,14 @@ namespace Scheduler.Data
                 {
                     if (section.Wednesday[i])
                     {
+                        // await context.Assignations.SingleOrDefaultAsync(a => a.Section.ID == section.ID && a.Day == DayOfWeek.Wednesday && a.Block == i);
+                        var check = await context.Assignations.Where(a => a.Section.ID == section.ID && a.Day == DayOfWeek.Wednesday && a.Block == i).ToListAsync();
+
+                        if (check.Count != 0){
+                            counter++;
+                            continue;
+                        }
+
                         int count = 0;
                         int index = i;
                         while (index < 10 && section.Wednesday[index++ + 1]) { count++; }
@@ -257,6 +283,14 @@ namespace Scheduler.Data
                 {
                     if (section.Thursday[i])
                     {
+                        // await context.Assignations.SingleOrDefaultAsync(a => a.Section.ID == section.ID && a.Day == DayOfWeek.Thursday && a.Block == i);
+                        var check = await context.Assignations.Where(a => a.Section.ID == section.ID && a.Day == DayOfWeek.Thursday && a.Block == i).ToListAsync();
+
+                        if (check.Count != 0){
+                            counter++;
+                            continue;
+                        }
+
                         int count = 0;
                         int index = i;
                         while (index < 10 && section.Thursday[index++ + 1]) { count++; }
@@ -270,6 +304,14 @@ namespace Scheduler.Data
                 {
                     if (section.Friday[i])
                     {
+                        // await context.Assignations.SingleOrDefaultAsync(a => a.Section.ID == section.ID && a.Day == DayOfWeek.Friday && a.Block == i);
+                        var check = await context.Assignations.Where(a => a.Section.ID == section.ID && a.Day == DayOfWeek.Friday && a.Block == i).ToListAsync();
+
+                        if (check.Count != 0){
+                            counter++;
+                            continue;
+                        }
+
                         int count = 0;
                         int index = i;
                         while (index < 10 && section.Friday[index++ + 1]) { count++; }
@@ -283,6 +325,14 @@ namespace Scheduler.Data
                 {
                     if (section.Saturday[i])
                     {
+                        // await context.Assignations.SingleOrDefaultAsync(a => a.Section.ID == section.ID && a.Day == DayOfWeek.Saturday && a.Block == i);
+                        var check = await context.Assignations.Where(a => a.Section.ID == section.ID && a.Day == DayOfWeek.Saturday && a.Block == i).ToListAsync();
+
+                        if (check.Count != 0){
+                            counter++;
+                            continue;
+                        }
+
                         int count = 0;
                         int index = i;
                         while (index < 10 && section.Saturday[index++ + 1]) { count++; }
@@ -292,7 +342,13 @@ namespace Scheduler.Data
                 }
 
             }
+            Console.WriteLine("Counter: " + counter);
             Console.WriteLine("Missed: " + missed);
+            return new JsonResult(new Dictionary<string, object>
+                {
+                    { "already", counter },
+                    { "missed", missed },
+                });
         }
 
         private static async Task<bool> Search(DataContext context, List<Classroom> classrooms, Section section, DayOfWeek day, int block, int span)
