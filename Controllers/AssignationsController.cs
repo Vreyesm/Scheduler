@@ -30,6 +30,13 @@ namespace Scheduler.Controllers
                                 .ToListAsync();
         }
 
+        // GET: api/Assignations/auto
+        [HttpGet("Auto")]
+        public async Task<Object> SimulateAssignation()
+        {
+            return await DbInitializer.DoTheMath(_context);
+        }
+
         // GET: api/Assignations/Classroom/5
         [HttpGet("Classroom/{id}")]
         public async Task<ActionResult<IEnumerable<Assignation>>> GetAssignationsByClassroom([FromRoute] int id)
@@ -108,6 +115,28 @@ namespace Scheduler.Controllers
             await _context.SaveChangesAsync();
 
             return assignation;
+        }
+
+        // DELETE: api/Assignations/All
+        [HttpDelete("All")]
+        public async Task<IActionResult> DeleteAllAsignations()
+        {
+            _context.Assignations.RemoveRange(_context.Assignations);
+
+            var classrooms = _context.Classrooms;
+
+            foreach(Classroom classroom in classrooms) 
+            {
+                classroom.Monday = new bool[] {false,false,false,false,false,false,false,false,false,false,false};
+                classroom.Tuesday = new bool[] {false,false,false,false,false,false,false,false,false,false,false};
+                classroom.Wednesday = new bool[] {false,false,false,false,false,false,false,false,false,false,false};
+                classroom.Thursday = new bool[] {false,false,false,false,false,false,false,false,false,false,false};
+                classroom.Friday = new bool[] {false,false,false,false,false,false,false,false,false,false,false};
+                classroom.Saturday = new bool[] {false,false,false,false,false,false,false,false,false,false,false};
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok();
         }
 
         private bool AssignationExists(int id)
