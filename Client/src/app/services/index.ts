@@ -6,3 +6,4 @@ export * from './section.service';
 export * from './subjects.service';
 export * from './teacher.service';
 export *  from './loader.service';
+export * from './assignation.service';

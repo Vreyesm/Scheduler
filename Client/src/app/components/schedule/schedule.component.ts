@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Blocks } from '../../models';
+import { Blocks, SectionName, Classroom, Assignation } from '../../models';
+import { AssignationService } from '../../services';
+import { WeekDay } from '@angular/common';
 
 export interface ScheduleBlock {
   id: number;
@@ -33,13 +35,25 @@ export class ScheduleComponent implements OnInit {
   @Input()
   checks: Blocks;
 
+  @Input()
+  textOnTrue: string;
+
+  @Input()
+  textOnFalse: string;
+
+  @Input()
+  isForClassroom = false;
+
+  @Input()
+  idClassroom: number;
+
   @Output()
   completed = new EventEmitter<Blocks>();
 
   @Output()
   canceled = new EventEmitter<any>();
 
-  constructor() { }
+  constructor(private assignationService: AssignationService) { }
 
   ngOnInit() {
   }

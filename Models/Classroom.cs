@@ -156,5 +156,26 @@ namespace Scheduler.Models
         {
             return String.Join(";", a.Select(p => p.ToString()).ToArray()).Replace("T","t").Replace("F","f");
         } 
+
+        public bool[] GetArrayByDay(DayOfWeek day)
+        {
+            switch(day)
+            {
+                case DayOfWeek.Monday:
+                    return this.Monday;
+                case DayOfWeek.Tuesday:
+                    return this.Tuesday;
+                case DayOfWeek.Wednesday:
+                    return this.Wednesday;
+                case DayOfWeek.Thursday:
+                    return this.Thursday;
+                case DayOfWeek.Friday:
+                    return this.Friday;
+                case DayOfWeek.Saturday:
+                    return this.Saturday;
+                default:
+                    return null;
+            }
+        }
     }
 }

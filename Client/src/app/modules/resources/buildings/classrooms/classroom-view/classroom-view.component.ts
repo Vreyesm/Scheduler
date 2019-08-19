@@ -1,25 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { ClassroomService } from '../../../../../services';
-import { Classroom } from '../../../../../models';
+import { ClassroomService, AssignationService } from '../../../../../services';
+import { Classroom, Assignation, SectionName } from '../../../../../models';
 import { ActivatedRoute } from '@angular/router';
+import { WeekDay } from '@angular/common';
 
 export interface ScheduleBlock {
+  id: number;
   block: string;
 }
 
 const DATA: ScheduleBlock[] = [
-  { block: 'Bloque 1' },
-  { block: 'Bloque 2' },
-  { block: 'Bloque 3' },
-  { block: 'Bloque 4' },
-  { block: 'Bloque 5' },
-  { block: 'Bloque 6' },
-  { block: 'Bloque 7' },
-  { block: 'Bloque 8' },
-  { block: 'Bloque 9' },
-  { block: 'Bloque 10' },
-  { block: 'Bloque 11' },
+  { id: 1, block: 'Bloque 1' },
+  { id: 2, block: 'Bloque 2' },
+  { id: 3, block: 'Bloque 3' },
+  { id: 4, block: 'Bloque 4' },
+  { id: 5, block: 'Bloque 5' },
+  { id: 6, block: 'Bloque 6' },
+  { id: 7, block: 'Bloque 7' },
+  { id: 8, block: 'Bloque 8' },
+  { id: 9, block: 'Bloque 9' },
+  { id: 10, block: 'Bloque 10' },
+  { id: 11, block: 'Bloque 11' },
 ];
+
 
 @Component({
   selector: 'app-classroom-view',
@@ -41,16 +44,16 @@ export class ClassroomViewComponent implements OnInit {
 
   displayedColumns: string[] = ['block', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
   dataSource = DATA;
-  class = 'Comunicación Oral y Escrita I';
-  professor = 'Profesor con nombre muy largo';
+  sectionsNames = new SectionName();
   constructor(private classroomService: ClassroomService,
+              private assignationService: AssignationService,
               private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       // tslint:disable-next-line: no-string-literal
-      const idClassroom = +params['id'];
-      this.classroomService.get(idClassroom).subscribe(data => {
+      this.idClassroom = +params['id'];
+      this.classroomService.get(this.idClassroom).subscribe(data => {
         this.classroom = data;
         this.checks.monday = this.classroom.mondayData.split(';').map((check) => check === 'true' ? true : false);
         this.checks.tuesday = this.classroom.tuesdayData.split(';').map((check) => check === 'true' ? true : false);
@@ -58,7 +61,38 @@ export class ClassroomViewComponent implements OnInit {
         this.checks.thursday = this.classroom.thursdayData.split(';').map((check) => check === 'true' ? true : false);
         this.checks.friday = this.classroom.fridayData.split(';').map((check) => check === 'true' ? true : false);
         this.checks.saturday = this.classroom.saturdayData.split(';').map((check) => check === 'true' ? true : false);
-      });
+      },
+        () => { },
+        () => {
+          let assignations: Assignation[];
+          this.assignationService.getAssignationsByClassroom(this.idClassroom).subscribe(data => {
+            assignations = data;
+            const monday: Assignation[] = assignations.filter(a => a.day === WeekDay.Monday);
+            monday.forEach(a => {
+              this.sectionsNames.monday[a.block] = a.section.name;
+            });
+            const tuesday: Assignation[] = assignations.filter(a => a.day === WeekDay.Tuesday);
+            tuesday.forEach(a => {
+              this.sectionsNames.tuesday[a.block] = a.section.name;
+            });
+            const wednesday: Assignation[] = assignations.filter(a => a.day === WeekDay.Wednesday);
+            wednesday.forEach(a => {
+              this.sectionsNames.wednesday[a.block] = a.section.name;
+            });
+            const thursday: Assignation[] = assignations.filter(a => a.day === WeekDay.Thursday);
+            thursday.forEach(a => {
+              this.sectionsNames.thursday[a.block] = a.section.name;
+            });
+            const friday: Assignation[] = assignations.filter(a => a.day === WeekDay.Friday);
+            friday.forEach(a => {
+              this.sectionsNames.friday[a.block] = a.section.name;
+            });
+            const saturday: Assignation[] = assignations.filter(a => a.day === WeekDay.Saturday);
+            saturday.forEach(a => {
+              this.sectionsNames.saturday[a.block] = a.section.name;
+            });
+          });
+        });
     });
   }
 
@@ -68,6 +102,21 @@ export class ClassroomViewComponent implements OnInit {
       this.checks.monday = 
     });
     */
+  }
+  checkButton(list: boolean[], index: number) {
+    list[index] = !list[index];
+  }
+
+  loadSections() {
+    let assignations: Assignation[];
+    this.assignationService.getAssignationsByClassroom(this.idClassroom).subscribe(data => {
+      assignations = data;
+      const monday: Assignation[] = assignations.filter(a => a.day === WeekDay.Monday);
+      monday.forEach(a => {
+        this.sectionsNames.monday[a.block] = a.section.name;
+      });
+      console.log(monday);
+    });
   }
 
 }

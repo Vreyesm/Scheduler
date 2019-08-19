@@ -10,6 +10,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSortModule } from '@angular/material/sort';
 import { ClassroomViewComponent } from './classroom-view/classroom-view.component';
 import { ComponentsModule } from '../../../../components/components.module';
+import { InterfaceModule } from '../../../interface/interface.module';
 
 @NgModule({
   declarations: [ClassroomsListComponent, ClassroomViewComponent],
@@ -32,12 +33,7 @@ import { ComponentsModule } from '../../../../components/components.module';
         }
       }
     ]),
-    MatTableModule,
-    MatPaginatorModule,
-    MatIconModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatSortModule
+    InterfaceModule
   ],
   exports: []
 })

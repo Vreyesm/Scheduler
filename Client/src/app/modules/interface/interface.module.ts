@@ -43,7 +43,6 @@ import {MatTreeModule} from '@angular/material/tree';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
-
 @NgModule({
   exports: [
     A11yModule,
