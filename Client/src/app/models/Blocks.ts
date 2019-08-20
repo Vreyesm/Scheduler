@@ -6,3 +6,12 @@ export class Blocks {
     friday: boolean[];
     saturday: boolean[];
 }
+
+export class SectionName {
+    monday = ['', '', '', '', '', '', '', '', '', '', ''];
+    tuesday = ['', '', '', '', '', '', '', '', '', '', ''];
+    wednesday = ['', '', '', '', '', '', '', '', '', '', ''];
+    thursday = ['', '', '', '', '', '', '', '', '', '', ''];
+    friday = ['', '', '', '', '', '', '', '', '', '', ''];
+    saturday = ['', '', '', '', '', '', '', '', '', '', ''];
+}

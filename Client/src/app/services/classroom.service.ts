@@ -27,4 +27,12 @@ export class ClassroomService {
   count(): Observable<number> {
     return this.http.get<number>(ClassroomService.API_ROOT + '/count');
   }
+
+  getAll(): Observable<Classroom[]> {
+    return this.http.get<Classroom[]>(ClassroomService.API_ROOT);
+  }
+
+  get(id: number): Observable<Classroom> {
+    return this.http.get<Classroom>(ClassroomService.API_ROOT + '/' + id);
+  }
 }

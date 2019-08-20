@@ -19,6 +19,7 @@ import { AddClassroomComponent } from './modules/resources/buildings/add-classro
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
 import {ClassroomsModule} from './modules/resources/buildings/classrooms/classrooms.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { ApiInterceptor } from './interceptors/api.interceptor';
 
@@ -43,6 +44,8 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
 import { CompletedCareerComponent } from './modules/resources/subjects/completed-career/completed-career.component';
+import { LoaderComponent } from './components/loader/loader.component';
+import { LoaderInterceptor } from './interceptors/loader.interceptor';
 
 @NgModule({
   imports: [
@@ -63,7 +66,8 @@ import { CompletedCareerComponent } from './modules/resources/subjects/completed
     FlexLayoutModule,
     ReactiveFormsModule,
     InterfaceModule,
-    ButtonsModule.forRoot()
+    ButtonsModule.forRoot(),
+    NgxSpinnerModule
   ],
   declarations: [
     AppComponent,
@@ -80,13 +84,15 @@ import { CompletedCareerComponent } from './modules/resources/subjects/completed
     AddTeacherComponent,
     LoginComponent,
     CompletedCareerComponent,
+    LoaderComponent,
+    // AssignationDialogComponent
   ],
   providers: [
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: ApiInterceptor,
-    //   multi: true
-    // },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptor,
+      multi: true
+    },
     AuthGuard
   ],
   entryComponents: [
@@ -96,7 +102,8 @@ import { CompletedCareerComponent } from './modules/resources/subjects/completed
     AddSubjectComponent,
     AddTeacherComponent,
     DeleteDialogComponent,
-    CompletedCareerComponent
+    CompletedCareerComponent,
+    // AssignationDialogComponent
   ],
   bootstrap: [AppComponent]
 })

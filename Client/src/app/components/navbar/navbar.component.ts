@@ -3,8 +3,10 @@ import {ROUTES} from '../sidebar/sidebar.component';
 import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {distinctUntilChanged, filter} from 'rxjs/operators';
-import { AuthService, TeacherService, CareerService } from '../../services';
+import { AuthService, TeacherService, CareerService, AssignationService } from '../../services';
 import { UserType, Career } from '../../models';
+import { MatDialog } from '@angular/material/dialog';
+import { AssignationDialogComponent } from '../assignation-dialog/assignation-dialog.component';
 
 @Component({
   selector: 'app-navbar',
@@ -28,7 +30,9 @@ export class NavbarComponent implements OnInit {
               private activatedRoute: ActivatedRoute,
               private authService: AuthService,
               private teacherService: TeacherService,
-              private careerService: CareerService) {
+              private careerService: CareerService,
+              private dialog: MatDialog,
+              private assignationService: AssignationService) {
     this.location = location;
     this.sidebarVisible = false;
   }
@@ -202,6 +206,28 @@ export class NavbarComponent implements OnInit {
   loadCompletedCareers() {
     this.careerService.getCompletedCareers().subscribe(data => {
       this.completedCareers = data;
+    });
+  }
+
+  selectAssignation() {
+    let type: number;
+    const dialogRef = this.dialog.open(AssignationDialogComponent, { 
+      autoFocus: false
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      type = result;
+      if (type === 1) {
+        this.assignationService.deleteAllAsignations().subscribe(
+          () => {}, 
+          () => {},
+          () => {
+            this.assignationService.autoAssignations().subscribe();
+          }
+        );
+      } else if (type === 2) {
+        this.assignationService.autoAssignations().subscribe();
+      }
+      console.log(result);
     });
   }
 }

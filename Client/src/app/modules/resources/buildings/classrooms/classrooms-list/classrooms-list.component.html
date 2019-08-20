@@ -28,11 +28,21 @@
           <mat-cell *matCellDef="let element"> {{element.capacity}} </mat-cell>
         </ng-container>
 
+        <!-- Available Column -->
+        <ng-container matColumnDef="available">
+          <mat-header-cell *matHeaderCellDef> Disponible</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <button class="btn btn-sm button-completed" type="button" (click)="changeAvailable(element)"
+            [class.btn-success]="element.available" [class.btn-light]="!element.available">
+            {{element.available ? 'Habilitada' : 'Deshabilitada'}}
+          </button></mat-cell>
+        </ng-container>
+
         <!-- Options Column -->
         <ng-container matColumnDef="options" >
           <mat-header-cell *matHeaderCellDef> Opciones </mat-header-cell>
           <mat-cell *matCellDef="let element">
-            <button routerLink="/resources/buildings/classroom" mat-raised-button class="btn-success" style="margin-right: 5px">
+            <button [routerLink]="[element.id]" mat-raised-button class="btn-success" style="margin-right: 5px">
               <mat-icon>list</mat-icon>
               <!--Ver hoarios-->
             </button>

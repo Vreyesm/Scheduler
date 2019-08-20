@@ -13,6 +13,8 @@ namespace Scheduler.Models
         public string Name { get; set; }
         public int Students { get; set; }
         public string ProfessorId { get; set; }
+        
+        [JsonIgnore]
         public ICollection<Assignation> Assignations { get; set; } 
         // Section schedule as array of boolean values
         // monday = "true,true,false,..."; -> Monday[] = {true, true, false,...}
@@ -112,6 +114,24 @@ namespace Scheduler.Models
         public Section()
         {
             Assignations = new List<Assignation>();
+        }
+
+        public bool[] GetDayArray(DayOfWeek day) {
+            switch(day) {
+                case DayOfWeek.Monday:
+                    return this.Monday;
+                case DayOfWeek.Tuesday:
+                    return this.Tuesday;
+                case DayOfWeek.Wednesday:
+                    return this.Wednesday;
+                case DayOfWeek.Thursday:
+                    return this.Thursday;
+                case DayOfWeek.Friday:
+                    return this.Friday;
+                case DayOfWeek.Saturday:
+                    return this.Saturday;
+            }
+            return null;
         }
     }
 }

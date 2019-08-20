@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
         });
         const role = +this.authService.getRole();
         if (role === UserType.Director || role === UserType.Professor) {
-          console.log('it\'s a director or a teacher');
+          // console.log('it\'s a director or a teacher');
           this.router.navigateByUrl('resources/subjects');
         } else {
           this.router.navigateByUrl('dashboard');

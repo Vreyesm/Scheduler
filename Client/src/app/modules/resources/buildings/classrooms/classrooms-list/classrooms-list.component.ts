@@ -20,7 +20,7 @@ export class ClassroomsListComponent implements OnInit {
 
   buildingId: number;
   building: Building;
-  displayedColumns: string[] = ['name', 'capacity', 'options'];
+  displayedColumns: string[] = ['name', 'capacity', 'available', 'options'];
 
   dataSource: MatTableDataSource<Classroom>;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -42,8 +42,6 @@ export class ClassroomsListComponent implements OnInit {
       this.building = data;
       this.dataSource = new MatTableDataSource<Classroom>(this.building.classrooms);
       this.dataSource.sort = this.sort;
-      console.log(this.sort);
-      console.log(this.dataSource);
       // this.dataSource.paginator = this.paginator;
     });
   }
@@ -102,6 +100,11 @@ export class ClassroomsListComponent implements OnInit {
         });
       }
     });
+  }
+
+  changeAvailable(classroom: Classroom) {
+    classroom.available = !classroom.available;
+    this.classroomService.edit(classroom).subscribe();
   }
 
 }
