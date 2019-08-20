@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddSubjectComponent } from '../add-subject/add-subject.component';
 import { Router } from '@angular/router';
 import { AuthService, SectionService, TeacherService, SubjectsService, CareerService } from '../../../../services';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CompletedCareerComponent } from '../completed-career/completed-career.component';
 
 @Component({
@@ -22,7 +22,7 @@ export class SubjectsListComponent implements OnInit {
   career: Career;
   teacher: UserData;
   nameToShow: string;
-
+  loaded$: Observable<Career>;
   data: Observable<Section[]>;
 
   constructor(public dialog: MatDialog,
@@ -54,6 +54,7 @@ export class SubjectsListComponent implements OnInit {
       },
       () => {},
       () => {
+        this.loaded$ = this.careerService.getCareerByTeacher(userId);
         sessionStorage.setItem('career', '' + career.id);
         this.data = this.careerService.getSectionsByCareer(career.id);
       });

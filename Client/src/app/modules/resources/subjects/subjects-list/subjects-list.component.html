@@ -25,13 +25,15 @@
         </button>
       </div>
     </div>
-    <div *ngIf="career && (isDirector() || isAdmin())" fxLayout="row" fxLayoutAlign="end center">
+    <div *ngIf="loaded$ | async">
+      <div *ngIf="career && (isDirector() || isAdmin())" fxLayout="row" fxLayoutAlign="end center">
         <p style="margin-bottom: 0px !important">Asignación de horarios:</p>
         <button class="btn btn-sm button-completed" type="button" (click)="changeCompleted()"
           [disabled]="!isDirector()"
           [class.btn-success]="career?.isCompleted" [class.btn-outline-success]="!career?.isCompleted">
           {{career.isCompleted ? 'Completada' : 'No completada'}}
         </button>
+    </div>
     </div>
     <app-sections-table *ngIf="data" [values]="data"></app-sections-table>
   </div>
