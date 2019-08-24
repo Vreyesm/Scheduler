@@ -1,11 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { Section, UserData } from '../../../../models';
+import { Section, UserData, Assignation, BlockName } from '../../../../models';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
-import { SectionService } from '../../../../services/section.service';
 import { switchMap, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { TeacherService } from '../../../../services/teacher.service';
+import { TeacherService, SectionService, AssignationService } from '../../../../services';
+import { WeekDay } from '@angular/common';
 
 @Component({
   selector: 'app-section-schedule',
@@ -28,11 +28,13 @@ export class SectionScheduleComponent implements OnInit {
   section: Section;
   teachers$: Observable<UserData[]>;
   teacherId: string;
+  classroomNames = new BlockName();
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private sectionService: SectionService,
-              private teacherService: TeacherService) { }
+              private teacherService: TeacherService,
+              private assignationService: AssignationService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -47,6 +49,37 @@ export class SectionScheduleComponent implements OnInit {
         this.checks.friday = this.section.fridayData.split(';').map((check) => check === 'true' ? true : false);
         this.checks.saturday = this.section.saturdayData.split(';').map((check) => check === 'true' ? true : false);
         this.teacherId = this.section.professorId;
+      },
+      () => {},
+      () => {
+        let assignations: Assignation[];
+        this.assignationService.getAssignationsBySection(this.idSection).subscribe(data => {
+            assignations = data;
+            const monday: Assignation[] = assignations.filter(a => a.day === WeekDay.Monday);
+            monday.forEach(a => {
+              this.classroomNames.monday[a.block] = a.classroom.name;
+            });
+            const tuesday: Assignation[] = assignations.filter(a => a.day === WeekDay.Tuesday);
+            tuesday.forEach(a => {
+              this.classroomNames.tuesday[a.block] = a.classroom.name;
+            });
+            const wednesday: Assignation[] = assignations.filter(a => a.day === WeekDay.Wednesday);
+            wednesday.forEach(a => {
+              this.classroomNames.wednesday[a.block] = a.classroom.name;
+            });
+            const thursday: Assignation[] = assignations.filter(a => a.day === WeekDay.Thursday);
+            thursday.forEach(a => {
+              this.classroomNames.thursday[a.block] = a.classroom.name;
+            });
+            const friday: Assignation[] = assignations.filter(a => a.day === WeekDay.Friday);
+            friday.forEach(a => {
+              this.classroomNames.friday[a.block] = a.classroom.name;
+            });
+            const saturday: Assignation[] = assignations.filter(a => a.day === WeekDay.Saturday);
+            saturday.forEach(a => {
+              this.classroomNames.saturday[a.block] = a.classroom.name;
+            });
+          });
       });
     });
     this.teachers$ = this.teacherService.getTeachers();

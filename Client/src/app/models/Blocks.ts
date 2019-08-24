@@ -7,7 +7,7 @@ export class Blocks {
     saturday: boolean[];
 }
 
-export class SectionName {
+export class BlockName {
     monday = ['', '', '', '', '', '', '', '', '', '', ''];
     tuesday = ['', '', '', '', '', '', '', '', '', '', ''];
     wednesday = ['', '', '', '', '', '', '', '', '', '', ''];

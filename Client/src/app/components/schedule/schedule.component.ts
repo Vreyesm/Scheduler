@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Blocks, SectionName, Classroom, Assignation } from '../../models';
+import { Blocks, Classroom, Assignation, BlockName } from '../../models';
 import { AssignationService } from '../../services';
 import { WeekDay } from '@angular/common';
 
@@ -34,6 +34,9 @@ export class ScheduleComponent implements OnInit {
 
   @Input()
   checks: Blocks;
+
+  @Input()
+  names: BlockName;
 
   @Input()
   textOnTrue: string;
