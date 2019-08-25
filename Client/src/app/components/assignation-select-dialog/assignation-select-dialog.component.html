@@ -1,0 +1,32 @@
+<h3 mat-dialog-title>Asignación Manual</h3>
+<div mat-dialog-content fxLayout="column" fxLayoutGap="5px" style="padding-bottom: 5px ">
+    <h4>Búsqueda de sala disponible el día: {{dayText}}</h4>
+    <div fxLayout="row" fxLayoutAlign="space-between baseline" fxLayoutGap="5px">
+        <p><b>Bloque:</b> {{data.block+1}}</p>
+        <mat-form-field>
+            <mat-label>Sala </mat-label>
+            <mat-select [(value)]="classroom" [(disabled)]="classroomWithSpan">
+                <mat-option [value]="null">--</mat-option>
+                <mat-option *ngFor="let classroom of classrooms" [value]="classroom">
+                    {{classroom.name}} ({{classroom.capacity}} estudiantes)
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <mat-divider *ngIf="data.span > 0"></mat-divider>
+    <div *ngIf="data.span > 0" fxLayout="row" fxLayoutAlign="space-between baseline" fxLayoutGap="5px">
+        <p><b>Bloques:</b> [{{data.block+1}}-{{data.block + 1 + data.span}}]</p>
+        <mat-form-field>
+            <mat-label>Sala </mat-label>
+            <mat-select [(value)]="classroomWithSpan" [(disabled)]="classroom" >
+                <mat-option [value]="null">--</mat-option>
+                <mat-option *ngFor="let classroom of classroomsWithSpan" [value]="classroom">
+                    {{classroom.name}} ({{classroom.capacity}} estudiantes)
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</div>
+<div mat-dialog-actions class="pull-right">
+    <button mat-raised-button (click)="close()" class="btn-danger">Cancelar</button>
+</div>
