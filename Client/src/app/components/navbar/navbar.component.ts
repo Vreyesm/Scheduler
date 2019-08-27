@@ -229,9 +229,12 @@ export class NavbarComponent implements OnInit {
       } else if (type === 2) {
         this.assignationService.autoAssignations().subscribe();
       } else if (type === 3) {
-        this.assignationService.deleteAllAsignations().subscribe();
+        this.assignationService.deleteAllAsignations().subscribe(
+          () => {},
+          () => {},
+          () => { this.router.navigateByUrl('resources'); }
+        );
       }
-      console.log(result);
     });
   }
 }

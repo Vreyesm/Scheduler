@@ -29,6 +29,7 @@ export class SectionScheduleComponent implements OnInit {
   teachers$: Observable<UserData[]>;
   teacherId: string;
   classroomNames = new BlockName();
+  assignations: Assignation[] = [];
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -37,6 +38,55 @@ export class SectionScheduleComponent implements OnInit {
               private assignationService: AssignationService) { }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      // tslint:disable-next-line: no-string-literal
+      this.idSection = params['id'];
+      this.sectionService.get(this.idSection).subscribe(data => {
+        this.section = data;
+        this.checks.monday = this.section.mondayData.split(';').map((check) => check === 'true' ? true : false);
+        this.checks.tuesday = this.section.tuesdayData.split(';').map((check) => check === 'true' ? true : false);
+        this.checks.wednesday = this.section.wednesdayData.split(';').map((check) => check === 'true' ? true : false);
+        this.checks.thursday = this.section.thursdayData.split(';').map((check) => check === 'true' ? true : false);
+        this.checks.friday = this.section.fridayData.split(';').map((check) => check === 'true' ? true : false);
+        this.checks.saturday = this.section.saturdayData.split(';').map((check) => check === 'true' ? true : false);
+        this.teacherId = this.section.professorId;
+      },
+      () => {},
+      () => {
+        let assignations: Assignation[];
+        this.assignationService.getAssignationsBySection(this.idSection).subscribe(data => {
+            assignations = data;
+            const monday: Assignation[] = assignations.filter(a => a.day === WeekDay.Monday);
+            monday.forEach(a => {
+              this.classroomNames.monday[a.block] = a.classroom.name;
+            });
+            const tuesday: Assignation[] = assignations.filter(a => a.day === WeekDay.Tuesday);
+            tuesday.forEach(a => {
+              this.classroomNames.tuesday[a.block] = a.classroom.name;
+            });
+            const wednesday: Assignation[] = assignations.filter(a => a.day === WeekDay.Wednesday);
+            wednesday.forEach(a => {
+              this.classroomNames.wednesday[a.block] = a.classroom.name;
+            });
+            const thursday: Assignation[] = assignations.filter(a => a.day === WeekDay.Thursday);
+            thursday.forEach(a => {
+              this.classroomNames.thursday[a.block] = a.classroom.name;
+            });
+            const friday: Assignation[] = assignations.filter(a => a.day === WeekDay.Friday);
+            friday.forEach(a => {
+              this.classroomNames.friday[a.block] = a.classroom.name;
+            });
+            const saturday: Assignation[] = assignations.filter(a => a.day === WeekDay.Saturday);
+            saturday.forEach(a => {
+              this.classroomNames.saturday[a.block] = a.classroom.name;
+            });
+          });
+      });
+    });
+    this.teachers$ = this.teacherService.getTeachers();
+  }
+
+  loadData() {
     this.route.params.subscribe(params => {
       // tslint:disable-next-line: no-string-literal
       this.idSection = params['id'];
@@ -102,6 +152,20 @@ export class SectionScheduleComponent implements OnInit {
       }
     );
     // this.dialogRef.close();
+  }
+
+  sendAssignations(assignations: Assignation[]) {
+    this.assignations = assignations;
+    console.log(JSON.stringify(this.assignations));
+    this.assignations.forEach(a => {
+      a.section = this.section;
+    });
+    console.log(this.assignations);
+    this.assignationService.sendAssignations(this.assignations).subscribe(
+      () => {},
+      () => {},
+      () => { this.loadData(); }
+    );
   }
 
   close(value) {

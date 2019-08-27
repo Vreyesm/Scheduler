@@ -20,14 +20,14 @@
           <button type="button" class="btn button-check btn-sm" [class.btn-success]="checks.monday[item.id - 1]"
             [class.btn-outline-success]="!checks.monday[item.id - 1]"
             (click)="checkButton(checks.monday, item.id - 1, WeekDay.Monday)" ngDefaultControl>
-            {{checks.monday[item.id - 1] ? (names.monday[item.id - 1] == ''? textOnTrue : names.monday[item.id - 1]) : textOnFalse}}
+            {{checks.monday[item.id - 1] ? (names.monday[item.id - 1] == '' ? textOnTrue : names.monday[item.id - 1]) : textOnFalse}}
           </button>
         </td>
         <td>
           <button type="button" class="btn button-check btn-sm" [class.btn-success]="checks.tuesday[item.id - 1]"
             [class.btn-outline-success]="!checks.tuesday[item.id - 1]"
             (click)="checkButton(checks.tuesday, item.id - 1,WeekDay.Tuesday)" ngDefaultControl>
-            {{checks.tuesday[item.id - 1] ? (names.tuesday[item.id - 1] == ''? textOnTrue : names.tuesday[item.id - 1]) : textOnFalse}}
+            {{checks.tuesday[item.id - 1] ? (names.tuesday[item.id - 1] == '' ? textOnTrue : names.tuesday[item.id - 1]) : textOnFalse}}
           </button>
         </td>
         <td>
@@ -41,14 +41,14 @@
           <button type="button" class="btn button-check btn-sm" [class.btn-success]="checks.thursday[item.id - 1]"
             [class.btn-outline-success]="!checks.thursday[item.id - 1]"
             (click)="checkButton(checks.thursday, item.id - 1,WeekDay.Thursday)" ngDefaultControl>
-            {{checks.thursday[item.id - 1] ? (names.thursday[item.id - 1] == ''? textOnTrue: names.wednesday[item.id - 1]) : textOnFalse}}
+            {{checks.thursday[item.id - 1] ? (names.thursday[item.id - 1] == '' ? textOnTrue: names.thursday[item.id - 1]) : textOnFalse}}
           </button>
         </td>
         <td>
           <button type="button" class="btn button-check btn-sm" [class.btn-success]="checks.friday[item.id - 1]"
             [class.btn-outline-success]="!checks.friday[item.id - 1]"
             (click)="checkButton(checks.friday, item.id - 1, WeekDay.Friday)" ngDefaultControl>
-            {{checks.friday[item.id - 1] ? (names.friday[item.id - 1]== ''? textOnTrue: names.wednesday[item.id - 1]) : textOnFalse}}
+            {{checks.friday[item.id - 1] ? (names.friday[item.id - 1] == '' ? textOnTrue: names.friday[item.id - 1]) : textOnFalse}}
           </button>
         </td>
         <td>

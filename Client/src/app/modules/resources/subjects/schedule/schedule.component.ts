@@ -4,6 +4,7 @@ import { AssignationService, AuthService } from '../../../../services';
 import { WeekDay } from '@angular/common';
 import { MatDialog } from '@angular/material';
 import { AssignationSelectDialogComponent } from '../../../../components/assignation-select-dialog/assignation-select-dialog.component';
+import { areAllEquivalent } from '@angular/compiler/src/output/output_ast';
 
 export interface ScheduleBlock {
   id: number;
@@ -52,8 +53,14 @@ export class ScheduleComponent implements OnInit {
   @Input()
   idClassroom: number;
 
+  @Input()
+  assignations: Assignation[];
+
   @Output()
   completed = new EventEmitter<Blocks>();
+
+  @Output()
+  assignationsAdded = new EventEmitter<Assignation[]>();
 
   @Output()
   canceled = new EventEmitter<any>();
@@ -85,7 +92,11 @@ export class ScheduleComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-          alert('sucess');
+          this.assignations = result.assignations;
+          console.log(this.assignations);
+          if (this.assignations.length !== 0) {
+            this.assignationsAdded.emit(this.assignations);
+          }
         }
       });
     }
@@ -93,7 +104,7 @@ export class ScheduleComponent implements OnInit {
 
   private countSpan(list: boolean[], index: number) {
     let span = 0;
-    for (let i = index + 1; i < 11 && list[i] ; i++) {
+    for (let i = index + 1; i < 11 && list[i]; i++) {
       span++;
     }
     return span;
