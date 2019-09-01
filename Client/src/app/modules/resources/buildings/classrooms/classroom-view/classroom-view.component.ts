@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ClassroomService, AssignationService } from '../../../../../services';
-import { Classroom, Assignation, SectionName } from '../../../../../models';
+import { Classroom, Assignation, BlockName } from '../../../../../models';
 import { ActivatedRoute } from '@angular/router';
 import { WeekDay } from '@angular/common';
 
@@ -44,7 +44,7 @@ export class ClassroomViewComponent implements OnInit {
 
   displayedColumns: string[] = ['block', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
   dataSource = DATA;
-  sectionsNames = new SectionName();
+  sectionsNames = new BlockName();
   constructor(private classroomService: ClassroomService,
               private assignationService: AssignationService,
               private route: ActivatedRoute) { }

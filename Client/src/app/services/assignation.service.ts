@@ -14,6 +14,9 @@ export class AssignationService {
   getAssignationsByClassroom(idClassroom: number): Observable<Assignation[]> {
     return this.http.get<Assignation[]>(AssignationService.API_ROOT + '/Classroom/' + idClassroom);
   }
+  getAssignationsBySection(idSection: number): Observable<Assignation[]> {
+    return this.http.get<Assignation[]>(AssignationService.API_ROOT + '/Section/' + idSection);
+  }
 
   deleteAllAsignations(): Observable<any> {
     return this.http.delete<any>(AssignationService.API_ROOT + '/All');
@@ -21,5 +24,10 @@ export class AssignationService {
 
   autoAssignations(): Observable<any> {
     return this.http.get<any>(AssignationService.API_ROOT + '/Auto');
+  }
+
+  sendAssignations(assignations: Assignation[]): Observable<any> {
+    console.log(assignations);
+    return this.http.post<any>(AssignationService.API_ROOT + '/All', assignations);
   }
 }

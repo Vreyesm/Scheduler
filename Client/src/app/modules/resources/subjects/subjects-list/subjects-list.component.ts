@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Subject, Section, Career, UserData, UserType } from '../../../../models';
 import { MatDialog } from '@angular/material/dialog';
 import { AddSubjectComponent } from '../add-subject/add-subject.component';
@@ -31,7 +31,8 @@ export class SubjectsListComponent implements OnInit {
               private subjectService: SubjectsService,
               private sectionService: SectionService,
               private teacherService: TeacherService,
-              private authService: AuthService) { }
+              private authService: AuthService,
+              private changeDetector: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.loadTeachers();
@@ -46,17 +47,18 @@ export class SubjectsListComponent implements OnInit {
       this.nameToShow = this.teacher.name;
       this.data = this.sectionService.getByTeacher(userId);
     } else if (role === UserType.Director) {
-      let career: Career;
+      // let career: Career;
       this.careerService.getCareerByTeacher(userId).subscribe(data => {
-        career = data;
-        this.idCareer = career.id;
-        this.nameToShow = career.name;
+        this.career = data;
+        this.changeDetector.markForCheck();
+        this.idCareer = this.career.id;
+        this.nameToShow = this.career.name;
       },
       () => {},
       () => {
         this.loaded$ = this.careerService.getCareerByTeacher(userId);
-        sessionStorage.setItem('career', '' + career.id);
-        this.data = this.careerService.getSectionsByCareer(career.id);
+        sessionStorage.setItem('career', '' + this.career.id);
+        this.data = this.careerService.getSectionsByCareer(this.career.id);
       });
     } else if (role === UserType.Admin) {
       if (+sessionStorage.getItem('career') !== 0) {
@@ -86,6 +88,7 @@ export class SubjectsListComponent implements OnInit {
       const career = this.careers.find(c => c.id === this.idCareer);
       if (career) {
         this.career = career;
+        this.changeDetector.markForCheck();
       }
     },
     () => {},
@@ -103,6 +106,7 @@ export class SubjectsListComponent implements OnInit {
     const career = this.careers.find(c => c.id === this.idCareer);
     if (career) {
       this.career = career;
+      this.changeDetector.markForCheck();
       this.nameToShow = this.career.name;
       this.subjects = career.subjects;
       const sections = [];
@@ -155,7 +159,8 @@ export class SubjectsListComponent implements OnInit {
   changeCompleted() {
     if (this.career.isCompleted === false) {
       const dialogRef = this.dialog.open(CompletedCareerComponent, {
-        data: this.career.name
+        data: this.career.name,
+        autoFocus: false
       });
 
       dialogRef.afterClosed().subscribe(result => {

@@ -7,7 +7,7 @@ import {Career, Subject, Section} from '../models';
   providedIn: 'root'
 })
 export class CareerService {
-  private static  API_ROOT = 'api/careers';
+  private static  API_ROOT = 'api/Careers';
 
   constructor(private http: HttpClient) { }
   getCareers(): Observable<Career[]> {
@@ -33,5 +33,8 @@ export class CareerService {
   }
   getCompletedCareers() {
     return this.http.get<Career[]>(CareerService.API_ROOT + '/Completed');
+  }
+  getCareerById(id: number): Observable<Career> {
+    return this.http.get<Career>(CareerService.API_ROOT + '/' + id);
   }
 }
