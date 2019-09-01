@@ -87,6 +87,7 @@ export class ScheduleComponent implements OnInit {
           day: weekday,
           block: index,
           span: spanCount,
+          previous: this.names.getListByWeekDay(weekday)[index]
         },
       });
 

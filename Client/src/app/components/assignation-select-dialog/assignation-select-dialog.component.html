@@ -7,9 +7,10 @@
             <mat-form-field>
                 <input type="text" placeholder="Sala" aria-label="Sala bloque único" matInput
                     [formControl]="singleClassroomControl" [matAutocomplete]="auto">
-                    <button mat-button *ngIf="singleClassroomControl.value" matSuffix mat-icon-button aria-label="Clear" (click)="value=singleClassroomControl.setValue('')">
-                            <mat-icon>close</mat-icon>
-                          </button>
+                <button mat-button *ngIf="singleClassroomControl.value" matSuffix mat-icon-button aria-label="Clear"
+                    (click)="clearSingle()">
+                    <mat-icon>close</mat-icon>
+                </button>
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                     <mat-option (click)="selectedSingle()" *ngFor="let classroom of filteredClassroom | async"
                         [value]="classroom.name">
@@ -25,11 +26,12 @@
         <form fxFlex="50%">
             <mat-form-field>
                 <input type="text" placeholder="Sala" aria-label="Sala grupo de bloques" matInput
-                    [formControl]="spanClassroomControl" [matAutocomplete]="auto">
-                    <button mat-button *ngIf="spanClassroomControl.value" matSuffix mat-icon-button aria-label="Clear" (click)="value=spanClassroomControl.setValue('')">
-                            <mat-icon>close</mat-icon>
-                          </button>
-                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                    [formControl]="spanClassroomControl" [matAutocomplete]="span">
+                <button mat-button *ngIf="spanClassroomControl.value" matSuffix mat-icon-button aria-label="Clear"
+                    (click)="clearSpan()">
+                    <mat-icon>close</mat-icon>
+                </button>
+                <mat-autocomplete autoActiveFirstOption #span="matAutocomplete">
                     <mat-option (click)="selectedWithSpan()" *ngFor="let classroom of filteredClassroomWithSpan | async"
                         [value]="classroom.name">
                         {{classroom.name}} ({{classroom.capacity}} estudiantes)
@@ -41,5 +43,5 @@
 </div>
 <div mat-dialog-actions class="pull-right">
     <button mat-raised-button (click)="close()" class="btn-light">Cancelar</button>
-    <button mat-raised-button (click)="submit()" class="btn-success">Aceptar</button>
+    <button mat-raised-button [disabled]="disabled" (click)="submit()" class="btn-success">Aceptar</button>
 </div>

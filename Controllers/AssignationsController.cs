@@ -123,6 +123,8 @@ namespace Scheduler.Controllers
             
             foreach(Assignation assignation in assignations) 
             {
+                var previous = await _context.Assignations.Where(a => a.Section.ID == assignation.Section.ID && a.Day == assignation.Day && a.Block == assignation.Block).ToListAsync();
+                _context.Assignations.RemoveRange(previous);
                 c.MarkBLock(assignation.Day, assignation.Block);
                 await _context.Assignations.AddAsync(assignation);
                 await _context.SaveChangesAsync();

@@ -17,11 +17,21 @@
       <tr *ngFor="let item of dataSource; let i = index">
         <th scope="row">{{item.id}}</th>
         <td>
-          <button type="button" class="btn button-check btn-sm" [class.btn-success]="checks.monday[item.id - 1]"
-            [class.btn-outline-success]="!checks.monday[item.id - 1]"
+          <button *ngIf="!names.monday[item.id - 1]" type="button" class="btn button-check btn-sm"
+            [class.btn-success]="checks.monday[item.id - 1]" [class.btn-outline-success]="!checks.monday[item.id - 1]"
             (click)="checkButton(checks.monday, item.id - 1, WeekDay.Monday)" ngDefaultControl>
             {{checks.monday[item.id - 1] ? (names.monday[item.id - 1] == '' ? textOnTrue : names.monday[item.id - 1]) : textOnFalse}}
           </button>
+          <div *ngIf="names.monday[item.id - 1]" class="btn-group btn-group-sm" role="group" aria-label="Assignation Group">
+            <button type="button" class="btn button-true button-check btn-sm" [class.btn-success]="checks.monday[item.id - 1]"
+              [class.btn-outline-success]="!checks.monday[item.id - 1]"
+              (click)="checkButton(checks.monday, item.id - 1, WeekDay.Monday)" ngDefaultControl>
+              {{checks.monday[item.id - 1] ? (names.monday[item.id - 1] == '' ? textOnTrue : names.monday[item.id - 1]) : textOnFalse}}
+            </button>
+            <button class="btn btn-sm button-check btn-danger button-delete">
+              X
+            </button>
+          </div>
         </td>
         <td>
           <button type="button" class="btn button-check btn-sm" [class.btn-success]="checks.tuesday[item.id - 1]"

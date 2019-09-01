@@ -13,6 +13,7 @@ interface Data {
   day: WeekDay;
   block: number;
   span: number;
+  previous: string;
 }
 
 @Component({
@@ -32,6 +33,7 @@ export class AssignationSelectDialogComponent implements OnInit, AfterViewInit {
   filteredClassroom: Observable<Classroom[]>;
   classroomWithSpan: Classroom;
   filteredClassroomWithSpan: Observable<Classroom[]>;
+  disabled: boolean = true;
 
   constructor(public dialogRef: MatDialogRef<AssignationSelectDialogComponent>,
               private classroomService: ClassroomService,
@@ -39,6 +41,9 @@ export class AssignationSelectDialogComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.loadDayText();
+    if (this.data.previous !== '') {
+      this.singleClassroomControl.setValue(this.data.previous, {emitEvent: false});
+    }
     setTimeout(() => { this.loadClassrooms(); }, 0);
     // this.loadClassrooms();
 
@@ -57,13 +62,26 @@ export class AssignationSelectDialogComponent implements OnInit, AfterViewInit {
     const selectedName = this.singleClassroomControl.value;
     this.classroom = this.classrooms.find(c => c.name === selectedName);
     this.classroomWithSpan = null;
-    console.log('single');
+    this.disabled = false;
+  }
+
+  clearSingle() {
+    this.singleClassroomControl.setValue('');
+    this.classroom = null;
+    this.disabled = true;
   }
 
   selectedWithSpan() {
     const selectedName = this.spanClassroomControl.value;
     this.classroomWithSpan = this.classroomsWithSpan.find(c => c.name === selectedName);
     this.classroom = null;
+    this.disabled = false;
+  }
+
+  clearSpan() {
+    this.spanClassroomControl.setValue('');
+    this.classroomWithSpan = null;
+    this.disabled = true;
   }
 
   private _filterSpan(value: string) {
@@ -103,12 +121,26 @@ export class AssignationSelectDialogComponent implements OnInit, AfterViewInit {
 
   loadClassrooms() {
     this.classroomService.getAllAvailable(this.data.day, this.data.block, 0).subscribe(data => {
-      this.classrooms = data;
+      this.classrooms = data.sort((a, b) => {
+        if (a.capacity > b.capacity) {
+          return -1;
+        } else if (a.capacity < b.capacity) {
+          return 1;
+        }
+        return 0;
+      });
     },
       () => { },
       () => {
         this.classroomService.getAllAvailable(this.data.day, this.data.block, this.data.span).subscribe(data => {
-          this.classroomsWithSpan = data;
+          this.classroomsWithSpan = data.sort((a, b) => {
+            if (a.capacity > b.capacity) {
+              return -1;
+            } else if (a.capacity < b.capacity) {
+              return 1;
+            }
+            return 0;
+          });
         },
           () => { },
           () => {
