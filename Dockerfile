@@ -33,4 +33,5 @@ ENV ASPNETCORE_Environment=Production
 ENV ASPNETCORE_URLS http://+:$80
 COPY --from=client /Client/dist/ ./Client/dist/
 COPY --from=publish /app .
+COPY *.csv .
 ENTRYPOINT ["dotnet", "Scheduler.dll"]
