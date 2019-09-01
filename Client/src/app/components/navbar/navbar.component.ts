@@ -7,6 +7,7 @@ import { AuthService, TeacherService, CareerService, AssignationService } from '
 import { UserType, Career } from '../../models';
 import { MatDialog } from '@angular/material/dialog';
 import { AssignationDialogComponent } from '../assignation-dialog/assignation-dialog.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -61,10 +62,11 @@ export class NavbarComponent implements OnInit {
       this.userName = data.name;
     });
 
-    this.loadCompletedCareers();
+    if (this.isAdmin()) {
+      this.loadCompletedCareers();
+    }
 
   }
-
   sidebarOpen() {
     const toggleButton = this.toggleButton;
     const body = document.getElementsByTagName('body')[0];
@@ -212,13 +214,13 @@ export class NavbarComponent implements OnInit {
   selectAssignation() {
     let type: number;
     const dialogRef = this.dialog.open(AssignationDialogComponent, { 
-      autoFocus: false
+      autoFocus: false,
     });
     dialogRef.afterClosed().subscribe(result => {
       type = result;
       if (type === 1) {
         this.assignationService.deleteAllAsignations().subscribe(
-          () => {}, 
+          () => {},
           () => {},
           () => {
             this.assignationService.autoAssignations().subscribe();
@@ -226,8 +228,13 @@ export class NavbarComponent implements OnInit {
         );
       } else if (type === 2) {
         this.assignationService.autoAssignations().subscribe();
+      } else if (type === 3) {
+        this.assignationService.deleteAllAsignations().subscribe(
+          () => {},
+          () => {},
+          () => { this.router.navigateByUrl('resources'); }
+        );
       }
-      console.log(result);
     });
   }
 }

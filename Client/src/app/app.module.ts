@@ -10,14 +10,9 @@ import { ComponentsModule } from './components/components.module';
 import { AppComponent } from './app.component';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
-import { TableListComponent } from './table-list/table-list.component';
-import { TypographyComponent } from './typography/typography.component';
-import { IconsComponent } from './icons/icons.component';
 import { AddBuildingComponent } from './modules/resources/buildings/add-building/add-building.component';
 import { AddClassroomComponent } from './modules/resources/buildings/add-classroom/add-classroom.component';
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
-import {ClassroomsModule} from './modules/resources/buildings/classrooms/classrooms.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
@@ -46,6 +41,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { CompletedCareerComponent } from './modules/resources/subjects/completed-career/completed-career.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
+import { AssignationSelectDialogComponent } from './components/assignation-select-dialog/assignation-select-dialog.component';
 
 @NgModule({
   imports: [
@@ -72,10 +68,6 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
   declarations: [
     AppComponent,
     DashboardComponent,
-    UserProfileComponent,
-    TableListComponent,
-    TypographyComponent,
-    IconsComponent,
     AddBuildingComponent,
     AddClassroomComponent,
     AddCareerComponent,
@@ -85,6 +77,7 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
     LoginComponent,
     CompletedCareerComponent,
     LoaderComponent,
+    AssignationSelectDialogComponent,
     // AssignationDialogComponent
   ],
   providers: [
@@ -103,6 +96,7 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
     AddTeacherComponent,
     DeleteDialogComponent,
     CompletedCareerComponent,
+    AssignationSelectDialogComponent
     // AssignationDialogComponent
   ],
   bootstrap: [AppComponent]

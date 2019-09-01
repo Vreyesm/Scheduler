@@ -41,7 +41,7 @@ namespace Scheduler
             {
                 string dbHost = Environment.GetEnvironmentVariable("DB_HOST");
                 if (dbHost == null) {
-                    dbHost = "18.228.202.150";
+                    dbHost = "34.74.156.3";
                 }
                 
                 services.AddDbContext<DataContext>(options =>

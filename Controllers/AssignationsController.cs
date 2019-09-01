@@ -27,6 +27,7 @@ namespace Scheduler.Controllers
         {
             return await _context.Assignations
                                 .Include(a => a.Section)
+                                .Include(a => a.Classroom)
                                 .ToListAsync();
         }
 
@@ -44,6 +45,16 @@ namespace Scheduler.Controllers
             return await _context.Assignations
                         .Where(a => a.Classroom.ID == id)
                         .Include(a => a.Section)
+                        .ToListAsync();
+        }
+
+        // GET: api/Assignations/Section/5
+        [HttpGet("Section/{id}")]
+        public async Task<ActionResult<IEnumerable<Assignation>>> GetAssignationsBySection([FromRoute] int id)
+        {
+            return await _context.Assignations
+                        .Where(a => a.Section.ID == id)
+                        .Include(a => a.Classroom)
                         .ToListAsync();
         }
 
@@ -100,6 +111,27 @@ namespace Scheduler.Controllers
 
             return CreatedAtAction("GetAssignation", new { id = assignation.ID }, assignation);
         }
+        
+        // POST: api/Assignations/All
+        [HttpPost("All")]
+        public async Task<ActionResult<Assignation>> PostAllAssignation(Assignation[] assignations)
+        {
+            //_context.Entry(assignations[0].Classroom).State = EntityState.Unchanged;
+            _context.Entry(assignations[0].Section).State = EntityState.Unchanged;
+            Classroom c = assignations[0].Classroom;
+            _context.Entry(c).State = EntityState.Modified;
+            
+            foreach(Assignation assignation in assignations) 
+            {
+                var previous = await _context.Assignations.Where(a => a.Section.ID == assignation.Section.ID && a.Day == assignation.Day && a.Block == assignation.Block).ToListAsync();
+                _context.Assignations.RemoveRange(previous);
+                c.MarkBLock(assignation.Day, assignation.Block);
+                await _context.Assignations.AddAsync(assignation);
+                await _context.SaveChangesAsync();
+            }
+
+            return Ok();
+        }
 
         // DELETE: api/Assignations/5
         [HttpDelete("{id}")]
@@ -125,14 +157,14 @@ namespace Scheduler.Controllers
 
             var classrooms = _context.Classrooms;
 
-            foreach(Classroom classroom in classrooms) 
+            foreach (Classroom classroom in classrooms)
             {
-                classroom.Monday = new bool[] {false,false,false,false,false,false,false,false,false,false,false};
-                classroom.Tuesday = new bool[] {false,false,false,false,false,false,false,false,false,false,false};
-                classroom.Wednesday = new bool[] {false,false,false,false,false,false,false,false,false,false,false};
-                classroom.Thursday = new bool[] {false,false,false,false,false,false,false,false,false,false,false};
-                classroom.Friday = new bool[] {false,false,false,false,false,false,false,false,false,false,false};
-                classroom.Saturday = new bool[] {false,false,false,false,false,false,false,false,false,false,false};
+                classroom.Monday = new bool[] { false, false, false, false, false, false, false, false, false, false, false };
+                classroom.Tuesday = new bool[] { false, false, false, false, false, false, false, false, false, false, false };
+                classroom.Wednesday = new bool[] { false, false, false, false, false, false, false, false, false, false, false };
+                classroom.Thursday = new bool[] { false, false, false, false, false, false, false, false, false, false, false };
+                classroom.Friday = new bool[] { false, false, false, false, false, false, false, false, false, false, false };
+                classroom.Saturday = new bool[] { false, false, false, false, false, false, false, false, false, false, false };
             }
 
             await _context.SaveChangesAsync();
