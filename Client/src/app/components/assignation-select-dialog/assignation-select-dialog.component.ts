@@ -33,7 +33,7 @@ export class AssignationSelectDialogComponent implements OnInit, AfterViewInit {
   filteredClassroom: Observable<Classroom[]>;
   classroomWithSpan: Classroom;
   filteredClassroomWithSpan: Observable<Classroom[]>;
-  disabled: boolean = true;
+  disabled = true;
 
   constructor(public dialogRef: MatDialogRef<AssignationSelectDialogComponent>,
               private classroomService: ClassroomService,
@@ -170,7 +170,7 @@ export class AssignationSelectDialogComponent implements OnInit, AfterViewInit {
       });
   }
 
-  submit(isSingle: boolean) {
+  submit() {
     const assignations: Assignation[] = [];
     if (this.singleClassroomControl.enabled) {
       const assignation = new Assignation();
