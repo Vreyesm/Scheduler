@@ -21,7 +21,7 @@
                 </mat-form-field>
             </div>
 
-            <app-schedule [checks]="checks" [textOnTrue]="'Seleccionado'" [textOnFalse]="'Disponible'" [isForClassroom]="false" (completed)="completed($event)" (canceled)="close($event)"></app-schedule>
+            <app-schedule [checks]="checks" [names]="classroomNames" [textOnTrue]="'Seleccionado'" [textOnFalse]="'Disponible'" [isForClassroom]="false" (completed)="completed($event)" (canceled)="close($event)"></app-schedule>
         </ng-container>
     </div>
 </div>

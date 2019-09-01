@@ -20,42 +20,42 @@
           <button type="button" class="btn button-check btn-sm" [class.btn-success]="checks.monday[item.id - 1]"
             [class.btn-outline-success]="!checks.monday[item.id - 1]" (click)="checkButton(checks.monday, item.id - 1)"
             ngDefaultControl>
-            {{checks.monday[item.id - 1] ? textOnTrue : textOnFalse}}
+            {{checks.monday[item.id - 1] ? names.monday[item.id - 1] : textOnFalse}}
           </button>
         </td>
         <td>
           <button type="button" class="btn button-check btn-sm" [class.btn-success]="checks.tuesday[item.id - 1]"
             [class.btn-outline-success]="!checks.tuesday[item.id - 1]"
             (click)="checkButton(checks.tuesday, item.id - 1)" ngDefaultControl>
-            {{checks.tuesday[item.id - 1] ? textOnTrue : textOnFalse}}
+            {{checks.tuesday[item.id - 1] ? names.tuesday[item.id - 1] : textOnFalse}}
           </button>
         </td>
         <td>
           <button type="button" class="btn button-check btn-sm" [class.btn-success]="checks.wednesday[item.id - 1]"
             [class.btn-outline-success]="!checks.wednesday[item.id - 1]"
             (click)="checkButton(checks.wednesday, item.id - 1)" ngDefaultControl>
-            {{checks.wednesday[item.id - 1] ? textOnTrue : textOnFalse}}
+            {{checks.wednesday[item.id - 1] ? names.wednesday[item.id - 1] : textOnFalse}}
           </button>
         </td>
         <td>
           <button type="button" class="btn button-check btn-sm" [class.btn-success]="checks.thursday[item.id - 1]"
             [class.btn-outline-success]="!checks.thursday[item.id - 1]"
             (click)="checkButton(checks.thursday, item.id - 1)" ngDefaultControl>
-            {{checks.thursday[item.id - 1] ? textOnTrue : textOnFalse}}
+            {{checks.thursday[item.id - 1] ? names.thursday[item.id - 1] : textOnFalse}}
           </button>
         </td>
         <td>
           <button type="button" class="btn button-check btn-sm" [class.btn-success]="checks.friday[item.id - 1]"
             [class.btn-outline-success]="!checks.friday[item.id - 1]" (click)="checkButton(checks.friday, item.id - 1)"
             ngDefaultControl>
-            {{checks.friday[item.id - 1] ? textOnTrue : textOnFalse}}
+            {{checks.friday[item.id - 1] ? names.friday[item.id - 1] : textOnFalse}}
           </button>
         </td>
         <td>
           <button type="button" class="btn button-check btn-sm" [class.btn-success]="checks.saturday[item.id - 1]"
             [class.btn-outline-success]="!checks.saturday[item.id - 1]"
             (click)="checkButton(checks.saturday, item.id - 1)" ngDefaultControl>
-            {{checks.saturday[item.id - 1] ? textOnTrue : textOnFalse}}
+            {{checks.saturday[item.id - 1] ? names.saturday[item.id - 1] : textOnFalse}}
           </button>
         </td>
       </tr>

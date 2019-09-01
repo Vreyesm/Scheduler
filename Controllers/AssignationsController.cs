@@ -47,6 +47,16 @@ namespace Scheduler.Controllers
                         .ToListAsync();
         }
 
+        // GET: api/Assignations/Section/5
+        [HttpGet("Section/{id}")]
+        public async Task<ActionResult<IEnumerable<Assignation>>> GetAssignationsBySection([FromRoute] int id)
+        {
+            return await _context.Assignations
+                        .Where(a => a.Section.ID == id)
+                        .Include(a => a.Classroom)
+                        .ToListAsync();
+        }
+
         // GET: api/Assignations/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Assignation>> GetAssignation(int id)
