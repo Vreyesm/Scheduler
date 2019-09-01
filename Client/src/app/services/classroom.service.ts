@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Classroom} from '../models';
 import {Observable} from 'rxjs';
+import { WeekDay } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -34,5 +35,9 @@ export class ClassroomService {
 
   get(id: number): Observable<Classroom> {
     return this.http.get<Classroom>(ClassroomService.API_ROOT + '/' + id);
+  }
+
+  getAllAvailable(day: WeekDay, block: number, span: number): Observable<Classroom[]> {
+    return this.http.get<Classroom[]>(ClassroomService.API_ROOT + `/Available/Day/${day}/Block/${block}/Span/${span}`);
   }
 }

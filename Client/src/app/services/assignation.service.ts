@@ -25,4 +25,9 @@ export class AssignationService {
   autoAssignations(): Observable<any> {
     return this.http.get<any>(AssignationService.API_ROOT + '/Auto');
   }
+
+  sendAssignations(assignations: Assignation[]): Observable<any> {
+    console.log(assignations);
+    return this.http.post<any>(AssignationService.API_ROOT + '/All', assignations);
+  }
 }

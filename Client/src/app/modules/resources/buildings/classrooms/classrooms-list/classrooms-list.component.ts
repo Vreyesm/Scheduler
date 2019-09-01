@@ -60,7 +60,15 @@ export class ClassroomsListComponent implements OnInit {
       classroom = result;
       classroom.buildingId = this.buildingId;
       if (classroom) {
-        this.classroomService.add(classroom).subscribe(data => {
+        const data = 'false;false;false;false;false;false;false;false;false;false;false';
+        classroom.mondayData = data;
+        classroom.tuesdayData = data;
+        classroom.wednesdayData = data;
+        classroom.thursdayData = data;
+        classroom.fridayData = data;
+        classroom.saturdayData = data;
+        classroom.available = true;
+        this.classroomService.add(classroom).subscribe(() => {
           this.loadBuilding();
         });
       }

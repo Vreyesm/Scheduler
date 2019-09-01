@@ -28,6 +28,31 @@ namespace Scheduler.Controllers
             return await _context.Classrooms.ToListAsync();
         }
 
+        // GET: api/Classrooms
+        [HttpGet("Available/Day/{day}/Block/{block}/Span/{span}")]
+        public async Task<ActionResult<IEnumerable<Classroom>>> GetClassroomsAvailable([FromRoute] DayOfWeek day, [FromRoute] int block, [FromRoute] int span)
+        {
+            List<Classroom> classrooms = new List<Classroom>();
+            
+            List<Classroom> allClassrooms = await _context.Classrooms.ToListAsync();
+
+            foreach(Classroom classroom in allClassrooms)
+            {
+                if (!classroom.GetArrayByDay(day)[block])
+                {   
+                    int index = block;
+                    int count = 1;
+
+                    while (index < 10 && count != span + 1 && !classroom.GetArrayByDay(day)[index++ + 1]) { count ++; }
+                    if (count >= span + 1) {
+                        classrooms.Add(classroom);
+                    }
+                }
+            }
+
+            return classrooms;
+        }
+
         // GET: api/Classrooms/count
         [HttpGet("count")]
         public async Task<int> CountClassrooms()

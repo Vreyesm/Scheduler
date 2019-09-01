@@ -17,6 +17,18 @@
         Asignar restante
     </button>
   </div>
+  <mat-divider></mat-divider>
+  <h4>¿Desea borrar todas las asignaciones actuales?</h4>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <button 
+        matTooltip="Elimina todas las asignaciones actuales"
+        matTooltipPosition="above"
+        mat-raised-button
+        class="btn-danger"
+        [mat-dialog-close]="3">  <!-- 3 means delete all assignations-->
+        Eliminar Asignaciones
+    </button>
+  </div>
 </div>
 <div mat-dialog-actions class="pull-right">
   <button mat-raised-button (click)="close()" class="btn-danger" >Cancelar</button>

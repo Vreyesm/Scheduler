@@ -25,7 +25,7 @@
         </button>
       </div>
     </div>
-    <div *ngIf="loaded$ | async">
+    <!--<div *ngIf="loaded$ | async">-->
       <div *ngIf="career && (isDirector() || isAdmin())" fxLayout="row" fxLayoutAlign="end center">
         <p style="margin-bottom: 0px !important">Asignación de horarios:</p>
         <button class="btn btn-sm button-completed" type="button" (click)="changeCompleted()"
@@ -34,7 +34,7 @@
           {{career.isCompleted ? 'Completada' : 'No completada'}}
         </button>
     </div>
-    </div>
+    <!--</div>-->
     <app-sections-table *ngIf="data" [values]="data"></app-sections-table>
   </div>
   
