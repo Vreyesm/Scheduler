@@ -86,6 +86,7 @@ export class SectionScheduleComponent implements OnInit {
   }
 
   loadData() {
+    this.classroomNames = new BlockName();
     this.route.params.subscribe(params => {
       // tslint:disable-next-line: no-string-literal
       this.idSection = params['id'];
@@ -169,7 +170,11 @@ export class SectionScheduleComponent implements OnInit {
     this.router.navigateByUrl('resources/subjects');
   }
 
-  reload(value) {
-    this.loadData();
+  reload(assignation: Assignation) {
+    this.assignationService.deleteAssignation(assignation.id).subscribe(
+      () => { },
+      () => { },
+      () => { this.loadData(); }
+    );
   }
 }

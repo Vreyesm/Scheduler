@@ -30,7 +30,7 @@ const DATA: ScheduleBlock[] = [
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.scss'],
 })
-export class ScheduleComponent implements OnInit, OnChanges {
+export class ScheduleComponent implements OnInit {
 
   displayedColumns: string[] = ['block', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
   dataSource = DATA;
@@ -76,9 +76,6 @@ export class ScheduleComponent implements OnInit, OnChanges {
   ngOnInit() {
   }
 
-  ngOnChanges() {
-
-  }
   get WeekDay() { return WeekDay; }
 
   checkButton(list: boolean[], index: number, weekday: WeekDay) {
@@ -102,14 +99,7 @@ export class ScheduleComponent implements OnInit, OnChanges {
         if (result) {
           if (result.delete) {
             const assignation = this.assignations.find(a => a.block === index && a.day === weekday);
-            this.assignationService.deleteAssignation(assignation.id).subscribe(
-              () => { },
-              () => { },
-              () => {
-                list[index] = false;
-                this.changeDetector.markForCheck();
-                this.reload.emit(null);
-              });
+            this.reload.emit(assignation);
           } else {
             const assignations: Assignation[] = result.assignations;
             if (assignations.length !== 0) {
