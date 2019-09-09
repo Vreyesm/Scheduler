@@ -27,7 +27,10 @@ export class AssignationService {
   }
 
   sendAssignations(assignations: Assignation[]): Observable<any> {
-    console.log(assignations);
     return this.http.post<any>(AssignationService.API_ROOT + '/All', assignations);
+  }
+
+  deleteAssignation(id: number): Observable<any> {
+    return this.http.delete<any>(AssignationService.API_ROOT + '/' + id);
   }
 }

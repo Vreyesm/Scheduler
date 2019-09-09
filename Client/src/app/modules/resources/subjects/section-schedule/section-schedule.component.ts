@@ -51,37 +51,36 @@ export class SectionScheduleComponent implements OnInit {
         this.checks.saturday = this.section.saturdayData.split(';').map((check) => check === 'true' ? true : false);
         this.teacherId = this.section.professorId;
       },
-      () => {},
-      () => {
-        let assignations: Assignation[];
-        this.assignationService.getAssignationsBySection(this.idSection).subscribe(data => {
-            assignations = data;
-            const monday: Assignation[] = assignations.filter(a => a.day === WeekDay.Monday);
+        () => { },
+        () => {
+          this.assignationService.getAssignationsBySection(this.idSection).subscribe(data => {
+            this.assignations = data;
+            const monday: Assignation[] = this.assignations.filter(a => a.day === WeekDay.Monday);
             monday.forEach(a => {
               this.classroomNames.monday[a.block] = a.classroom.name;
             });
-            const tuesday: Assignation[] = assignations.filter(a => a.day === WeekDay.Tuesday);
+            const tuesday: Assignation[] = this.assignations.filter(a => a.day === WeekDay.Tuesday);
             tuesday.forEach(a => {
               this.classroomNames.tuesday[a.block] = a.classroom.name;
             });
-            const wednesday: Assignation[] = assignations.filter(a => a.day === WeekDay.Wednesday);
+            const wednesday: Assignation[] = this.assignations.filter(a => a.day === WeekDay.Wednesday);
             wednesday.forEach(a => {
               this.classroomNames.wednesday[a.block] = a.classroom.name;
             });
-            const thursday: Assignation[] = assignations.filter(a => a.day === WeekDay.Thursday);
+            const thursday: Assignation[] = this.assignations.filter(a => a.day === WeekDay.Thursday);
             thursday.forEach(a => {
               this.classroomNames.thursday[a.block] = a.classroom.name;
             });
-            const friday: Assignation[] = assignations.filter(a => a.day === WeekDay.Friday);
+            const friday: Assignation[] = this.assignations.filter(a => a.day === WeekDay.Friday);
             friday.forEach(a => {
               this.classroomNames.friday[a.block] = a.classroom.name;
             });
-            const saturday: Assignation[] = assignations.filter(a => a.day === WeekDay.Saturday);
+            const saturday: Assignation[] = this.assignations.filter(a => a.day === WeekDay.Saturday);
             saturday.forEach(a => {
               this.classroomNames.saturday[a.block] = a.classroom.name;
             });
           });
-      });
+        });
     });
     this.teachers$ = this.teacherService.getTeachers();
   }
@@ -100,37 +99,36 @@ export class SectionScheduleComponent implements OnInit {
         this.checks.saturday = this.section.saturdayData.split(';').map((check) => check === 'true' ? true : false);
         this.teacherId = this.section.professorId;
       },
-      () => {},
-      () => {
-        let assignations: Assignation[];
-        this.assignationService.getAssignationsBySection(this.idSection).subscribe(data => {
-            assignations = data;
-            const monday: Assignation[] = assignations.filter(a => a.day === WeekDay.Monday);
+        () => { },
+        () => {
+          this.assignationService.getAssignationsBySection(this.idSection).subscribe(data => {
+            this.assignations = data;
+            const monday: Assignation[] = this.assignations.filter(a => a.day === WeekDay.Monday);
             monday.forEach(a => {
               this.classroomNames.monday[a.block] = a.classroom.name;
             });
-            const tuesday: Assignation[] = assignations.filter(a => a.day === WeekDay.Tuesday);
+            const tuesday: Assignation[] = this.assignations.filter(a => a.day === WeekDay.Tuesday);
             tuesday.forEach(a => {
               this.classroomNames.tuesday[a.block] = a.classroom.name;
             });
-            const wednesday: Assignation[] = assignations.filter(a => a.day === WeekDay.Wednesday);
+            const wednesday: Assignation[] = this.assignations.filter(a => a.day === WeekDay.Wednesday);
             wednesday.forEach(a => {
               this.classroomNames.wednesday[a.block] = a.classroom.name;
             });
-            const thursday: Assignation[] = assignations.filter(a => a.day === WeekDay.Thursday);
+            const thursday: Assignation[] = this.assignations.filter(a => a.day === WeekDay.Thursday);
             thursday.forEach(a => {
               this.classroomNames.thursday[a.block] = a.classroom.name;
             });
-            const friday: Assignation[] = assignations.filter(a => a.day === WeekDay.Friday);
+            const friday: Assignation[] = this.assignations.filter(a => a.day === WeekDay.Friday);
             friday.forEach(a => {
               this.classroomNames.friday[a.block] = a.classroom.name;
             });
-            const saturday: Assignation[] = assignations.filter(a => a.day === WeekDay.Saturday);
+            const saturday: Assignation[] = this.assignations.filter(a => a.day === WeekDay.Saturday);
             saturday.forEach(a => {
               this.classroomNames.saturday[a.block] = a.classroom.name;
             });
           });
-      });
+        });
     });
     this.teachers$ = this.teacherService.getTeachers();
   }
@@ -145,8 +143,8 @@ export class SectionScheduleComponent implements OnInit {
     this.section.saturdayData = this.checks.saturday.join(';');
 
     this.sectionService.update(this.section).subscribe(
-      () => {},
-      () => {},
+      () => { },
+      () => { },
       () => {
         this.router.navigateByUrl('resources/subjects');
       }
@@ -155,20 +153,23 @@ export class SectionScheduleComponent implements OnInit {
   }
 
   sendAssignations(assignations: Assignation[]) {
-    this.assignations = assignations;
-    console.log(JSON.stringify(this.assignations));
-    this.assignations.forEach(a => {
+    // const _assignations = assignations;
+    // console.log(JSON.stringify(this.assignations));
+    assignations.forEach(a => {
       a.section = this.section;
     });
-    console.log(this.assignations);
-    this.assignationService.sendAssignations(this.assignations).subscribe(
-      () => {},
-      () => {},
-      () => { this.loadData(); }
-    );
-  }
+    this.assignationService.sendAssignations(assignations).subscribe(
+        () => { },
+        () => { },
+        () => { this.loadData(); }
+      );
+    }
 
   close(value) {
     this.router.navigateByUrl('resources/subjects');
+  }
+
+  reload(value) {
+    this.loadData();
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Blocks, Classroom, Assignation, BlockName, UserType } from '../../../../models';
 import { AssignationService, AuthService } from '../../../../services';
 import { WeekDay } from '@angular/common';
@@ -28,9 +28,9 @@ const DATA: ScheduleBlock[] = [
 @Component({
   selector: 'app-schedule',
   templateUrl: './schedule.component.html',
-  styleUrls: ['./schedule.component.scss']
+  styleUrls: ['./schedule.component.scss'],
 })
-export class ScheduleComponent implements OnInit {
+export class ScheduleComponent implements OnInit, OnChanges {
 
   displayedColumns: string[] = ['block', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
   dataSource = DATA;
@@ -65,13 +65,20 @@ export class ScheduleComponent implements OnInit {
   @Output()
   canceled = new EventEmitter<any>();
 
+  @Output()
+  reload = new EventEmitter<any>();
+
   constructor(private assignationService: AssignationService,
               private authService: AuthService,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog,
+              private changeDetector: ChangeDetectorRef) { }
 
   ngOnInit() {
   }
 
+  ngOnChanges() {
+
+  }
   get WeekDay() { return WeekDay; }
 
   checkButton(list: boolean[], index: number, weekday: WeekDay) {
@@ -93,10 +100,21 @@ export class ScheduleComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-          this.assignations = result.assignations;
-          console.log(this.assignations);
-          if (this.assignations.length !== 0) {
-            this.assignationsAdded.emit(this.assignations);
+          if (result.delete) {
+            const assignation = this.assignations.find(a => a.block === index && a.day === weekday);
+            this.assignationService.deleteAssignation(assignation.id).subscribe(
+              () => { },
+              () => { },
+              () => {
+                list[index] = false;
+                this.changeDetector.markForCheck();
+                this.reload.emit(null);
+              });
+          } else {
+            const assignations: Assignation[] = result.assignations;
+            if (assignations.length !== 0) {
+              this.assignationsAdded.emit(assignations);
+            }
           }
         }
       });

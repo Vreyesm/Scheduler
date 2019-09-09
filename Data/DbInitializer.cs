@@ -409,7 +409,7 @@ namespace Scheduler.Data
                         List<Assignation> assignations = new List<Assignation>();
                         for (int j = 0; j <= span; j++)
                         {
-                            classroom.MarkBLock(day, block + j);
+                            classroom.MarkBLock(day, block + j, true);
                             Assignation a = new Assignation { Section = section, Block = block + j, Classroom = classroom, Day = day };
                             assignations.Add(a);
                         }
