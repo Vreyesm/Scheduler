@@ -43,6 +43,8 @@ import { LoaderComponent } from './components/loader/loader.component';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { AssignationSelectDialogComponent } from './components/assignation-select-dialog/assignation-select-dialog.component';
 import { AssignationRequestComponent } from './components/assignation-request/assignation-request.component';
+import { AssignationRequestTypeComponent } from './components/assignation-request-type/assignation-request-type.component';
+import { AssignationSpecialRequestComponent } from './components/assignation-special-request/assignation-special-request.component';
 
 @NgModule({
   imports: [
@@ -80,6 +82,8 @@ import { AssignationRequestComponent } from './components/assignation-request/as
     LoaderComponent,
     AssignationSelectDialogComponent,
     AssignationRequestComponent,
+    AssignationRequestTypeComponent,
+    AssignationSpecialRequestComponent,
     // AssignationDialogComponent
   ],
   providers: [
@@ -99,7 +103,9 @@ import { AssignationRequestComponent } from './components/assignation-request/as
     DeleteDialogComponent,
     CompletedCareerComponent,
     AssignationSelectDialogComponent,
-    AssignationRequestComponent
+    AssignationRequestComponent,
+    AssignationRequestTypeComponent,
+    AssignationSpecialRequestComponent,
     // AssignationDialogComponent
   ],
   bootstrap: [AppComponent]
