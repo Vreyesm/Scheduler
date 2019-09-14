@@ -42,6 +42,7 @@ import { CompletedCareerComponent } from './modules/resources/subjects/completed
 import { LoaderComponent } from './components/loader/loader.component';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { AssignationSelectDialogComponent } from './components/assignation-select-dialog/assignation-select-dialog.component';
+import { AssignationRequestComponent } from './components/assignation-request/assignation-request.component';
 
 @NgModule({
   imports: [
@@ -78,6 +79,7 @@ import { AssignationSelectDialogComponent } from './components/assignation-selec
     CompletedCareerComponent,
     LoaderComponent,
     AssignationSelectDialogComponent,
+    AssignationRequestComponent,
     // AssignationDialogComponent
   ],
   providers: [
@@ -96,7 +98,8 @@ import { AssignationSelectDialogComponent } from './components/assignation-selec
     AddTeacherComponent,
     DeleteDialogComponent,
     CompletedCareerComponent,
-    AssignationSelectDialogComponent
+    AssignationSelectDialogComponent,
+    AssignationRequestComponent
     // AssignationDialogComponent
   ],
   bootstrap: [AppComponent]

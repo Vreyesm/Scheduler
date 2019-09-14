@@ -32,25 +32,87 @@ namespace Scheduler.Controllers
         [HttpGet("Available/Day/{day}/Block/{block}/Span/{span}")]
         public async Task<ActionResult<IEnumerable<Classroom>>> GetClassroomsAvailable([FromRoute] DayOfWeek day, [FromRoute] int block, [FromRoute] int span)
         {
+            List<Building> buildings = await _context.Buildings.Include(b => b.Classrooms).ToListAsync();
             List<Classroom> classrooms = new List<Classroom>();
-            
             List<Classroom> allClassrooms = await _context.Classrooms.ToListAsync();
+            /*
+            foreach (Building b in buildings)
+            {
+                List<Classroom> classroomsToDelete = new List<Classroom>();
+                foreach (Classroom c in b.Classrooms)
+                {
+                    if (!c.GetArrayByDay(day)[block])
+                    {
+                        int index = block;
+                        int count = 1;
 
-            foreach(Classroom classroom in allClassrooms)
+                        while (index < 10 && count != span + 1 && !c.GetArrayByDay(day)[index++ + 1]) { count++; }
+                        if (!(count >= span + 1))
+                        {
+                            classroomsToDelete.Add(c);
+                        }
+                    }
+                }
+                
+                foreach(Classroom c in classroomsToDelete)
+                {
+                    b.Classrooms.Remove(c);
+                }
+            }
+            */
+
+            
+
+            foreach (Classroom classroom in allClassrooms)
             {
                 if (!classroom.GetArrayByDay(day)[block])
-                {   
+                {
                     int index = block;
                     int count = 1;
 
-                    while (index < 10 && count != span + 1 && !classroom.GetArrayByDay(day)[index++ + 1]) { count ++; }
-                    if (count >= span + 1) {
+                    while (index < 10 && count != span + 1 && !classroom.GetArrayByDay(day)[index++ + 1]) { count++; }
+                    if (count >= span + 1)
+                    {
                         classrooms.Add(classroom);
                     }
                 }
             }
 
             return classrooms;
+        }
+
+        // GET: api/Classrooms
+        [HttpGet("Building/Available/Day/{day}/Block/{block}/Span/{span}")]
+        public async Task<ActionResult<IEnumerable<Building>>> GetBuildingsAndClassroomsAvailable([FromRoute] DayOfWeek day, [FromRoute] int block, [FromRoute] int span)
+        {
+            List<Building> buildings = await _context.Buildings.Include(b => b.Classrooms).ToListAsync();
+            
+            foreach (Building b in buildings)
+            {
+                List<Classroom> classroomsToDelete = new List<Classroom>();
+                foreach (Classroom c in b.Classrooms)
+                {
+                    if (!c.GetArrayByDay(day)[block])
+                    {
+                        int index = block;
+                        int count = 1;
+
+                        while (index < 10 && count != span + 1 && !c.GetArrayByDay(day)[index++ + 1]) { count++; }
+                        if (!(count >= span + 1))
+                        {
+                            classroomsToDelete.Add(c);
+                        }
+                    }
+                }
+                
+                foreach(Classroom c in classroomsToDelete)
+                {
+                    b.Classrooms.Remove(c);
+                }
+            }
+            
+            return buildings;
+
         }
 
         // GET: api/Classrooms/count

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Classroom} from '../models';
+import {Classroom, Building} from '../models';
 import {Observable} from 'rxjs';
 import { WeekDay } from '@angular/common';
 
@@ -39,5 +39,9 @@ export class ClassroomService {
 
   getAllAvailable(day: WeekDay, block: number, span: number): Observable<Classroom[]> {
     return this.http.get<Classroom[]>(ClassroomService.API_ROOT + `/Available/Day/${day}/Block/${block}/Span/${span}`);
+  }
+
+  getAllAvailableByBuilding(day: WeekDay, block: number, span: number): Observable<Building[]> {
+    return this.http.get<Building[]>(ClassroomService.API_ROOT + `/Building/Available/Day/${day}/Block/${block}/Span/${span}`);
   }
 }

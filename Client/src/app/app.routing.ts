@@ -31,6 +31,14 @@ export const ROUTES: Routes = [
     data: {
       title: 'Recursos'
     }
+  },
+  {
+    path: 'assignations',
+    loadChildren: () => import('./modules/requests/requests.module').then(m => m.RequestsModule),
+    canActivate: [AuthGuard],
+    data: {
+      title: 'Solicitudes de asignaciones'
+    }
   }
 ];
 

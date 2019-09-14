@@ -115,6 +115,7 @@ namespace Scheduler
             else
             {
                 app.UseHsts();
+                app.UseHttpsRedirection();
             }
 
             // app.UseHttpsRedirection();
