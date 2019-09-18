@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { UserData } from '../models';
+import { UserData, UserType } from '../models';
 import { Observable } from 'rxjs';
 import * as jwt_decode from 'jwt-decode';
 import { ok } from 'assert';
@@ -48,6 +48,10 @@ export class AuthService {
     // return "Admin";
     return decoded.role;*/
     return +localStorage.getItem('role');
+  }
+
+  isAdmin(): boolean {
+    return this.getRole() === UserType.Admin;
   }
 
   logout() {

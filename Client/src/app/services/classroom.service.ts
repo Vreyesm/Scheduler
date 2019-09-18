@@ -44,4 +44,9 @@ export class ClassroomService {
   getAllAvailableByBuilding(day: WeekDay, block: number, span: number): Observable<Building[]> {
     return this.http.get<Building[]>(ClassroomService.API_ROOT + `/Building/Available/Day/${day}/Block/${block}/Span/${span}`);
   }
+
+  getAllAvailableByBuildingOnTime(day: WeekDay, block: number, date: Date): Observable<Building[]> {
+    // tslint:disable-next-line: max-line-length
+    return this.http.post<Building[]>(ClassroomService.API_ROOT + `/Available/Time`, {Date: date, Day: day, Block: block});
+  }
 }

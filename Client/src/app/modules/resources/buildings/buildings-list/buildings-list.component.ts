@@ -1,14 +1,13 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddBuildingComponent } from '../add-building/add-building.component';
-import { Building, Classroom} from '../../../../models';
-import { BuildingService } from '../../../../services/building.service';
+import { Building, Classroom, UserType} from '../../../../models';
 import { AddClassroomComponent } from '../add-classroom/add-classroom.component';
-import { ClassroomService } from '../../../../services/classroom.service';
 import { DeleteDialogComponent } from '../../../../components/delete-dialog/delete-dialog.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {Router} from '@angular/router';
+import { AuthService, BuildingService, ClassroomService } from './../../../../services';
 
 @Component({
   selector: 'app-buildings-list',
@@ -24,7 +23,8 @@ export class BuildingsListComponent implements OnInit {
   constructor(public dialog: MatDialog,
               private buildingService: BuildingService,
               private classroomService: ClassroomService,
-              private router: Router) {
+              private router: Router,
+              private auth: AuthService) {
   }
 
   displayedColumns: string[] = ['name', 'quantity', 'options'];
@@ -97,6 +97,10 @@ export class BuildingsListComponent implements OnInit {
         });
       }
     });
+  }
+
+  isAdmin(): boolean {
+    return this.auth.getRole() === UserType.Admin;
   }
 }
 

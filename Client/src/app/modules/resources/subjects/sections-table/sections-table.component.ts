@@ -108,4 +108,12 @@ export class SectionsTableComponent implements OnInit, OnChanges {
     return this.authService.getRole() === UserType.Admin;
   }
 
+  isDirector(): boolean {
+    return this.authService.getRole() === UserType.Director;
+  }
+
+  canEdit(): boolean {
+    return this.isDirector() || this.isAdmin();
+  }
+
 }

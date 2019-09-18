@@ -9,7 +9,6 @@ import { ComponentsModule } from './components/components.module';
 
 import { AppComponent } from './app.component';
 
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { AddBuildingComponent } from './modules/resources/buildings/add-building/add-building.component';
 import { AddClassroomComponent } from './modules/resources/buildings/add-classroom/add-classroom.component';
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
@@ -70,7 +69,6 @@ import { AssignationSpecialRequestComponent } from './components/assignation-spe
   ],
   declarations: [
     AppComponent,
-    DashboardComponent,
     AddBuildingComponent,
     AddClassroomComponent,
     AddCareerComponent,

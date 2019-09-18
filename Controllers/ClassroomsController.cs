@@ -35,33 +35,6 @@ namespace Scheduler.Controllers
             List<Building> buildings = await _context.Buildings.Include(b => b.Classrooms).ToListAsync();
             List<Classroom> classrooms = new List<Classroom>();
             List<Classroom> allClassrooms = await _context.Classrooms.ToListAsync();
-            /*
-            foreach (Building b in buildings)
-            {
-                List<Classroom> classroomsToDelete = new List<Classroom>();
-                foreach (Classroom c in b.Classrooms)
-                {
-                    if (!c.GetArrayByDay(day)[block])
-                    {
-                        int index = block;
-                        int count = 1;
-
-                        while (index < 10 && count != span + 1 && !c.GetArrayByDay(day)[index++ + 1]) { count++; }
-                        if (!(count >= span + 1))
-                        {
-                            classroomsToDelete.Add(c);
-                        }
-                    }
-                }
-                
-                foreach(Classroom c in classroomsToDelete)
-                {
-                    b.Classrooms.Remove(c);
-                }
-            }
-            */
-
-            
 
             foreach (Classroom classroom in allClassrooms)
             {
@@ -115,6 +88,54 @@ namespace Scheduler.Controllers
 
         }
 
+        // GET: api/Classrooms
+        [HttpPost("Available/Time")]
+        public async Task<ActionResult<IEnumerable<Building>>> GetBuildingsAndClassroomsAvailableOnTime([FromBody] RequestDTO dto)
+        {
+            /*
+            List<Assignation> assignations = await _context.Assignations
+                                                .Include(a => a.Classroom)
+                                                .Where(a => a.HasExpiration && a.Expiration == expiration)
+                                                .ToListAsync();
+            */
+            DateTime Date = dto.Date;
+            DayOfWeek Day = dto.Day;
+            int Block = dto.Block;
+
+            var alreadyRequested = (from c in _context.Classrooms
+                              join a in _context.Assignations
+                              on c equals a.Classroom
+                              where a.HasExpiration
+                              where a.Expiration == Date
+                              where a.Day == Day
+                              where a.Block == Block
+                              select c).ToList();
+
+
+            List<Building> buildings = await _context.Buildings.Include(b => b.Classrooms).ToListAsync();
+
+            foreach (Building b in buildings)
+            {
+                List<Classroom> classroomsToDelete = new List<Classroom>();
+                foreach (Classroom c in b.Classrooms)
+                {
+                    if(alreadyRequested.Contains(c)) { continue; }
+
+                    if (c.GetArrayByDay(Day)[Block])
+                    {
+                        classroomsToDelete.Add(c);
+                    }
+                }
+
+                foreach (Classroom c in classroomsToDelete)
+                {
+                    b.Classrooms.Remove(c);
+                }
+            }
+
+            return buildings;
+
+        }
         // GET: api/Classrooms/count
         [HttpGet("count")]
         public async Task<int> CountClassrooms()
@@ -196,5 +217,12 @@ namespace Scheduler.Controllers
         {
             return _context.Classrooms.Any(e => e.ID == id);
         }
+    }
+
+    public class RequestDTO
+    {
+        public DateTime Date { get; set; }
+        public DayOfWeek Day { get; set; }
+        public int Block { get; set; }
     }
 }

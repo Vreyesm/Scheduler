@@ -1,10 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { Section, UserData, Assignation, BlockName } from '../../../../models';
+import { Section, UserData, Assignation, BlockName, UserType } from '../../../../models';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { switchMap, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { TeacherService, SectionService, AssignationService } from '../../../../services';
+import { TeacherService, SectionService, AssignationService, AuthService } from '../../../../services';
 import { WeekDay } from '@angular/common';
 
 @Component({
@@ -35,7 +35,8 @@ export class SectionScheduleComponent implements OnInit {
               private router: Router,
               private sectionService: SectionService,
               private teacherService: TeacherService,
-              private assignationService: AssignationService) { }
+              private assignationService: AssignationService,
+              private auth: AuthService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -177,4 +178,10 @@ export class SectionScheduleComponent implements OnInit {
       () => { this.loadData(); }
     );
   }
+
+  canEdit(): boolean {
+    const role = this.auth.getRole();
+    return role === UserType.Admin || role === UserType.Director;
+  }
+
 }

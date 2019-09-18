@@ -61,7 +61,7 @@
       </tr>
     </tbody>
   </table>
-  <div fxFlex="row" fxLayoutAlign="end">
+  <div fxFlex="row" fxLayoutAlign="end" *ngIf="canEdit()">
     <button mat-raised-button (click)="close()" style="margin-right: 5px">Cancelar</button>
     <button mat-raised-button (click)="checked()" class="btn-success pull-right">Aceptar</button>
   </div>

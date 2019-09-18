@@ -35,7 +35,7 @@ export class AssignationRequestComponent implements OnInit {
   selectedDay: WeekDay;
 
   sections: Section[];
-  sectionId: number;
+  section: Section;
   userId: string;
   buildings: Building[];
   selectedClassroom: Classroom;
@@ -108,8 +108,8 @@ export class AssignationRequestComponent implements OnInit {
 
   submit() {
     const request = new AssignationRequest();
-    request.classroomId = this.secondFormGroup.get('classroom').value;
-    request.sectionId = this.firstFormGroup.get('section').value;
+    request.classroom = this.secondFormGroup.get('classroom').value;
+    request.section = this.firstFormGroup.get('section').value;
     request.professorId = this.authService.getId();
     request.day = this.day.value;
     request.block = this.block.value;
