@@ -24,7 +24,8 @@
             <app-schedule [checks]="checks" [names]="classroomNames" [textOnTrue]="'Seleccionado'"
                 [textOnFalse]="'Disponible'" [isForClassroom]="false" [assignations]="assignations"
                 (completed)="completed($event)" (canceled)="close($event)"
-                (assignationsAdded)="sendAssignations($event)"></app-schedule>
+                (assignationsAdded)="sendAssignations($event)"
+                (reload)="reload($event)"></app-schedule>
         </ng-container>
     </div>
 </div>

@@ -24,8 +24,8 @@
           </button>
         </td>
         <td>
-          <button type="button" class="btn button-check btn-sm" [class.btn-success]="checks.tuesday[item.id - 1]"
-            [class.btn-outline-success]="!checks.tuesday[item.id - 1]"
+          <button type="button" class="btn button-check btn-sm" 
+            [class.btn-success]="checks.tuesday[item.id - 1]" [class.btn-outline-success]="!checks.tuesday[item.id - 1]"
             (click)="checkButton(checks.tuesday, item.id - 1,WeekDay.Tuesday)" ngDefaultControl>
             {{checks.tuesday[item.id - 1] ? (names.tuesday[item.id - 1] == '' ? textOnTrue : names.tuesday[item.id - 1]) : textOnFalse}}
           </button>

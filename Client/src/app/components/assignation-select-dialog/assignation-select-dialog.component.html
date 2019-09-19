@@ -41,7 +41,13 @@
         </form>
     </div>
 </div>
-<div mat-dialog-actions class="pull-right">
-    <button mat-raised-button (click)="close()" class="btn-light">Cancelar</button>
-    <button mat-raised-button [disabled]="disabled" (click)="submit()" class="btn-success">Aceptar</button>
+<div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between baseline">
+    <div>
+        <button mat-raised-button (click)="delete()" [hidden]="data.previous === ''" class="btn-danger">Eliminar</button>
+    </div>
+    <div>
+        <button mat-raised-button (click)="close()" class="btn-light">Cancelar</button>
+        <button mat-raised-button [disabled]="disabled" (click)="submit()" class="btn-success">Aceptar</button>
+    </div>
+
 </div>
