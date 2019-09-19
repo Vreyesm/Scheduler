@@ -10,21 +10,22 @@
             <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
                 <mat-form-field>
                     <mat-label>Profesor de sección</mat-label>
-                    <mat-select [(value)]="teacherId">
+                    <mat-select [(value)]="teacherId" [disabled]="!canEdit()">
                         <mat-option *ngFor="let t of teachers$ | async" [value]="t.id">
                             {{t.name}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field>
-                    <input matInput type="number" placeholder="Estudiantes" [(ngModel)]="section.students">
+                    <input matInput type="number" placeholder="Estudiantes" [(ngModel)]="section.students" [disabled]="!canEdit()">
                 </mat-form-field>
             </div>
 
             <app-schedule [checks]="checks" [names]="classroomNames" [textOnTrue]="'Seleccionado'"
                 [textOnFalse]="'Disponible'" [isForClassroom]="false" [assignations]="assignations"
                 (completed)="completed($event)" (canceled)="close($event)"
-                (assignationsAdded)="sendAssignations($event)"></app-schedule>
+                (assignationsAdded)="sendAssignations($event)"
+                (reload)="reload($event)"></app-schedule>
         </ng-container>
     </div>
 </div>

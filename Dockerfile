@@ -15,6 +15,7 @@ RUN ng build --prod
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-stretch-slim AS base
 WORKDIR /app
 EXPOSE 80
+EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build
 WORKDIR /src
@@ -31,6 +32,7 @@ FROM base AS final
 WORKDIR /app
 ENV ASPNETCORE_Environment=Production
 ENV ASPNETCORE_URLS http://+:$80
+ENV ASPNETCORE_HTTPS_PORT https://+:$443 
 COPY --from=client /Client/dist/ ./Client/dist/
 COPY --from=publish /app .
 # COPY *.csv .

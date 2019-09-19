@@ -1,10 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { Section, UserData, Assignation, BlockName } from '../../../../models';
+import { Section, UserData, Assignation, BlockName, UserType } from '../../../../models';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { switchMap, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { TeacherService, SectionService, AssignationService } from '../../../../services';
+import { TeacherService, SectionService, AssignationService, AuthService } from '../../../../services';
 import { WeekDay } from '@angular/common';
 
 @Component({
@@ -35,7 +35,8 @@ export class SectionScheduleComponent implements OnInit {
               private router: Router,
               private sectionService: SectionService,
               private teacherService: TeacherService,
-              private assignationService: AssignationService) { }
+              private assignationService: AssignationService,
+              private auth: AuthService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -51,42 +52,42 @@ export class SectionScheduleComponent implements OnInit {
         this.checks.saturday = this.section.saturdayData.split(';').map((check) => check === 'true' ? true : false);
         this.teacherId = this.section.professorId;
       },
-      () => {},
-      () => {
-        let assignations: Assignation[];
-        this.assignationService.getAssignationsBySection(this.idSection).subscribe(data => {
-            assignations = data;
-            const monday: Assignation[] = assignations.filter(a => a.day === WeekDay.Monday);
+        () => { },
+        () => {
+          this.assignationService.getAssignationsBySection(this.idSection).subscribe(data => {
+            this.assignations = data;
+            const monday: Assignation[] = this.assignations.filter(a => a.day === WeekDay.Monday);
             monday.forEach(a => {
               this.classroomNames.monday[a.block] = a.classroom.name;
             });
-            const tuesday: Assignation[] = assignations.filter(a => a.day === WeekDay.Tuesday);
+            const tuesday: Assignation[] = this.assignations.filter(a => a.day === WeekDay.Tuesday);
             tuesday.forEach(a => {
               this.classroomNames.tuesday[a.block] = a.classroom.name;
             });
-            const wednesday: Assignation[] = assignations.filter(a => a.day === WeekDay.Wednesday);
+            const wednesday: Assignation[] = this.assignations.filter(a => a.day === WeekDay.Wednesday);
             wednesday.forEach(a => {
               this.classroomNames.wednesday[a.block] = a.classroom.name;
             });
-            const thursday: Assignation[] = assignations.filter(a => a.day === WeekDay.Thursday);
+            const thursday: Assignation[] = this.assignations.filter(a => a.day === WeekDay.Thursday);
             thursday.forEach(a => {
               this.classroomNames.thursday[a.block] = a.classroom.name;
             });
-            const friday: Assignation[] = assignations.filter(a => a.day === WeekDay.Friday);
+            const friday: Assignation[] = this.assignations.filter(a => a.day === WeekDay.Friday);
             friday.forEach(a => {
               this.classroomNames.friday[a.block] = a.classroom.name;
             });
-            const saturday: Assignation[] = assignations.filter(a => a.day === WeekDay.Saturday);
+            const saturday: Assignation[] = this.assignations.filter(a => a.day === WeekDay.Saturday);
             saturday.forEach(a => {
               this.classroomNames.saturday[a.block] = a.classroom.name;
             });
           });
-      });
+        });
     });
     this.teachers$ = this.teacherService.getTeachers();
   }
 
   loadData() {
+    this.classroomNames = new BlockName();
     this.route.params.subscribe(params => {
       // tslint:disable-next-line: no-string-literal
       this.idSection = params['id'];
@@ -100,37 +101,36 @@ export class SectionScheduleComponent implements OnInit {
         this.checks.saturday = this.section.saturdayData.split(';').map((check) => check === 'true' ? true : false);
         this.teacherId = this.section.professorId;
       },
-      () => {},
-      () => {
-        let assignations: Assignation[];
-        this.assignationService.getAssignationsBySection(this.idSection).subscribe(data => {
-            assignations = data;
-            const monday: Assignation[] = assignations.filter(a => a.day === WeekDay.Monday);
+        () => { },
+        () => {
+          this.assignationService.getAssignationsBySection(this.idSection).subscribe(data => {
+            this.assignations = data;
+            const monday: Assignation[] = this.assignations.filter(a => a.day === WeekDay.Monday);
             monday.forEach(a => {
               this.classroomNames.monday[a.block] = a.classroom.name;
             });
-            const tuesday: Assignation[] = assignations.filter(a => a.day === WeekDay.Tuesday);
+            const tuesday: Assignation[] = this.assignations.filter(a => a.day === WeekDay.Tuesday);
             tuesday.forEach(a => {
               this.classroomNames.tuesday[a.block] = a.classroom.name;
             });
-            const wednesday: Assignation[] = assignations.filter(a => a.day === WeekDay.Wednesday);
+            const wednesday: Assignation[] = this.assignations.filter(a => a.day === WeekDay.Wednesday);
             wednesday.forEach(a => {
               this.classroomNames.wednesday[a.block] = a.classroom.name;
             });
-            const thursday: Assignation[] = assignations.filter(a => a.day === WeekDay.Thursday);
+            const thursday: Assignation[] = this.assignations.filter(a => a.day === WeekDay.Thursday);
             thursday.forEach(a => {
               this.classroomNames.thursday[a.block] = a.classroom.name;
             });
-            const friday: Assignation[] = assignations.filter(a => a.day === WeekDay.Friday);
+            const friday: Assignation[] = this.assignations.filter(a => a.day === WeekDay.Friday);
             friday.forEach(a => {
               this.classroomNames.friday[a.block] = a.classroom.name;
             });
-            const saturday: Assignation[] = assignations.filter(a => a.day === WeekDay.Saturday);
+            const saturday: Assignation[] = this.assignations.filter(a => a.day === WeekDay.Saturday);
             saturday.forEach(a => {
               this.classroomNames.saturday[a.block] = a.classroom.name;
             });
           });
-      });
+        });
     });
     this.teachers$ = this.teacherService.getTeachers();
   }
@@ -145,8 +145,8 @@ export class SectionScheduleComponent implements OnInit {
     this.section.saturdayData = this.checks.saturday.join(';');
 
     this.sectionService.update(this.section).subscribe(
-      () => {},
-      () => {},
+      () => { },
+      () => { },
       () => {
         this.router.navigateByUrl('resources/subjects');
       }
@@ -155,20 +155,33 @@ export class SectionScheduleComponent implements OnInit {
   }
 
   sendAssignations(assignations: Assignation[]) {
-    this.assignations = assignations;
-    console.log(JSON.stringify(this.assignations));
-    this.assignations.forEach(a => {
+    // const _assignations = assignations;
+    // console.log(JSON.stringify(this.assignations));
+    assignations.forEach(a => {
       a.section = this.section;
     });
-    console.log(this.assignations);
-    this.assignationService.sendAssignations(this.assignations).subscribe(
-      () => {},
-      () => {},
-      () => { this.loadData(); }
-    );
-  }
+    this.assignationService.sendAssignations(assignations).subscribe(
+        () => { },
+        () => { },
+        () => { this.loadData(); }
+      );
+    }
 
   close(value) {
     this.router.navigateByUrl('resources/subjects');
   }
+
+  reload(assignation: Assignation) {
+    this.assignationService.deleteAssignation(assignation.id).subscribe(
+      () => { },
+      () => { },
+      () => { this.loadData(); }
+    );
+  }
+
+  canEdit(): boolean {
+    const role = this.auth.getRole();
+    return role === UserType.Admin || role === UserType.Director;
+  }
+
 }

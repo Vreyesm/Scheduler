@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {BuildingService} from '../../../services/building.service';
-import {ClassroomService} from '../../../services/classroom.service';
+import {  AuthService, BuildingService,
+          ClassroomService, CareerService,
+          SubjectsService, SectionService,
+          TeacherService } from './../../../services';
 import {Observable} from 'rxjs';
-import {CareerService} from '../../../services/career.service';
-import { SubjectsService } from '../../../services/subjects.service';
-import { SectionService } from '../../../services/section.service';
-import { TeacherService } from '../../../services/teacher.service';
+import { UserType } from './../../../models';
 
 @Component({
-  selector: 'app-resourceºs-landing',
+  selector: 'app-resources-landing',
   templateUrl: './resources-landing.component.html',
   styleUrls: ['./resources-landing.component.scss']
 })
@@ -24,7 +23,8 @@ export class ResourcesLandingComponent implements OnInit {
               private careerService: CareerService,
               private subjectService: SubjectsService,
               private sectionService: SectionService,
-              private teacherService: TeacherService) { }
+              private teacherService: TeacherService,
+              private authService: AuthService) { }
 
   ngOnInit() {
     this.buildingsCount = this.buildingService.count();
@@ -35,4 +35,7 @@ export class ResourcesLandingComponent implements OnInit {
     this.teachersCount = this.teacherService.count();
   }
 
+  isAdmin(): boolean {
+    return this.authService.getRole() === UserType.Admin;
+  }
 }

@@ -125,7 +125,7 @@ namespace Scheduler.Controllers
             {
                 var previous = await _context.Assignations.Where(a => a.Section.ID == assignation.Section.ID && a.Day == assignation.Day && a.Block == assignation.Block).ToListAsync();
                 _context.Assignations.RemoveRange(previous);
-                c.MarkBLock(assignation.Day, assignation.Block);
+                c.MarkBLock(assignation.Day, assignation.Block, true);
                 await _context.Assignations.AddAsync(assignation);
                 await _context.SaveChangesAsync();
             }
@@ -137,11 +137,17 @@ namespace Scheduler.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Assignation>> DeleteAssignation(int id)
         {
-            var assignation = await _context.Assignations.FindAsync(id);
+            // var assignation = await _context.Assignations.FindAsync(id);
+            var assignation = await _context.Assignations
+                                .Include(a => a.Classroom)
+                                .FirstOrDefaultAsync(a => a.ID == id);
             if (assignation == null)
             {
                 return NotFound();
             }
+
+            Classroom classroom = assignation.Classroom;
+            classroom.MarkBLock(assignation.Day, assignation.Block, false);
 
             _context.Assignations.Remove(assignation);
             await _context.SaveChangesAsync();

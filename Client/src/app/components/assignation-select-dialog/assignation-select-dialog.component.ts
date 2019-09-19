@@ -189,4 +189,8 @@ export class AssignationSelectDialogComponent implements OnInit, AfterViewInit {
     }
     this.dialogRef.close({ assignations });
   }
+
+  delete() {
+    this.dialogRef.close({ delete: true});
+  }
 }
