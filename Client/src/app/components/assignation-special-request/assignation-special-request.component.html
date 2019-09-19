@@ -1,0 +1,134 @@
+<h3 mat-dialog-title>Crear solicitud de Asignación</h3>
+<div mat-dialog-content fxLayout="column" fxLayoutGap="5px" style="padding-bottom: 5px ">
+    <mat-horizontal-stepper [linear]="isLinear" #stepper>
+        <mat-step [stepControl]="firstFormGroup">
+            <form [formGroup]="firstFormGroup">
+                <ng-template matStepLabel>Ramo/Sección</ng-template>
+                <mat-form-field>
+                    <mat-label>Ramo/Sección</mat-label>
+                    <mat-select [value]="section" formControlName="section" required>
+                        <mat-option *ngFor="let section of sections" [value]="section">
+                            {{section.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+                    <button mat-raised-button (click)="close()" class="btn-danger">Cancelar</button>
+                    <button mat-raised-button matStepperNext class="btn-primary" [disabled]="firstFormGroup.invalid">
+                        Continuar
+                        <mat-icon>
+                            arrow_forward
+                        </mat-icon>
+                    </button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="secondFormGroup">
+            <form [formGroup]="secondFormGroup">
+                <ng-template matStepLabel>Día, bloque y sala</ng-template>
+
+                <div fxLayout="column" formArrayName="requests">
+                    <div fxLayout="row" fxLayoutAlign="space-between">
+                        <h4 mat-dialog-title>Solicitudes</h4>
+                        <button mat-raised-button class="btn-success" (click)="addRequest()" style="max-height: 32px">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </div>
+
+                    <div *ngFor="let request of getRequestsForm().controls; let i=index;">
+                        <div [formGroupName]="i" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="space-between center">
+                            <div fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="space-between center">
+                                <mat-form-field>
+                                    <mat-label>Fecha</mat-label>
+                                    <input matInput formControlName="day" [matDatepicker]="myDatepicker"
+                                        [min]="minDate">
+                                    <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+                                    <mat-datepicker #myDatepicker></mat-datepicker>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>Bloque</mat-label>
+                                    <mat-select formControlName="block" required>
+                                        <mat-option *ngFor="let block of blocks" [value]="block">
+                                            {{block}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <mat-form-field *ngIf="availableClassrooms[i]">
+                                <mat-label>Sala</mat-label>
+                                <mat-select formControlName="classroom" required>
+                                    <mat-optgroup *ngFor="let building of availableClassrooms[i]"
+                                        [label]="building.name">
+                                        <mat-option *ngFor="let classroom of building.classrooms" [value]="classroom">
+                                            {{classroom.name}} ({{classroom.capacity}} estudiantes)
+                                        </mat-option>
+                                    </mat-optgroup>
+                                </mat-select>
+                            </mat-form-field>
+                            <button fxFlex="10%" mat-raised-button
+                                [disabled]="request.get('day').invalid || request.get('block').invalid"
+                                (click)="searchForClassrooms(i)">
+                                <mat-icon>search</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--
+                <div *ngIf="buildings">
+                    <mat-form-field>
+                        <mat-label>Sala</mat-label>
+                        <mat-select [value]="selectedClassroom" formControlName="classroom" required>
+                            <mat-optgroup *ngFor="let building of buildings" [label]="building.name">
+                                <mat-option *ngFor="let classroom of building.classrooms" [value]="classroom.id">
+                                    {{classroom.name}} ({{classroom.capacity}} estudiantes)
+                                </mat-option>
+                            </mat-optgroup>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                -->
+                <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+                    <button mat-raised-button matStepperPrevious class="btn-primary">
+                        <mat-icon>
+                            arrow_back
+                        </mat-icon>
+                        Volver
+                    </button>
+                    <button mat-raised-button (click)="close()" class="btn-danger">Cancelar</button>
+                    <button mat-raised-button matStepperNext class="btn-primary" [disabled]="secondFormGroup.invalid">
+                        Continuar
+                        <mat-icon>
+                            arrow_forward
+                        </mat-icon>
+                    </button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step>
+            <form [formGroup]="thirdFormGroup">
+                <ng-template matStepLabel>Comentarios</ng-template>
+                <mat-form-field class="full-width">
+                    <textarea matInput formControlName="comment" placeholder="¿Para qué será usada la sala?"></textarea>
+                </mat-form-field>
+            </form>
+
+            <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+                <button mat-raised-button matStepperPrevious class="btn-sm btn-primary">
+                    <mat-icon>
+                        arrow_back
+                    </mat-icon>
+                    Volver
+                </button>
+                <button mat-raised-button (click)="close()" class="btn-danger">Cancelar</button>
+                <button mat-raised-button (click)="submit()" class="btn-sm btn-success">Aceptar</button>
+            </div>
+        </mat-step>
+    </mat-horizontal-stepper>
+
+</div>
+<!--
+<div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" style="margin-top: -2em;">
+    <button mat-raised-button (click)="close()" class="btn-danger">Cancelar</button>
+</div>
+-->

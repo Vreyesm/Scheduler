@@ -9,7 +9,6 @@ import { ComponentsModule } from './components/components.module';
 
 import { AppComponent } from './app.component';
 
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { AddBuildingComponent } from './modules/resources/buildings/add-building/add-building.component';
 import { AddClassroomComponent } from './modules/resources/buildings/add-classroom/add-classroom.component';
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
@@ -42,6 +41,9 @@ import { CompletedCareerComponent } from './modules/resources/subjects/completed
 import { LoaderComponent } from './components/loader/loader.component';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { AssignationSelectDialogComponent } from './components/assignation-select-dialog/assignation-select-dialog.component';
+import { AssignationRequestComponent } from './components/assignation-request/assignation-request.component';
+import { AssignationRequestTypeComponent } from './components/assignation-request-type/assignation-request-type.component';
+import { AssignationSpecialRequestComponent } from './components/assignation-special-request/assignation-special-request.component';
 
 @NgModule({
   imports: [
@@ -67,7 +69,6 @@ import { AssignationSelectDialogComponent } from './components/assignation-selec
   ],
   declarations: [
     AppComponent,
-    DashboardComponent,
     AddBuildingComponent,
     AddClassroomComponent,
     AddCareerComponent,
@@ -78,6 +79,9 @@ import { AssignationSelectDialogComponent } from './components/assignation-selec
     CompletedCareerComponent,
     LoaderComponent,
     AssignationSelectDialogComponent,
+    AssignationRequestComponent,
+    AssignationRequestTypeComponent,
+    AssignationSpecialRequestComponent,
     // AssignationDialogComponent
   ],
   providers: [
@@ -96,7 +100,10 @@ import { AssignationSelectDialogComponent } from './components/assignation-selec
     AddTeacherComponent,
     DeleteDialogComponent,
     CompletedCareerComponent,
-    AssignationSelectDialogComponent
+    AssignationSelectDialogComponent,
+    AssignationRequestComponent,
+    AssignationRequestTypeComponent,
+    AssignationSpecialRequestComponent,
     // AssignationDialogComponent
   ],
   bootstrap: [AppComponent]

@@ -28,6 +28,11 @@
                         Asignación Automática
                     </button>
                 </li>
+                <li class="nav-item" *ngIf="!isAdmin()">
+                    <button (click)="sendAssignationRequest()" class="btn btn-sm btn-outline-light">
+                        Solicitud de Asignación
+                    </button>
+                </li>
                 <li class="nav-item dropdown" *ngIf="isAdmin()">
                     <a class="nav-link" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false">

@@ -1,0 +1,20 @@
+<h3 mat-dialog-title>Tipo de solicitud de asignación</h3>
+<div mat-dialog-content fxLayout="column" fxLayoutGap="5px" style="padding-bottom: 5px ">
+  <h4>¿Qué tipo de solicitud de asignación desea realizar?</h4>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <button 
+        matTooltip="Envía una solicitud de asignación que será agregada al horario del módulo y durará todo el semestre"
+        matTooltipPosition="above"
+        mat-raised-button
+        [mat-dialog-close]="1"> <!-- 1 means extraordinary request-->
+        Solicitud permanente
+    </button>
+    <button 
+        matTooltip="Envía una solicitud de asignación que durará sólo durante determinados eventos"
+        matTooltipPosition="above"
+        mat-raised-button
+        [mat-dialog-close]="2"> <!-- 2 means special request-->
+        Solicitud por eventos
+    </button>
+  </div>
+</div>

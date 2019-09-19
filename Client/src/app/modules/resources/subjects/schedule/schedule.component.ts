@@ -134,4 +134,8 @@ export class ScheduleComponent implements OnInit {
   isDirector(): boolean {
     return this.authService.getRole() === UserType.Director;
   }
+
+  canEdit(): boolean {
+    return this.isAdmin() || this.isDirector();
+  }
 }

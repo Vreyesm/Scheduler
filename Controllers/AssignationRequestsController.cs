@@ -76,7 +76,10 @@ namespace Scheduler.Controllers
         [HttpPost]
         public async Task<ActionResult<AssignationRequest>> PostAssignationRequest(AssignationRequest assignationRequest)
         {
+            _context.Entry(assignationRequest.Section).State = EntityState.Unchanged;
+            _context.Entry(assignationRequest.Classroom).State = EntityState.Unchanged;
             _context.AssignationRequests.Add(assignationRequest);
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetAssignationRequest", new { id = assignationRequest.ID }, assignationRequest);

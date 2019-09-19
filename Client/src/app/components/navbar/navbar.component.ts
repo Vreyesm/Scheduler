@@ -8,6 +8,9 @@ import { UserType, Career } from '../../models';
 import { MatDialog } from '@angular/material/dialog';
 import { AssignationDialogComponent } from '../assignation-dialog/assignation-dialog.component';
 import { Observable } from 'rxjs';
+import { AssignationRequestComponent } from '../assignation-request/assignation-request.component';
+import { AssignationRequestTypeComponent } from '../assignation-request-type/assignation-request-type.component';
+import { AssignationSpecialRequestComponent } from '../assignation-special-request/assignation-special-request.component';
 
 @Component({
   selector: 'app-navbar',
@@ -234,6 +237,24 @@ export class NavbarComponent implements OnInit {
           () => {},
           () => { this.router.navigateByUrl('resources'); }
         );
+      }
+    });
+  }
+
+  sendAssignationRequest() {
+    const dialogRef = this.dialog.open(AssignationRequestTypeComponent, {
+      autoFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 1) {
+        const extraordinaryRef = this.dialog.open(AssignationRequestComponent, {
+          autoFocus: false
+        });
+      } else if (result === 2) {
+        const specialRef = this.dialog.open(AssignationSpecialRequestComponent, {
+          autoFocus: false
+        });
       }
     });
   }

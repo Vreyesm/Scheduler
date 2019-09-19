@@ -7,3 +7,4 @@ export * from './DialogData';
 export * from './Blocks';
 export * from './UserData';
 export * from './Assignation';
+export * from './AssignationRequest';
