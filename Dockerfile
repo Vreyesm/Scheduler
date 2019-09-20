@@ -32,7 +32,7 @@ FROM base AS final
 WORKDIR /app
 ENV ASPNETCORE_Environment=Production
 ENV ASPNETCORE_URLS http://+:$80
-ENV ASPNETCORE_HTTPS_PORT https://+:$443 
+ENV ASPNETCORE_HTTPS_PORT 443 
 COPY --from=client /Client/dist/ ./Client/dist/
 COPY --from=publish /app .
 # COPY *.csv .
