@@ -41,7 +41,7 @@ namespace Scheduler
             {
                 string dbHost = Environment.GetEnvironmentVariable("DB_HOST");
                 if (dbHost == null) {
-                    dbHost = "34.74.156.3";
+                    dbHost = "34.73.171.73";
                 }
                 
                 services.AddDbContext<DataContext>(options =>
@@ -115,7 +115,7 @@ namespace Scheduler
             else
             {
                 app.UseHsts();
-                app.UseHttpsRedirection();
+                // app.UseHttpsRedirection();
             }
 
             // app.UseHttpsRedirection();
