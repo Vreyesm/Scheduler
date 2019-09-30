@@ -25,7 +25,11 @@ namespace Scheduler.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AssignationRequest>>> GetAssignationRequests()
         {
-            return await _context.AssignationRequests.ToListAsync();
+            return await _context.AssignationRequests
+                        .Include(a => a.Classroom)
+                        .Include(a => a.Professor)
+                        .Include(a => a.Section)
+                        .ToListAsync();
         }
 
         // GET: api/AssignationRequests/5
@@ -78,6 +82,7 @@ namespace Scheduler.Controllers
         {
             _context.Entry(assignationRequest.Section).State = EntityState.Unchanged;
             _context.Entry(assignationRequest.Classroom).State = EntityState.Unchanged;
+            _context.Entry(assignationRequest.Professor).State = EntityState.Unchanged;
             _context.AssignationRequests.Add(assignationRequest);
 
             await _context.SaveChangesAsync();

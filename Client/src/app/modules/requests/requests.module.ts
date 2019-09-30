@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CreateAssignationRequestComponent } from './create-assignation-request/create-assignation-request.component';
-import { RouterModule } from  '@angular/router';
-import { InterfaceModule } from  '../interface/interface.module';
+import { RouterModule } from '@angular/router';
+import { InterfaceModule } from '../interface/interface.module';
 import { RequestsLandingComponent } from './requests-landing/requests-landing.component';
 
 
@@ -14,7 +14,7 @@ import { RequestsLandingComponent } from './requests-landing/requests-landing.co
     RouterModule.forChild([
       {
         path: '',
-        component: CreateAssignationRequestComponent,
+        component: RequestsLandingComponent,
       }
     ])
   ]

@@ -1,1 +1,91 @@
-<p>requests-landing works!</p>
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <h3 class="title">
+                    Solicitudes de asignación
+                </h3>
+            </div>
+        </div>
+
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z1" *ngIf="requests">
+
+            <!-- Teacher Column -->
+            <ng-container matColumnDef="teacher">
+                <mat-header-cell *matHeaderCellDef> Solicitante </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.professor.name}} </mat-cell>
+            </ng-container>
+
+            <!-- Section Column -->
+            <ng-container matColumnDef="section">
+                <mat-header-cell *matHeaderCellDef> Sección </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.section.name}} </mat-cell>
+            </ng-container>
+
+            <!-- Classroom Column -->
+            <ng-container matColumnDef="classroom">
+                <mat-header-cell *matHeaderCellDef> Sala </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.classroom.name}} </mat-cell>
+            </ng-container>
+
+            <!-- 'When' Column-->
+            <ng-container matColumnDef="date">
+                <mat-header-cell *matHeaderCellDef> Tiempo </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <div *ngIf="!element.special">
+                        <div *ngIf="element.span > 0">
+                            {{textOfDay(element.day)}}, Bloques [{{element.block + 1}}-{{element.block + element.span}}]
+                        </div>
+                        <div *ngIf="element.span == 0">
+                            {{textOfDay(element.day)}}, Bloque {{element.block + 1}}
+                        </div>
+                    </div>
+                    <div *ngIf="element.special">
+                        {{element.expiration | date: 'dd-MMM' }}, Bloque {{element.block + 1}}
+                    </div>
+                </mat-cell>
+            </ng-container>
+
+            <!-- Comment column-->
+            <ng-container matColumnDef="comment">
+                <mat-header-cell *matHeaderCellDef> Motivo </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.comment}} </mat-cell>
+            </ng-container>
+
+            <!-- Avaliability column -->
+            <ng-container matColumnDef="available">
+                <mat-header-cell *matHeaderCellDef> Disponibilidad </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <button class="btn btn-sm btn-success"
+                        *ngIf="isAvailable(element.classroom, element.day, element.block)">
+                        Disponible
+                    </button>
+                    <button class="btn btn-sm btn-warning"
+                        *ngIf="!isAvailable(element.classroom, element.day, element.block)">
+                        No Disponible
+                    </button>
+                </mat-cell>
+            </ng-container>
+
+            <!-- Options Column -->
+            <ng-container matColumnDef="options">
+                <mat-header-cell *matHeaderCellDef> Opciones </mat-header-cell>
+                <mat-cell class="options-cell" *matCellDef="let element">
+                    <button mat-raised-button class="btn-success" style="margin-right: 5px">
+                        <mat-icon>done</mat-icon>
+                    </button>
+                    <button (click)="deleteRequest(element)" mat-raised-button class="btn-danger" style="margin-right: 5px">
+                        <mat-icon>clear</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <mat-paginator class="mat-elevation-z1" [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
+        </mat-paginator>
+
+    </div>
+
+</div>

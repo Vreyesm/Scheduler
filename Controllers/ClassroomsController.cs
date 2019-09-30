@@ -75,6 +75,10 @@ namespace Scheduler.Controllers
                         {
                             classroomsToDelete.Add(c);
                         }
+                    } 
+                    else 
+                    {
+                        classroomsToDelete.Add(c);
                     }
                 }
                 

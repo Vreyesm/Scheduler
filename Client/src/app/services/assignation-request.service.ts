@@ -14,4 +14,10 @@ export class AssignationRequestService {
   sendAssignationRequest(request: AssignationRequest): Observable<any> {
     return this.http.post<any>(AssignationRequestService.API_ROOT, request);
   }
+  getAll(): Observable<AssignationRequest[]> {
+    return this.http.get<AssignationRequest[]>(AssignationRequestService.API_ROOT);
+  }
+  delete(id: number): Observable<any> {
+    return this.http.delete<any>(AssignationRequestService.API_ROOT + '/' + id);
+  }
 }
