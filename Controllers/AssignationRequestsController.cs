@@ -106,6 +106,20 @@ namespace Scheduler.Controllers
             return assignationRequest;
         }
 
+        // GET: api/AssignationRequests/5/Accept
+        [HttpGet("{id")]
+        public async Task<ActionResult> AcceptAssignationRequest([FromRoute] int id)
+        {
+            AssignationRequest request = await _context.AssignationRequests.FindAsync(id);
+            Classroom classroom = request.Classroom;
+            Section section = request.Section;
+
+            request.Accepted = true;
+
+            // Classroom isn't available in that block anymore (for some period of time )
+            classroom.MarkBLock(request.Day, request.Block, true);
+        }
+
         private bool AssignationRequestExists(int id)
         {
             return _context.AssignationRequests.Any(e => e.ID == id);
