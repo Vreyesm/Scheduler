@@ -20,4 +20,7 @@ export class AssignationRequestService {
   delete(id: number): Observable<any> {
     return this.http.delete<any>(AssignationRequestService.API_ROOT + '/' + id);
   }
+  accept(id: number): Observable<any> {
+    return this.http.get<any>(AssignationRequestService.API_ROOT + '/' + id + '/Accept');
+  }
 }

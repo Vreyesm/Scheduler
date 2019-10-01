@@ -52,17 +52,20 @@
                 <mat-cell *matCellDef="let element"> {{element.comment}} </mat-cell>
             </ng-container>
 
-            <!-- Avaliability column -->
+            <!-- Avaliability/State column -->
             <ng-container matColumnDef="available">
-                <mat-header-cell *matHeaderCellDef> Disponibilidad </mat-header-cell>
+                <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <button class="btn btn-sm btn-success"
+                    <button class="btn btn-sm btn-info"
                         *ngIf="isAvailable(element.classroom, element.day, element.block)">
                         Disponible
                     </button>
                     <button class="btn btn-sm btn-warning"
-                        *ngIf="!isAvailable(element.classroom, element.day, element.block)">
+                        *ngIf="!isAvailable(element.classroom, element.day, element.block) && !element.accepted">
                         No Disponible
+                    </button>
+                    <button class="btn btn-sm btn-success" *ngIf="element.accepted">
+                        Aceptada
                     </button>
                 </mat-cell>
             </ng-container>
@@ -71,12 +74,18 @@
             <ng-container matColumnDef="options">
                 <mat-header-cell *matHeaderCellDef> Opciones </mat-header-cell>
                 <mat-cell class="options-cell" *matCellDef="let element">
-                    <button mat-raised-button class="btn-success" style="margin-right: 5px">
-                        <mat-icon>done</mat-icon>
+                    <button (click)="openDialog(element, isAvailable(element.classroom, element.day, element.block))" mat-raised-button class="btn-success" style="margin-right: 5px">
+                        <mat-icon>
+                            list
+                        </mat-icon>
                     </button>
-                    <button (click)="deleteRequest(element)" mat-raised-button class="btn-danger" style="margin-right: 5px">
+                    <button (click)="deleteRequest(element)" mat-raised-button class="btn-danger">
                         <mat-icon>clear</mat-icon>
                     </button>
+                    <!--<button (click)="acceptRequest(element)" mat-raised-button class="btn-success" style="margin-right: 5px">
+                        <mat-icon>done</mat-icon>
+                    </button>
+                -->
                 </mat-cell>
             </ng-container>
 

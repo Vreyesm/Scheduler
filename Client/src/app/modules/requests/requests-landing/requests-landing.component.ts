@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AssignationRequest, Classroom } from '../../../models';
-import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatDialog } from '@angular/material';
 import { AssignationRequestService } from '../../../services';
 import { WeekDay } from '@angular/common';
+import { RequestDialogComponent } from '../request-dialog/request-dialog.component';
 
 @Component({
   selector: 'app-requests-landing',
@@ -15,9 +16,10 @@ export class RequestsLandingComponent implements OnInit {
   dataSource = new MatTableDataSource<AssignationRequest>(this.requests);
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  displayedColumns: string[] = ['teacher', 'section', 'classroom', 'date', 'comment', 'available', 'options'];
+  displayedColumns: string[] = ['teacher', 'section', 'classroom', 'date', 'available', 'options'];
 
-  constructor(private assignationRequestService: AssignationRequestService) { }
+  constructor(private assignationRequestService: AssignationRequestService,
+              private dialog: MatDialog) { }
 
   ngOnInit() {
     this.loadRequests();
@@ -52,6 +54,7 @@ export class RequestsLandingComponent implements OnInit {
     const c = Object.assign(new Classroom(), classroom);
     return c.getListByWeekDay(day)[block] === 'false';
   }
+
   deleteRequest(request: AssignationRequest) {
     this.assignationRequestService.delete(request.id).subscribe(
       () => { },
@@ -63,5 +66,32 @@ export class RequestsLandingComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
       }
     );
+  }
+
+  acceptRequest(request: AssignationRequest) {
+    this.assignationRequestService.accept(request.id).subscribe(
+      () => { },
+      () => { },
+      () => {
+        this.loadRequests();
+      }
+    );
+  }
+
+  openDialog(request: AssignationRequest, available: boolean) {
+    const dialogRef = this.dialog.open(RequestDialogComponent, {
+      data:
+      {
+        request: request,
+        available: available
+      },
+      autoFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.acceptRequest(request);
+      }
+    });
   }
 }

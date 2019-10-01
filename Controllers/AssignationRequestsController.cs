@@ -94,30 +94,53 @@ namespace Scheduler.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<AssignationRequest>> DeleteAssignationRequest(int id)
         {
-            var assignationRequest = await _context.AssignationRequests.FindAsync(id);
-            if (assignationRequest == null)
+            var request = await _context .AssignationRequests
+                                                    .Include(a => a.Classroom)
+                                                    .Include(a => a.Section)
+                                                    .FirstAsync(a => a.ID == id);
+            if (request == null)
             {
                 return NotFound();
             }
 
-            _context.AssignationRequests.Remove(assignationRequest);
+            if (request.Accepted) {
+                Classroom c = request.Classroom;
+                Section s = request.Section;
+                c.MarkBLock(request.Day, request.Block, false);
+                s.MarkBLock(request.Day, request.Block, false);
+            }
+
+            _context.AssignationRequests.Remove(request);
             await _context.SaveChangesAsync();
 
-            return assignationRequest;
+            return request;
         }
 
         // GET: api/AssignationRequests/5/Accept
-        [HttpGet("{id")]
-        public async Task<ActionResult> AcceptAssignationRequest([FromRoute] int id)
+        [HttpGet("{id}/Accept")]
+        public async Task<ActionResult<int>> AcceptAssignationRequest([FromRoute] int id)
         {
-            AssignationRequest request = await _context.AssignationRequests.FindAsync(id);
+            AssignationRequest request = await _context.AssignationRequests
+                                                .Include(a => a.Classroom)
+                                                .Include(a => a.Section)
+                                                .FirstAsync(a => a.ID == id);
             Classroom classroom = request.Classroom;
             Section section = request.Section;
 
             request.Accepted = true;
+            
+            // Section now has a new block assigned on the schedule
+            section.MarkBLock(request.Day, request.Block, true);
 
             // Classroom isn't available in that block anymore (for some period of time )
             classroom.MarkBLock(request.Day, request.Block, true);
+
+            Assignation assignation = new Assignation{ Classroom = classroom, Section = section, Day = request.Day, Block = request.Block, HasExpiration = true, Expiration = request.Expiration };
+
+            await _context.AddAsync(assignation);
+
+
+            return await _context.SaveChangesAsync();
         }
 
         private bool AssignationRequestExists(int id)

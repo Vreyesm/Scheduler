@@ -14,4 +14,5 @@ export class AssignationRequest {
     special: boolean;
     expiration: Date;
     comment: string;
+    accepted: boolean;
 }
