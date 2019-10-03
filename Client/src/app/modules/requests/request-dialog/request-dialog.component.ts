@@ -3,11 +3,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { AssignationRequest } from '../../../models';
 import { WeekDay } from '@angular/common';
 
-interface DTO {
-  request: AssignationRequest;
-  available: boolean;
-}
-
 @Component({
   selector: 'app-request-dialog',
   templateUrl: './request-dialog.component.html',
@@ -16,7 +11,7 @@ interface DTO {
 export class RequestDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<RequestDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: DTO) { }
+              @Inject(MAT_DIALOG_DATA) public request: AssignationRequest) { }
 
   ngOnInit() {
   }

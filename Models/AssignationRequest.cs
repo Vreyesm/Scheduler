@@ -18,6 +18,7 @@ namespace Scheduler.Models
         public DateTime Expiration { get; set; }
         public string Comment { get; set; }
         public Boolean Accepted { get; set; }
+        public Assignation Assignation { get; set; }
 
         public AssignationRequest(int iD, UserData professor, Section section, Classroom classroom, DayOfWeek day, int block, DateTime expiration, string comment)
         {
@@ -33,6 +34,12 @@ namespace Scheduler.Models
 
         public AssignationRequest()
         {
+        }
+
+        public void ResetRequest() 
+        {
+            Assignation = null;
+            Accepted = false;
         }
     }
 }

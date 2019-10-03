@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AssignationRequest, Classroom } from '../../../models';
 import { MatTableDataSource, MatPaginator, MatDialog } from '@angular/material';
-import { AssignationRequestService } from '../../../services';
+import { AssignationRequestService, ClassroomService } from '../../../services';
 import { WeekDay } from '@angular/common';
 import { RequestDialogComponent } from '../request-dialog/request-dialog.component';
 
@@ -19,6 +19,7 @@ export class RequestsLandingComponent implements OnInit {
   displayedColumns: string[] = ['teacher', 'section', 'classroom', 'date', 'available', 'options'];
 
   constructor(private assignationRequestService: AssignationRequestService,
+              private classroomService: ClassroomService,
               private dialog: MatDialog) { }
 
   ngOnInit() {
@@ -28,6 +29,19 @@ export class RequestsLandingComponent implements OnInit {
   loadRequests() {
     this.assignationRequestService.getAll().subscribe(data => {
       this.requests = data;
+      this.requests.forEach(request => {
+        if (request.special) {
+          // tslint:disable-next-line: max-line-length
+          this.classroomService.isAvailableOnTime(request.classroom.id, request.day, request.block, request.expiration).subscribe(result => {
+            request.available = result;
+          });
+        } else {
+          this.classroomService.isAvailable(request.classroom.id, request.day, request.block).subscribe(result => {
+            request.available = result;
+          });
+        }
+      });
+
       this.dataSource = new MatTableDataSource<AssignationRequest>(this.requests);
       this.dataSource.paginator = this.paginator;
     });
@@ -50,10 +64,6 @@ export class RequestsLandingComponent implements OnInit {
     }
   }
 
-  isAvailable(classroom: Classroom, day: WeekDay, block: number): boolean {
-    const c = Object.assign(new Classroom(), classroom);
-    return c.getListByWeekDay(day)[block] === 'false';
-  }
 
   deleteRequest(request: AssignationRequest) {
     this.assignationRequestService.delete(request.id).subscribe(
@@ -62,6 +72,17 @@ export class RequestsLandingComponent implements OnInit {
       () => {
         const index = this.requests.indexOf(request);
         this.requests.splice(index, 1);
+        this.requests.forEach(r => {
+          if (r.special) {
+            this.classroomService.isAvailableOnTime(r.classroom.id, r.day, r.block, r.expiration).subscribe(result => {
+              r.available = result;
+            });
+          } else {
+            this.classroomService.isAvailable(r.classroom.id, r.day, r.block).subscribe(result => {
+              r.available = result;
+            });
+          }
+        });
         this.dataSource = new MatTableDataSource<AssignationRequest>(this.requests);
         this.dataSource.paginator = this.paginator;
       }
@@ -80,11 +101,7 @@ export class RequestsLandingComponent implements OnInit {
 
   openDialog(request: AssignationRequest, available: boolean) {
     const dialogRef = this.dialog.open(RequestDialogComponent, {
-      data:
-      {
-        request: request,
-        available: available
-      },
+      data: request,
       autoFocus: false
     });
 
