@@ -149,6 +149,23 @@ namespace Scheduler.Controllers
             return await _context.SaveChangesAsync();
         }
 
+        [HttpGet("Check")]
+        public async Task<IActionResult> CheckRequestsExpiration()
+        {
+            var requests = await _context.AssignationRequests.Where(a => a.Special).ToListAsync();
+            DateTime now = new DateTime();
+
+            foreach(AssignationRequest request in requests)
+            {
+                if(request.Expiration < now )
+                {
+                    _context.AssignationRequests.Remove(request);
+                }
+            }
+
+            return Ok(await _context.SaveChangesAsync());
+        }
+
         private bool AssignationRequestExists(int id)
         {
             return _context.AssignationRequests.Any(e => e.ID == id);
