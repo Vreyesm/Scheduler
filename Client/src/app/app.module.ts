@@ -1,9 +1,9 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-
+import localeEsCl from '@angular/common/locales/es-CL';
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 
@@ -17,6 +17,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { ApiInterceptor } from './interceptors/api.interceptor';
 
+// tslint:disable-next-line: no-use-before-declare
+registerLocaleData(localeEsCl, 'es-CL');
+
 
 // Material
 import {
@@ -28,7 +31,8 @@ import {
   MatTooltipModule,
   MatSelectModule,
   MatDialogModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  MatPaginatorIntl
 } from '@angular/material';
 import {AddCareerComponent} from './modules/resources/careers/add-career/add-career.component';
 import { AddSubjectComponent } from './modules/resources/subjects/add-subject/add-subject.component';
@@ -44,6 +48,8 @@ import { AssignationSelectDialogComponent } from './components/assignation-selec
 import { AssignationRequestComponent } from './components/assignation-request/assignation-request.component';
 import { AssignationRequestTypeComponent } from './components/assignation-request-type/assignation-request-type.component';
 import { AssignationSpecialRequestComponent } from './components/assignation-special-request/assignation-special-request.component';
+import { registerLocaleData } from '@angular/common';
+import { MatPaginatorIntlEsp } from './PaginatorESP';
 
 @NgModule({
   imports: [
@@ -90,6 +96,14 @@ import { AssignationSpecialRequestComponent } from './components/assignation-spe
       useClass: LoaderInterceptor,
       multi: true
     },
+    {
+      provide: LOCALE_ID,
+      useValue: 'es-CL' },
+    {
+      provide: MatPaginatorIntl,
+      useClass: MatPaginatorIntlEsp
+    },
+
     AuthGuard
   ],
   entryComponents: [

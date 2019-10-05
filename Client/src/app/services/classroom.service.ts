@@ -45,8 +45,16 @@ export class ClassroomService {
     return this.http.get<Building[]>(ClassroomService.API_ROOT + `/Building/Available/Day/${day}/Block/${block}/Span/${span}`);
   }
 
+  isAvailable(id: number, day: WeekDay, block: number): Observable<boolean> {
+    return this.http.get<boolean>(ClassroomService.API_ROOT + `/${id}/Available/Day/${day}/Block/${block}`);
+  }
+
   getAllAvailableByBuildingOnTime(day: WeekDay, block: number, date: Date): Observable<Building[]> {
     // tslint:disable-next-line: max-line-length
     return this.http.post<Building[]>(ClassroomService.API_ROOT + `/Available/Time`, {Date: date, Day: day, Block: block});
+  }
+
+  isAvailableOnTime(id: number, day: WeekDay, block: number, date: Date): Observable<boolean> {
+    return this.http.post<boolean>(ClassroomService.API_ROOT + `/${id}/Available/Time`, {Date: date, Day: day, Block: block});
   }
 }
