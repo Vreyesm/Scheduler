@@ -7,7 +7,7 @@
       </h3>
 
     </div>
-    <div  fxLayout="row" [hidden]="!isAdmin()">
+    <div  fxLayout="row" fxLayoutAlign="space-between" [hidden]="!isAdmin()">
       <div fxFlex="start" fxFlex=30%>
         <mat-form-field  >
           <mat-label>Carrera</mat-label>
@@ -18,10 +18,15 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div style="margin: 10px" fxFlex="end">
+      <div style="margin: 15px" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="5px">
+        
         <button (click)="addSubject()" [disabled]="!idCareer" mat-raised-button class="btn-success pull-right">
           <mat-icon>add</mat-icon>
           Agregar
+        </button>
+        <button (click)="uploadSubjects()" mat-raised-button [disabled]="!idCareer" class="btn-success">
+          <mat-icon>cloud_upload</mat-icon>
+          Cargar
         </button>
       </div>
     </div>

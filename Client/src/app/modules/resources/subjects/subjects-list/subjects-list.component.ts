@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AuthService, SectionService, TeacherService, SubjectsService, CareerService } from '../../../../services';
 import { Observable, of } from 'rxjs';
 import { CompletedCareerComponent } from '../completed-career/completed-career.component';
+import { UploadFileDialogComponent } from '../upload-file-dialog/upload-file-dialog.component';
 
 @Component({
   selector: 'app-subjects-list',
@@ -144,6 +145,19 @@ export class SubjectsListComponent implements OnInit {
           // this.loadCareers();
           this.loadRole(); // to update the data on the table
         });
+      }
+    });
+  }
+
+  uploadSubjects() {
+    const dialogRef = this.dialog.open(UploadFileDialogComponent, {
+      data: this.idCareer,
+      autoFocus: false,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.loadTeachers();
       }
     });
   }

@@ -20,7 +20,7 @@ namespace Scheduler.Data
                 SeedRoles(roleManager, context, userManager).Wait();
                 SeedClassrooms(context).Wait();
                 SeedCareers(context, userManager).Wait();
-                SeedSections(context, userManager).Wait();
+                //SeedSections(context, userManager).Wait();
                 //DoTheMath(context).Wait();
 
             }
