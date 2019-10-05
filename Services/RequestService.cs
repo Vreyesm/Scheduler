@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -50,9 +51,9 @@ namespace Scheduler.Services {
                             c.MarkBLock (request.Day, request.Block, false);
                             s.MarkBLock (request.Day, request.Block, false);
                             Assignation assignation = request.Assignation;
-                            _context.Entry (assignation.Classroom).State = EntityState.Modified;
-                            _context.Entry (assignation.Section).State = EntityState.Modified;
-                            _context.Assignations.Remove (assignation);
+                            dbContext.Entry (assignation.Classroom).State = EntityState.Modified;
+                            dbContext.Entry (assignation.Section).State = EntityState.Modified;
+                            dbContext.Assignations.Remove (assignation);
                         }
 
                         dbContext.AssignationRequests.Remove (request);
