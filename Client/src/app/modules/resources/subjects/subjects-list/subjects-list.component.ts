@@ -156,7 +156,7 @@ export class SubjectsListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result) {
+      if (result) {
         this.loadTeachers();
       }
     });
