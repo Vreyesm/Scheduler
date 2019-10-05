@@ -109,7 +109,7 @@
             <form [formGroup]="thirdFormGroup">
                 <ng-template matStepLabel>Comentarios</ng-template>
                 <mat-form-field class="full-width">
-                    <textarea matInput formControlName="comment" placeholder="¿Para qué será usada la sala?"></textarea>
+                    <input matInput max="30" formControlName="comment" placeholder="¿Para qué será usada la sala?">
                 </mat-form-field>
             </form>
 

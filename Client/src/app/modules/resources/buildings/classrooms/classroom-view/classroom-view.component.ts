@@ -69,7 +69,12 @@ export class ClassroomViewComponent implements OnInit {
             assignations = data;
             const monday: Assignation[] = assignations.filter(a => a.day === WeekDay.Monday);
             monday.forEach(a => {
-              this.sectionsNames.monday[a.block] = a.section.name;
+              if (a.hasExpiration) {
+                const date: Date = new Date(a.expiration);
+                this.sectionsNames.monday[a.block] = a.section.name + ' ' + date.toLocaleDateString();
+              } else {
+                this.sectionsNames.monday[a.block] = a.section.name;
+              }
             });
             const tuesday: Assignation[] = assignations.filter(a => a.day === WeekDay.Tuesday);
             tuesday.forEach(a => {
@@ -96,15 +101,8 @@ export class ClassroomViewComponent implements OnInit {
     });
   }
 
-  loadData() {
-    /*this.classroomService.get().subscribe(data => {
-      this.classroom = data;
-      this.checks.monday = 
-    });
-    */
-  }
   checkButton(list: boolean[], index: number) {
-    list[index] = !list[index];
+    // list[index] = !list[index];
   }
 
   loadSections() {
