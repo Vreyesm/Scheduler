@@ -1,10 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { SectionService, AuthService, ClassroomService, AssignationRequestService, TeacherService } from '../../services';
-import { Section, Classroom, Building, AssignationRequest, UserData } from '../../models';
+import { SectionService, AuthService, ClassroomService, AssignationRequestService } from '../../services';
+import { Section, Classroom, Building, AssignationRequest } from '../../models';
 import { WeekDay } from '@angular/common';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl, FormControl } from '@angular/forms';
-import { Observable, forkJoin } from 'rxjs';
 
 interface Day {
   text: string;
@@ -41,16 +40,13 @@ export class AssignationRequestComponent implements OnInit {
   buildings: Building[];
   selectedClassroom: Classroom;
 
-  user: UserData;
-
   constructor(public dialogRef: MatDialogRef<AssignationRequestComponent>,
               // @Inject(MAT_DIALOG_DATA) public data: Data,
               private sectionService: SectionService,
               private authService: AuthService,
               private formBuilder: FormBuilder,
               private classroomService: ClassroomService,
-              private assignationRequestService: AssignationRequestService,
-              private teacherService: TeacherService) { }
+              private assignationRequestService: AssignationRequestService) { }
 
   ngOnInit() {
     this.firstFormGroup = this.formBuilder.group({
@@ -79,12 +75,6 @@ export class AssignationRequestComponent implements OnInit {
   loadData() {
     this.sectionService.getByTeacher(this.userId).subscribe(data => {
       this.sections = data;
-    },
-    () => { },
-    () => {
-      this.teacherService.get(this.userId).subscribe(data => {
-        this.user = data;
-      });
     });
   }
 
@@ -117,22 +107,15 @@ export class AssignationRequestComponent implements OnInit {
   }
 
   submit() {
-    const observables: Observable<any>[] = [];
-
-    for (let i = 0; i < this.span.value; i++) {
-      const request = new AssignationRequest();
-      request.classroom = this.secondFormGroup.get('classroom').value;
-      request.section = this.firstFormGroup.get('section').value;
-      request.professor = this.user;
-      request.day = this.day.value;
-      request.block = this.block.value - 1 + i;
-      request.span = 0;
-      request.special = false;
-      request.comment = this.thirdFormGroup.get('comment').value;
-      observables.push(this.assignationRequestService.sendAssignationRequest(request));
-    }
-
-    forkJoin(observables).subscribe(
+    const request = new AssignationRequest();
+    request.classroom = this.secondFormGroup.get('classroom').value;
+    request.section = this.firstFormGroup.get('section').value;
+    request.professorId = this.authService.getId();
+    request.day = this.day.value;
+    request.block = this.block.value;
+    request.span = this.span.value;
+    request.comment = this.thirdFormGroup.get('comment').value;
+    this.assignationRequestService.sendAssignationRequest(request).subscribe(
       () => { },
       () => { },
       () => {

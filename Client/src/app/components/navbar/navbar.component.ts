@@ -226,19 +226,11 @@ export class NavbarComponent implements OnInit {
           () => {},
           () => {},
           () => {
-            this.assignationService.autoAssignations().subscribe(
-              () => {},
-              () => {},
-              () => { this.router.navigateByUrl('resources'); }
-            );
+            this.assignationService.autoAssignations().subscribe();
           }
         );
       } else if (type === 2) {
-        this.assignationService.autoAssignations().subscribe(
-          () => {},
-          () => {},
-          () => { this.router.navigateByUrl('resources'); }
-        );
+        this.assignationService.autoAssignations().subscribe();
       } else if (type === 3) {
         this.assignationService.deleteAllAsignations().subscribe(
           () => {},

@@ -145,11 +145,6 @@ namespace Scheduler.Controllers
             {
                 return NotFound();
             }
-            
-            var request = await _context.AssignationRequests.Where(r => r.Assignation == assignation).ToListAsync();
-            if (request.Count > 0) {
-                request[0].ResetRequest();
-            }
 
             Classroom classroom = assignation.Classroom;
             classroom.MarkBLock(assignation.Day, assignation.Block, false);
