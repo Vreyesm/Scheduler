@@ -39,7 +39,7 @@ export class UploadFileDialogComponent implements OnInit {
         () => { },
         () => {},
         () => {
-          this.dialogRef.close();
+          this.dialogRef.close(1);
       });
     }
   }

@@ -162,7 +162,7 @@ namespace Scheduler.Controllers
 
         // DELETE: api/Assignations/All
         [HttpDelete("All")]
-        public async Task<IActionResult> DeleteAllAsignations()
+        public async Task<IActionResult> DeleteAllAssignations()
         {
             _context.Assignations.RemoveRange(_context.Assignations);
 

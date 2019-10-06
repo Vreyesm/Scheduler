@@ -118,6 +118,30 @@ namespace Scheduler.Controllers
             return section;
         }
 
+        // DELETE: api/Sections/All
+        [HttpDelete("All")]
+        public async Task<IActionResult> DeleteAllSections()
+        {
+            AssignationsController c = new AssignationsController(_context);
+            AssignationRequestsController r = new AssignationRequestsController(_context);
+            await c.DeleteAllAssignations();
+            await r.DeleteAllAssignationRequest();
+
+            List<Subject> subjects = await _context.Subjects.ToListAsync();
+
+            foreach(Subject subject in subjects)
+            {
+                foreach(Section section in subject.Sections)
+                {
+                    _context.Sections.Remove(section);
+                }
+                _context.Subjects.Remove(subject);
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+
         [HttpPost("{idCareer}/Upload"), DisableRequestSizeLimit]
 		public async  Task<IActionResult> UploadFile([FromForm] FormFile formModel, [FromRoute] int idCareer)
 		{
@@ -241,30 +265,31 @@ namespace Scheduler.Controllers
 
         [HttpGet("file-example")]
         public async Task<IActionResult> DownloadExample() {
-           var filePath = Path.Combine(_hostingEnvironment.WebRootPath, "horario_ejemplo.xlsx");
-           if (!System.IO.File.Exists(filePath))
-               return NotFound();
+            var filePath = Path.Combine(_hostingEnvironment.WebRootPath, "horario_ejemplo.xlsx");
+            if (!System.IO.File.Exists(filePath))
+                return NotFound();
  
-           var memory = new MemoryStream();
-           using (var stream = new FileStream(filePath, FileMode.Open))
-           {
-               await stream.CopyToAsync(memory);
-           }
-           memory.Position = 0;
+            var memory = new MemoryStream();
+            using (var stream = new FileStream(filePath, FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+            memory.Position = 0;
  
-           return File(memory, GetContentType(filePath), "Horario Ejemplo.xlsx");
-       }
+            return File(memory, GetContentType(filePath), "Horario Ejemplo.xlsx");
+        }
 
-       private string GetContentType(string path)
-       {
-           var provider = new FileExtensionContentTypeProvider();
-           string contentType;
-           if(!provider.TryGetContentType(path, out contentType))
-           {
-               contentType = "application/octet-stream";
-           }
-           return contentType;
-       }
+        private string GetContentType(string path)
+        {
+            var provider = new FileExtensionContentTypeProvider();
+            string contentType;
+            if(!provider.TryGetContentType(path, out contentType))
+            {
+                contentType = "application/octet-stream";
+            }
+            return contentType;
+        }
+
         private bool SectionExists(int id)
         {
             return _context.Sections.Any(e => e.ID == id);

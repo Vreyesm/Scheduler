@@ -7,6 +7,7 @@ import { AuthService, SectionService, TeacherService, SubjectsService, CareerSer
 import { Observable, of } from 'rxjs';
 import { CompletedCareerComponent } from '../completed-career/completed-career.component';
 import { UploadFileDialogComponent } from '../upload-file-dialog/upload-file-dialog.component';
+import { DeleteDialogComponent } from '../../../../components/delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-subjects-list',
@@ -186,5 +187,24 @@ export class SubjectsListComponent implements OnInit {
     } else {
       this.career.isCompleted = !this.career.isCompleted;
     }
+  }
+
+  clearSubjects() {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: 'todas las secciones de la carrera',
+      autoFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.careerService.clearSubject(this.idCareer).subscribe(
+          () => { },
+          () => { },
+          () => {
+            this.loadTeachers();
+          }
+        );
+      }
+    });
   }
 }

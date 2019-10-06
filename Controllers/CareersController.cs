@@ -156,6 +156,52 @@ namespace Scheduler.Controllers
             return career;
         }
 
+        // Delete: api/Classrooms/5/ClearSubjects
+        [HttpDelete("{id}/ClearSubjects")]
+        public async Task<ActionResult> ClearSubjectsOfCareer(int id)
+        {
+            Career career = await _context.Careers
+                                    .Include(c => c.Subjects)
+                                    .ThenInclude(s => s.Sections)
+                                    .FirstAsync(c => c.ID == id);
+
+            List<Subject> subjects = career.Subjects;
+
+            foreach(Subject subject in subjects)
+            {
+                foreach(Section section in subject.Sections)
+                {
+                    // Delete Assignation Requests from that section
+                    List<AssignationRequest> requests = await _context.AssignationRequests.Where(r => r.Section == section).ToListAsync();
+
+                    AssignationRequestsController requestController = new AssignationRequestsController(_context);
+
+                    foreach(AssignationRequest request in requests )
+                    {
+                        await requestController.DeleteAssignationRequest(request.ID);
+                    }
+
+                    // Delete Assignations from that section
+                    List<Assignation> assignations = await _context.Assignations.Where(a => a.Section == section).ToListAsync(); 
+
+                    AssignationsController assignationsController = new AssignationsController(_context);
+
+                    foreach(Assignation a in assignations)
+                    {
+                        await assignationsController.DeleteAssignation(a.ID);
+                    }
+
+                    _context.Sections.Remove(section);
+                }
+
+                _context.Subjects.Remove(subject);
+            }
+
+            await _context.SaveChangesAsync();
+            
+            return Ok();
+        }
+
         private bool CareerExists(int id)
         {
             return _context.Careers.Any(e => e.ID == id);
