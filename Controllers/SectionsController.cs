@@ -279,7 +279,7 @@ namespace Scheduler.Controllers
             return File(memory, GetContentType(filePath), "Horario Ejemplo.xlsx");
         }
 
-        private string GetContentType(string path)
+        public static string GetContentType(string path)
         {
             var provider = new FileExtensionContentTypeProvider();
             string contentType;
