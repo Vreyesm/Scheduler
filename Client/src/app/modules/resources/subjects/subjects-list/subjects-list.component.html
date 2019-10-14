@@ -14,7 +14,7 @@
       </div>
     </div>
     <div fxLayout="row" fxLayoutAlign="space-between">
-      <div fxFlexAlign="start" [hidden]="!isAdmin()">
+      <div fxFlexAlign="start" [hidden]="!isAdmin() && !isStudent()">
         <mat-form-field>
           <mat-label>Carrera</mat-label>
           <mat-select [(value)]="idCareer">
@@ -24,17 +24,17 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div style="margin: 15px" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="5px">
+      <div style="margin: 15px" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="5px" *ngIf="!isStudent()">
         <button (click)="addSubject()" [disabled]="!idCareer" mat-raised-button class="btn-success pull-right">
           <mat-icon>add</mat-icon>
           Agregar
         </button>
-        <button (click)="uploadSubjects()" mat-raised-button [disabled]="!idCareer" class="btn-success">
+        <button (click)="uploadSubjects()" mat-raised-button [disabled]="!idCareer"  class="btn-success">
           <mat-icon>cloud_upload</mat-icon>
           Cargar
         </button>
         <a href="api/careers/{{idCareer}}/Schedule">
-          <button mat-raised-button class="btn-success">
+          <button mat-raised-button class="btn-success"[disabled]="!idCareer">
             <mat-icon>table_chart</mat-icon>
             Horario
           </button>

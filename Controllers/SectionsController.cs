@@ -194,14 +194,14 @@ namespace Scheduler.Controllers
                             }
                             
                             string [] values = {};
-
                             //reader.GetValues(values);
                             //string secctionName = values[0];
 
                             Subject subject = new Subject { Name = reader.GetString(1), Sections = new List<Section>() };
                             await _context.Subjects.AddAsync(subject);
 
-                            Section section = new Section { Name = reader.GetString(1), Students = 15, ProfessorId = user.Id };
+                            var students = reader.GetValue(2);
+                            Section section = new Section { Name = reader.GetString(1), Students = Convert.ToInt32(students), ProfessorId = user.Id };
                             subject.Sections.Add(section);
 
                             for (int i = 0; i < 6; i++)
