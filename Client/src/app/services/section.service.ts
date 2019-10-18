@@ -29,4 +29,10 @@ export class SectionService {
   delete(idSection: number): Observable<any> {
     return this.http.delete<any>(SectionService.API_ROOT + '/' + idSection);
   }
+  uploadFile(idCareer: number, form: FormData): Observable<any> {
+    return this.http.post<any>(SectionService.API_ROOT + '/' + idCareer + '/Upload', form);
+  }
+  downloadExample(): Observable<any> {
+    return this.http.get<any>(SectionService.API_ROOT + '/file-example');
+  }
 }

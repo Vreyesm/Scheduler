@@ -14,11 +14,8 @@ namespace Scheduler.Models
         public DayOfWeek Day { get; set; }
         public int Block { get; set; }
         public int Span { get; set; }
-        public Boolean Special { get; set; }
         public DateTime Expiration { get; set; }
         public string Comment { get; set; }
-        public Boolean Accepted { get; set; }
-        public Assignation Assignation { get; set; }
 
         public AssignationRequest(int iD, UserData professor, Section section, Classroom classroom, DayOfWeek day, int block, DateTime expiration, string comment)
         {
@@ -34,12 +31,6 @@ namespace Scheduler.Models
 
         public AssignationRequest()
         {
-        }
-
-        public void ResetRequest() 
-        {
-            Assignation = null;
-            Accepted = false;
         }
     }
 }

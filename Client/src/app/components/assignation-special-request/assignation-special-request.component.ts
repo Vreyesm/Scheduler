@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { WeekDay } from '@angular/common';
-import { Section, Building, Classroom, AssignationRequest, UserData } from '../../models';
+import { Section, Building, Classroom, AssignationRequest } from '../../models';
 import { MatDialogRef } from '@angular/material';
-import { SectionService, AuthService, ClassroomService, AssignationRequestService, TeacherService } from '../../services';
+import { SectionService, AuthService, ClassroomService, AssignationRequestService } from '../../services';
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import { Moment } from 'moment';
@@ -19,7 +19,7 @@ interface Day {
   templateUrl: './assignation-special-request.component.html',
   styleUrls: ['./assignation-special-request.component.scss'],
   providers: [
-    {provide: MAT_DATE_LOCALE, useValue: 'es-CL'},
+    {provide: MAT_DATE_LOCALE, useValue: 'es-ES'},
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
     {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
   ]
@@ -59,16 +59,13 @@ export class AssignationSpecialRequestComponent implements OnInit {
   selectedClassroom: Classroom;
   availableClassrooms = [];
 
-  user: UserData;
-
   constructor(public dialogRef: MatDialogRef<AssignationSpecialRequestComponent>,
               // @Inject(MAT_DIALOG_DATA) public data: Data,
               private sectionService: SectionService,
               private authService: AuthService,
               private formBuilder: FormBuilder,
               private classroomService: ClassroomService,
-              private assignationRequestService: AssignationRequestService,
-              private teacherService: TeacherService) { }
+              private assignationRequestService: AssignationRequestService) { }
 
   ngOnInit() {
     this.firstFormGroup = this.formBuilder.group({
@@ -91,12 +88,6 @@ export class AssignationSpecialRequestComponent implements OnInit {
   loadData() {
     this.sectionService.getByTeacher(this.userId).subscribe(data => {
       this.sections = data;
-    },
-    () => { },
-    () => {
-      this.teacherService.get(this.userId).subscribe(data => {
-        this.user = data;
-      });
     });
   }
 
@@ -121,14 +112,14 @@ export class AssignationSpecialRequestComponent implements OnInit {
     });
 
     let index = 0;
-
-    form.get('day').valueChanges.subscribe(() => {
+    if (this.secondFormGroup) {
       index = (this.secondFormGroup.get('requests') as FormArray).length - 1;
+    }
+    form.get('day').valueChanges.subscribe(() => {
       this.availableClassrooms[index] = null;
       form.get('classroom').setValue('');
     });
     form.get('block').valueChanges.subscribe(() => {
-      index = (this.secondFormGroup.get('requests') as FormArray).length - 1;
       this.availableClassrooms[index] = null;
       form.get('classroom').setValue('');
     });
@@ -169,11 +160,10 @@ export class AssignationSpecialRequestComponent implements OnInit {
       const request = new AssignationRequest();
       request.classroom = requests[i].classroom;
       request.section = this.firstFormGroup.get('section').value;
-      request.professor = this.user;
+      request.professorId = this.authService.getId();
       request.day = requests[i].day.toDate().getDay();
       request.block = (+requests[i].block) - 1;
-      request.span = 0;
-      request.special = true;
+      request.span = 1;
       request.expiration = requests[i].day.toDate();
       request.comment = this.thirdFormGroup.get('comment').value;
       observables.push( this.assignationRequestService.sendAssignationRequest(request));

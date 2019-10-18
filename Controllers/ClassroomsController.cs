@@ -75,10 +75,6 @@ namespace Scheduler.Controllers
                         {
                             classroomsToDelete.Add(c);
                         }
-                    } 
-                    else 
-                    {
-                        classroomsToDelete.Add(c);
                     }
                 }
                 
@@ -93,24 +89,15 @@ namespace Scheduler.Controllers
         }
 
         // GET: api/Classrooms
-        [HttpGet("{id}/Available/Day/{day}/Block/{block}")]
-        public async Task<ActionResult<Boolean>> IsClassroomsAvailable([FromRoute] int id, [FromRoute] DayOfWeek day, [FromRoute] int block, [FromRoute] int span)
-        {
-            Classroom classroom = await _context.Classrooms.FindAsync(id);
-
-            if(classroom.GetArrayByDay(day)[block]) {
-                return Ok(false);
-            }
-            else {
-                return Ok(true);
-            }
-
-        }
-
-        // GET: api/Classrooms
         [HttpPost("Available/Time")]
         public async Task<ActionResult<IEnumerable<Building>>> GetBuildingsAndClassroomsAvailableOnTime([FromBody] RequestDTO dto)
         {
+            /*
+            List<Assignation> assignations = await _context.Assignations
+                                                .Include(a => a.Classroom)
+                                                .Where(a => a.HasExpiration && a.Expiration == expiration)
+                                                .ToListAsync();
+            */
             DateTime Date = dto.Date;
             DayOfWeek Day = dto.Day;
             int Block = dto.Block;
@@ -149,35 +136,6 @@ namespace Scheduler.Controllers
             return buildings;
 
         }
-
-        // GET: api/Classrooms/5/Available/Time
-        [HttpPost("{id}/Available/Time")]
-        public ActionResult<Boolean> IsClassroomsAvailableOnTime([FromBody] RequestDTO dto, [FromRoute] int id)
-        {
-            DateTime Date = dto.Date;
-            DayOfWeek Day = dto.Day;
-            int Block = dto.Block;
-
-            var alreadyRequested = (from c in _context.Classrooms
-                              join a in _context.Assignations
-                              on c equals a.Classroom
-                              where c.ID == id
-                              where a.HasExpiration
-                              where a.Expiration == Date
-                              where a.Day == Day
-                              where a.Block == Block
-                              select c).ToList();
-
-            if (alreadyRequested.Count == 0) {
-                return Ok(true);
-            } 
-            else {
-                return Ok(false);
-            }
-        }
-
-
-
         // GET: api/Classrooms/count
         [HttpGet("count")]
         public async Task<int> CountClassrooms()

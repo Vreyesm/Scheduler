@@ -20,7 +20,7 @@ namespace Scheduler.Data
                 SeedRoles(roleManager, context, userManager).Wait();
                 SeedClassrooms(context).Wait();
                 SeedCareers(context, userManager).Wait();
-                SeedSections(context, userManager).Wait();
+                //SeedSections(context, userManager).Wait();
                 //DoTheMath(context).Wait();
 
             }
@@ -55,6 +55,20 @@ namespace Scheduler.Data
                 await context.UsersData.AddAsync(userData);
 
             }
+
+
+            var student = new User { Email = "student@scheduler.cl", Password = "123456" };
+            var user_student = new IdentityUser { UserName = student.Email, Email = student.Email };
+            var result2 = await userManager.CreateAsync(user_student, student.Password);
+            if (result2.Succeeded)
+            {
+                result = await userManager.AddToRoleAsync(user, "Student");
+
+                var userData2 = new UserData { Id = user_student.Id, Name = "Estudiante", Type = UserType.Student };
+                await context.UsersData.AddAsync(userData2);
+
+            }
+
             await context.SaveChangesAsync();
 
         }

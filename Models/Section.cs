@@ -133,42 +133,5 @@ namespace Scheduler.Models
             }
             return null;
         }
-
-        public void MarkBLock(DayOfWeek day, int block, bool value) 
-        {
-            bool[] data = new bool[11];
-            switch(day) {
-                case DayOfWeek.Monday:
-                    data = this.MondayData.Split(";").Select(v => Boolean.Parse(v)).ToArray();
-                    data[block] = value;
-                    this.MondayData = String.Join(";",data.Select(p => p.ToString()).ToArray()).Replace("T", "t").Replace("F", "f");
-                    break;
-                case DayOfWeek.Tuesday:
-                    data = this.TuesdayData.Split(";").Select(v => Boolean.Parse(v)).ToArray();
-                    data[block] = value;
-                    this.TuesdayData = String.Join(";",data.Select(p => p.ToString()).ToArray()).Replace("T", "t").Replace("F", "f");
-                    break;
-                case DayOfWeek.Wednesday:
-                    data = this.WednesdayData.Split(";").Select(v => Boolean.Parse(v)).ToArray();
-                    data[block] = value;
-                    this.WednesdayData = String.Join(";", data.Select(p => p.ToString()).ToArray()).Replace("T", "t").Replace("F", "f");
-                    break;
-                case DayOfWeek.Thursday:
-                    data = this.ThursdayData.Split(";").Select(v => Boolean.Parse(v)).ToArray();
-                    data[block] = value;
-                    this.ThursdayData = String.Join(";", data.Select(p => p.ToString()).ToArray()).Replace("T", "t").Replace("F", "f");
-                    break;
-                case DayOfWeek.Friday:
-                    data = this.FridayData.Split(";").Select(v => Boolean.Parse(v)).ToArray();
-                    data[block] = value;
-                    this.FridayData = String.Join(";", data.Select(p => p.ToString()).ToArray()).Replace("T", "t").Replace("F", "f");
-                    break;
-                case DayOfWeek.Saturday:
-                    data = this.SaturdayData.Split(";").Select(v => Boolean.Parse(v)).ToArray();
-                    data[block] = value;
-                    this.SaturdayData = String.Join(";", data.Select(p => p.ToString()).ToArray()).Replace("T", "t").Replace("F", "f");
-                    break;
-            }
-        }
     }
 }

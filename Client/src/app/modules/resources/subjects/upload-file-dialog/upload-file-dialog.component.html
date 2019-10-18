@@ -1,0 +1,25 @@
+<h3 mat-dialog-title>Importar secciones</h3>
+<div mat-dialog-content>
+    <h4>Importar datos de secciones de una carrera/departamento mediante un archivo Excel.</h4>
+    <br>
+    <p><b>Nota</b>: Debe asegurarse que el archivo subido tenga el mismo formato que el archivo de ejemplo.</p>
+    <div fxLayout="row" fxLayoutAlign="space-around">
+        <a href="api/sections/file-example">
+            <button mat-raised-button class="btn-success">
+                <mat-icon>table_chart</mat-icon>
+                Ejemplo
+            </button>
+        </a>
+        <button type="button" mat-raised-button class="btn-success" (click)="fileInput.click()">
+            <mat-icon>cloud_upload</mat-icon>
+            Subir
+        </button>
+        <input hidden (change)="onFileSelected(fileInput.files)" #fileInput type="file" id="file" accept=".xlsx">
+    </div>
+</div>
+<br>
+<div mat-dialog-actions class="pull-right">
+    <button mat-raised-button (click)="close()" style="margin-right: 5px">Cancelar</button>
+    <button (click)="submit(fileInput.files)" mat-raised-button class="btn-success"
+        [disabled]="!fileSelected">Enviar</button>
+</div>

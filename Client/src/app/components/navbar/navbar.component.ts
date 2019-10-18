@@ -208,6 +208,14 @@ export class NavbarComponent implements OnInit {
     return this.authService.getRole() === UserType.Admin;
   }
 
+  isProfessor(): boolean {
+    return this.authService.getRole() === UserType.Professor;
+  }
+
+  isStudent(): boolean {
+    return this.authService.getRole() === UserType.Student;
+  }
+
   loadCompletedCareers() {
     this.careerService.getCompletedCareers().subscribe(data => {
       this.completedCareers = data;
@@ -226,19 +234,11 @@ export class NavbarComponent implements OnInit {
           () => {},
           () => {},
           () => {
-            this.assignationService.autoAssignations().subscribe(
-              () => {},
-              () => {},
-              () => { this.router.navigateByUrl('resources'); }
-            );
+            this.assignationService.autoAssignations().subscribe();
           }
         );
       } else if (type === 2) {
-        this.assignationService.autoAssignations().subscribe(
-          () => {},
-          () => {},
-          () => { this.router.navigateByUrl('resources'); }
-        );
+        this.assignationService.autoAssignations().subscribe();
       } else if (type === 3) {
         this.assignationService.deleteAllAsignations().subscribe(
           () => {},

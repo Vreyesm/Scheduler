@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { AuthService, SectionService, TeacherService, SubjectsService, CareerService } from '../../../../services';
 import { Observable, of } from 'rxjs';
 import { CompletedCareerComponent } from '../completed-career/completed-career.component';
+import { UploadFileDialogComponent } from '../upload-file-dialog/upload-file-dialog.component';
+import { DeleteDialogComponent } from '../../../../components/delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-subjects-list',
@@ -60,7 +62,7 @@ export class SubjectsListComponent implements OnInit {
         sessionStorage.setItem('career', '' + this.career.id);
         this.data = this.careerService.getSectionsByCareer(this.career.id);
       });
-    } else if (role === UserType.Admin) {
+    } else if (role === UserType.Admin || role === UserType.Student) {
       if (+sessionStorage.getItem('career') !== 0) {
         this.data = this.careerService.getSectionsByCareer(+sessionStorage.getItem('career'));
       }
@@ -73,7 +75,7 @@ export class SubjectsListComponent implements OnInit {
       () => { },
       () => {
         const previousCareer = +sessionStorage.getItem('career');
-        if (previousCareer && this.authService.getRole() === UserType.Admin) {
+        if (previousCareer && (this.authService.getRole() === UserType.Admin || this.authService.getRole() === UserType.Student )) {
           this.idCareer = previousCareer;
         } else {
         }
@@ -93,7 +95,7 @@ export class SubjectsListComponent implements OnInit {
     },
     () => {},
     () => {
-      if (this.isAdmin() || this.isDirector()) {
+      if (this.isAdmin() || this.isDirector() || this.isStudent()) {
         if (this.career) {
           this.nameToShow = this.career.name;
         }
@@ -102,6 +104,7 @@ export class SubjectsListComponent implements OnInit {
   }
 
   careerChange() {
+    console.log('career change');
     sessionStorage.setItem('career', '' + this.idCareer);
     const career = this.careers.find(c => c.id === this.idCareer);
     if (career) {
@@ -148,12 +151,29 @@ export class SubjectsListComponent implements OnInit {
     });
   }
 
+  uploadSubjects() {
+    const dialogRef = this.dialog.open(UploadFileDialogComponent, {
+      data: this.idCareer,
+      autoFocus: false,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadTeachers();
+      }
+    });
+  }
+
   isAdmin(): boolean {
     return this.authService.getRole() === UserType.Admin;
   }
 
   isDirector(): boolean {
     return this.authService.getRole() === UserType.Director;
+  }
+
+  isStudent(): boolean {
+    return this.authService.getRole() === UserType.Student;
   }
 
   changeCompleted() {
@@ -172,5 +192,24 @@ export class SubjectsListComponent implements OnInit {
     } else {
       this.career.isCompleted = !this.career.isCompleted;
     }
+  }
+
+  clearSubjects() {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: 'todas las secciones de la carrera',
+      autoFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.careerService.clearSubject(this.idCareer).subscribe(
+          () => { },
+          () => { },
+          () => {
+            this.loadTeachers();
+          }
+        );
+      }
+    });
   }
 }

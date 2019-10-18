@@ -36,8 +36,10 @@
           </div>
         </div>
 
-        <button type="submit" mat-raised-button class="btn-success" [disabled]="!loginForm.valid" >Iniciar Sesión</button>
-
+        <div fxLayout="column" fxLayoutGap="5px">
+          <button type="submit" mat-raised-button class="btn-success" [disabled]="!loginForm.valid" >Iniciar Sesión</button>
+          <button type="button" mat-raised-button class="btn-success" (click)="noCredentials()" >Ingresar sin usuario</button>
+        </div>
       </form>
     </div>
 

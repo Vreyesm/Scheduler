@@ -9,7 +9,6 @@ export class Assignation {
     section: Section;
     day: WeekDay;
     block: number;
-    hasExpiration: boolean;
     expiration: Date;
 
     constructor() {}
