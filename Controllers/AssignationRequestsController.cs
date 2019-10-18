@@ -101,6 +101,84 @@ namespace Scheduler.Controllers
             return assignationRequest;
         }
 
+
+        // DELETE: api/AssiignationRequests/All
+        [HttpDelete("All")]
+        public async Task<ActionResult> DeleteAllAssignationRequest()
+        {
+            List<AssignationRequest> requests = await _context.AssignationRequests.ToListAsync();
+
+            foreach(AssignationRequest request in requests)
+            {
+                if (request == null)
+                {
+                    return NotFound();
+                }
+
+                if (request.Accepted)
+                {
+                    Classroom c = request.Classroom;
+                    Section s = request.Section;
+                    c.MarkBLock(request.Day, request.Block, false);
+                    s.MarkBLock(request.Day, request.Block, false);
+                    Assignation assignation = request.Assignation;
+                    _context.Entry(assignation.Classroom).State = EntityState.Modified;
+                    _context.Entry(assignation.Section).State = EntityState.Modified;
+                    _context.Assignations.Remove(assignation);
+                }
+
+                _context.AssignationRequests.Remove(request);
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+
+        // GET: api/AssignationRequests/5/Accept
+        [HttpGet("{id}/Accept")]
+        public async Task<ActionResult<int>> AcceptAssignationRequest([FromRoute] int id)
+        {
+            AssignationRequest request = await _context.AssignationRequests
+                                                .Include(a => a.Classroom)
+                                                .Include(a => a.Section)
+                                                .FirstAsync(a => a.ID == id);
+            Classroom classroom = request.Classroom;
+            Section section = request.Section;
+
+            request.Accepted = true;
+            
+            // Section now has a new block assigned on the schedule
+            section.MarkBLock(request.Day, request.Block, true);
+
+            // Classroom isn't available in that block anymore (for some period of time )
+            classroom.MarkBLock(request.Day, request.Block, true);
+
+            Assignation assignation = new Assignation{ Classroom = classroom, Section = section, Day = request.Day, Block = request.Block, HasExpiration = true, Expiration = request.Expiration };
+            request.Assignation = assignation;
+
+            await _context.AddAsync(assignation);
+
+
+            return await _context.SaveChangesAsync();
+        }
+
+        [HttpGet("Check")]
+        public async Task<IActionResult> CheckRequestsExpiration()
+        {
+            var requests = await _context.AssignationRequests.Where(a => a.Special).ToListAsync();
+            DateTime now = new DateTime();
+
+            foreach(AssignationRequest request in requests)
+            {
+                if(request.Expiration < now )
+                {
+                    _context.AssignationRequests.Remove(request);
+                }
+            }
+
+            return Ok(await _context.SaveChangesAsync());
+        }
+
         private bool AssignationRequestExists(int id)
         {
             return _context.AssignationRequests.Any(e => e.ID == id);

@@ -37,4 +37,7 @@ export class CareerService {
   getCareerById(id: number): Observable<Career> {
     return this.http.get<Career>(CareerService.API_ROOT + '/' + id);
   }
+  clearSubject(id: number): Observable<any> {
+    return this.http.delete<any>(CareerService.API_ROOT + '/' + id + '/ClearSubjects');
+  }
 }

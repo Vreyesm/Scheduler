@@ -1,15 +1,21 @@
 <div class="main-content">
   <div fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="5px" class="container-fluid">
     <!--flex-direction: column;-->
-    <div fxLayout="row" fxLayoutAlign="space-between start">
+    <div fxLayout="row" fxLayoutAlign="space-between end">
       <h3 class="title">
         Módulos de: {{ nameToShow }}
       </h3>
-
+      <div *ngIf="career && (isDirector() || isAdmin())" fxLayout="row" fxLayoutAlign="end center">
+        <p style="margin-bottom: 0px !important">Asignación de horarios:</p>
+        <button class="btn btn-sm button-completed" type="button" (click)="changeCompleted()" [disabled]="!isDirector()"
+          [class.btn-success]="career?.isCompleted" [class.btn-outline-success]="!career?.isCompleted">
+          {{career.isCompleted ? 'Completada' : 'No completada'}}
+        </button>
+      </div>
     </div>
-    <div  fxLayout="row" [hidden]="!isAdmin()">
-      <div fxFlex="start" fxFlex=30%>
-        <mat-form-field  >
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <div fxFlexAlign="start" [hidden]="!isAdmin()">
+        <mat-form-field>
           <mat-label>Carrera</mat-label>
           <mat-select [(value)]="idCareer">
             <mat-option (click)="careerChange()" *ngFor="let career of careers" [value]="career.id">
@@ -18,26 +24,33 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div style="margin: 10px" fxFlex="end">
+      <div style="margin: 15px" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="5px">
         <button (click)="addSubject()" [disabled]="!idCareer" mat-raised-button class="btn-success pull-right">
           <mat-icon>add</mat-icon>
           Agregar
         </button>
+        <button (click)="uploadSubjects()" mat-raised-button [disabled]="!idCareer" class="btn-success">
+          <mat-icon>cloud_upload</mat-icon>
+          Cargar
+        </button>
+        <a href="api/careers/{{idCareer}}/Schedule">
+          <button mat-raised-button class="btn-success">
+            <mat-icon>table_chart</mat-icon>
+            Horario
+          </button>
+        </a>
+        <button (click)="clearSubjects()" mat-raised-button [disabled]="!idCareer" class="btn-danger">
+          <mat-icon>delete</mat-icon>
+          Eliminar secciones
+        </button>
       </div>
     </div>
     <!--<div *ngIf="loaded$ | async">-->
-      <div *ngIf="career && (isDirector() || isAdmin())" fxLayout="row" fxLayoutAlign="end center">
-        <p style="margin-bottom: 0px !important">Asignación de horarios:</p>
-        <button class="btn btn-sm button-completed" type="button" (click)="changeCompleted()"
-          [disabled]="!isDirector()"
-          [class.btn-success]="career?.isCompleted" [class.btn-outline-success]="!career?.isCompleted">
-          {{career.isCompleted ? 'Completada' : 'No completada'}}
-        </button>
-    </div>
+
     <!--</div>-->
     <app-sections-table *ngIf="data" [values]="data"></app-sections-table>
   </div>
-  
+
 
   <ng-template #noSubjects>
     <div>
