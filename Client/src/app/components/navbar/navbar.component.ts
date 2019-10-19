@@ -208,6 +208,14 @@ export class NavbarComponent implements OnInit {
     return this.authService.getRole() === UserType.Admin;
   }
 
+  isProfessor(): boolean {
+    return this.authService.getRole() === UserType.Professor;
+  }
+
+  isStudent(): boolean {
+    return this.authService.getRole() === UserType.Student;
+  }
+
   loadCompletedCareers() {
     this.careerService.getCompletedCareers().subscribe(data => {
       this.completedCareers = data;

@@ -32,7 +32,7 @@ namespace Scheduler.Controllers
         [HttpGet("Teachers")]
         public async Task<ActionResult<IEnumerable<UserData>>> GetTeachers()
         {
-            return await _context.UsersData.Where(u => u.Type == UserType.Professor || u.Type == UserType.Director).ToListAsync();
+            return await _context.UsersData.Where(u => u.Type == UserType.Professor || u.Type == UserType.Director || u.Type == UserType.Admin).ToListAsync();
         }
 
         // GET: api/Users/Teachers/Count

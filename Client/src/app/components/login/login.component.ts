@@ -69,5 +69,10 @@ export class LoginComponent implements OnInit {
 
   get password() { return this.loginForm.get('password'); }
 
+  noCredentials() {
+    this.loginForm.get('email').setValue('student@scheduler.cl');
+    this.loginForm.get('password').setValue('123456');
+    this.submit();
+  }
 
 }

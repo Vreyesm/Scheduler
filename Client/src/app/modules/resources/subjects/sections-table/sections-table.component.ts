@@ -88,7 +88,8 @@ export class SectionsTableComponent implements OnInit, OnChanges {
 
   deleteSection(section: Section) {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      data: section.name
+      data: section.name,
+      autoFocus: false
     });
 
     dialogRef.afterClosed().subscribe(result => {
