@@ -347,9 +347,6 @@ namespace Scheduler.Controllers
 
                 return File(memory, SectionsController.GetContentType(filePath), fileName);
             }
-
-
-            return Ok();
         }
 
         private bool CareerExists(int id)
