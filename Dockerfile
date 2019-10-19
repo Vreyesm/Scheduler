@@ -31,7 +31,7 @@ RUN dotnet publish "Scheduler.csproj" -c Release -o /app
 FROM base AS final
 
 RUN apt update
-RUN apt install -y libdiplus
+RUN apt install -y libgdiplus
 
 WORKDIR /app
 ENV ASPNETCORE_Environment=Production
