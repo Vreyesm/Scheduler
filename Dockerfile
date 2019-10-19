@@ -29,6 +29,10 @@ FROM build AS publish
 RUN dotnet publish "Scheduler.csproj" -c Release -o /app
 
 FROM base AS final
+
+RUN apt update
+RUN apt install -y libdiplus
+
 WORKDIR /app
 ENV ASPNETCORE_Environment=Production
 ENV ASPNETCORE_URLS http://+:$80

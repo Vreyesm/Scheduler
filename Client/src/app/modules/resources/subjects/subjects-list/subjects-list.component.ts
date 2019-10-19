@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { AuthService, SectionService, TeacherService, SubjectsService, CareerService } from '../../../../services';
 import { Observable, of } from 'rxjs';
 import { CompletedCareerComponent } from '../completed-career/completed-career.component';
+import { UploadFileDialogComponent } from '../upload-file-dialog/upload-file-dialog.component';
+import { DeleteDialogComponent } from '../../../../components/delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-subjects-list',
@@ -148,6 +150,19 @@ export class SubjectsListComponent implements OnInit {
     });
   }
 
+  uploadSubjects() {
+    const dialogRef = this.dialog.open(UploadFileDialogComponent, {
+      data: this.idCareer,
+      autoFocus: false,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadTeachers();
+      }
+    });
+  }
+
   isAdmin(): boolean {
     return this.authService.getRole() === UserType.Admin;
   }
@@ -172,5 +187,24 @@ export class SubjectsListComponent implements OnInit {
     } else {
       this.career.isCompleted = !this.career.isCompleted;
     }
+  }
+
+  clearSubjects() {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: 'todas las secciones de la carrera',
+      autoFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.careerService.clearSubject(this.idCareer).subscribe(
+          () => { },
+          () => { },
+          () => {
+            this.loadTeachers();
+          }
+        );
+      }
+    });
   }
 }

@@ -2,8 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SubjectsListComponent } from './subjects-list/subjects-list.component';
 import { RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -18,8 +17,15 @@ import { ScheduleComponent } from './schedule/schedule.component';
 import { ComponentsModule } from '../../../components/components.module';
 import { InterfaceModule } from '../../interface/interface.module';
 import { SectionsTableComponent } from './sections-table/sections-table.component';
+import { UploadFileDialogComponent } from './upload-file-dialog/upload-file-dialog.component';
 @NgModule({
-  declarations: [SubjectsListComponent, SectionScheduleComponent, SectionsTableComponent, ScheduleComponent],
+  declarations: [
+    SubjectsListComponent,
+    SectionScheduleComponent,
+    SectionsTableComponent,
+    ScheduleComponent,
+    UploadFileDialogComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -42,6 +48,7 @@ import { SectionsTableComponent } from './sections-table/sections-table.componen
         }
       }
     ])
-  ]
+  ],
+  entryComponents: [UploadFileDialogComponent]
 })
 export class SubjectsModule { }
