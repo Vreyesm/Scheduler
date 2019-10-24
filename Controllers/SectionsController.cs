@@ -212,7 +212,7 @@ namespace Scheduler.Controllers
 
                                 for (int j = 0; j < 11; j++)
                                 {
-                                    int index = (11 * i) + (1 + j) + 1;
+                                    int index = (11 * i) + (1 + j) + 2;
                                     var val = reader.GetValue(index);
                                     if (val != null)
                                     {
