@@ -152,10 +152,12 @@ namespace Scheduler.Controllers
             var name = "sections_" + idCareer + ".xlsx";
 
             var fileFolder = System.IO.Path.Combine(this._hostingEnvironment.WebRootPath, "Uploads");
+            
             //Absolute path
             var path = System.IO.Path.Combine(fileFolder, name);
             try
             {
+                System.IO.Directory.CreateDirectory(fileFolder);
                 using (var stream = new FileStream(path, FileMode.Create))
                 {
                     file.CopyTo(stream);
