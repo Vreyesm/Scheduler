@@ -31,7 +31,11 @@ RUN dotnet publish "Scheduler.csproj" -c Release -o /app
 FROM base AS final
 
 RUN apt update
-RUN apt install -y libgdiplus
+RUN apt install -y --allow-unauthenticated \
+    libc6-dev \
+    libgdiplus \
+    libx11-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 ENV ASPNETCORE_Environment=Production
