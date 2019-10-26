@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Scheduler.Data;
+using Scheduler.Services;
 
 namespace Scheduler
 {
@@ -102,6 +103,7 @@ namespace Scheduler
                 configuration.RootPath = "Client/dist/Client";
             });
 
+            services.AddHostedService<RequestService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

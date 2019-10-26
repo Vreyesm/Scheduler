@@ -1,3 +1,5 @@
+import { WeekDay } from '@angular/common';
+
 export class Classroom {
   id: number;
   name: string;
@@ -11,4 +13,21 @@ export class Classroom {
   thursdayData = '';
   fridayData = '';
   saturdayData = '';
+
+  getListByWeekDay(weekDay: WeekDay): string[] {
+    switch (weekDay) {
+      case WeekDay.Monday:
+        return this.mondayData.split(';');
+      case WeekDay.Tuesday:
+        return this.tuesdayData.split(';');
+      case WeekDay.Wednesday:
+        return this.wednesdayData.split(';');
+      case WeekDay.Thursday:
+        return this.thursdayData.split(';');
+      case WeekDay.Friday:
+        return this.fridayData.split(';');
+      case WeekDay.Saturday:
+        return this.saturdayData.split(';');
+    }
+  }
 }

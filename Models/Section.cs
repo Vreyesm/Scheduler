@@ -170,5 +170,15 @@ namespace Scheduler.Models
                     break;
             }
         }
+
+        public void InitializeData()
+        {
+            this.MondayData = "false;false;false;false;false;false;false;false;false;false;false;false";
+            this.TuesdayData = "false;false;false;false;false;false;false;false;false;false;false;false";
+            this.WednesdayData = "false;false;false;false;false;false;false;false;false;false;false;false";
+            this.ThursdayData = "false;false;false;false;false;false;false;false;false;false;false;false";
+            this.FridayData = "false;false;false;false;false;false;false;false;false;false;false;false";
+            this.SaturdayData = "false;false;false;false;false;false;false;false;false;false;false;false";
+        }
     }
 }
