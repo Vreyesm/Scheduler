@@ -140,6 +140,7 @@ namespace Scheduler.Controllers
             // var assignation = await _context.Assignations.FindAsync(id);
             var assignation = await _context.Assignations
                                 .Include(a => a.Classroom)
+                                .Include(a => a.Section)
                                 .FirstOrDefaultAsync(a => a.ID == id);
             if (assignation == null)
             {
@@ -152,7 +153,10 @@ namespace Scheduler.Controllers
             }
 
             Classroom classroom = assignation.Classroom;
+            Section section = assignation.Section;
             classroom.MarkBLock(assignation.Day, assignation.Block, false);
+            _context.Entry(classroom).State = EntityState.Modified;
+            _context.Entry(section).State = EntityState.Unchanged;
 
             _context.Assignations.Remove(assignation);
             await _context.SaveChangesAsync();
