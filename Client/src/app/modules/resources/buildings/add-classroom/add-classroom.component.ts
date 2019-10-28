@@ -18,6 +18,7 @@ export class AddClassroomComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA)public data: Data ) { }
 
   ngOnInit() {
+    this.data.element.capacity = 1;
   }
 
   close(): void {

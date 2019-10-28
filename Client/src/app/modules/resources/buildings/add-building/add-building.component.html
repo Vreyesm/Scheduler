@@ -6,5 +6,5 @@
 </div>
 <div mat-dialog-actions class="pull-right">
   <button mat-raised-button (click)="close()" style="margin-right: 5px">Cancelar</button>
-  <button mat-raised-button type="submit"  [mat-dialog-close]="data.element" class="btn-success" >Guardar</button>
+  <button mat-raised-button type="submit"  [mat-dialog-close]="data.element" class="btn-success" [disabled]="!data.element.name" >Guardar</button>
 </div>

@@ -17,7 +17,7 @@
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field>
-                    <input matInput type="number" placeholder="Estudiantes" [(ngModel)]="section.students" [disabled]="!canEdit()">
+                    <input min="1" matInput type="number" placeholder="Estudiantes" [(ngModel)]="section.students" [disabled]="!canEdit()">
                 </mat-form-field>
             </div>
 

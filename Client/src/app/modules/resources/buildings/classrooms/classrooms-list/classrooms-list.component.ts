@@ -57,9 +57,9 @@ export class ClassroomsListComponent implements OnInit {
         }
     });
     dialogRefAddClassroom.afterClosed().subscribe(result => {
-      classroom = result;
-      classroom.buildingId = this.buildingId;
       if (classroom) {
+        classroom = result;
+        classroom.buildingId = this.buildingId;
         const data = 'false;false;false;false;false;false;false;false;false;false;false';
         classroom.mondayData = data;
         classroom.tuesdayData = data;

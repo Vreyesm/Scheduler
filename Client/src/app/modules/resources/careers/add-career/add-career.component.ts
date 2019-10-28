@@ -23,7 +23,10 @@ export class AddCareerComponent implements OnInit {
               private teacherService: TeacherService) { }
 
   ngOnInit() {
-    this.loadTeachers();
+
+    setTimeout(() => {
+      this.loadTeachers();
+    }, 0);
   }
 
   close(): void {

@@ -1,16 +1,47 @@
 <h3 mat-dialog-title>{{data.action}} Profesor</h3>
 <div mat-dialog-content>
-  <mat-form-field>
-    <input matInput [(ngModel)]="data.element.name" placeholder="Nombre">
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput type="email" [(ngModel)]="data.element.email" placeholder="Correo">
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput type="password" [(ngModel)]="data.element.password" placeholder="Contraseña">
-  </mat-form-field>
+  <form fxLayout="column" [formGroup]="teacherForm" (submit)="submit()">
+    <mat-form-field>
+      <input matInput placeholder="Nombre" formControlName="name">
+    </mat-form-field>
+    <div *ngIf="name.invalid && (name.dirty ||name.touched )" class="alert alert-danger">
+      <div *ngIf="name.errors['required']">
+        El nombre es requerido
+      </div>
+    </div>
+    <mat-form-field>
+      <input matInput type="email"  placeholder="Correo" formControlName="email">
+    </mat-form-field>
+    <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+      <div *ngIf="email.errors['required']">
+        Correo es requerido
+      </div>
+      <div *ngIf="email.errors['empty']">
+        Correo no puede estar vacio
+      </div>
+      <div *ngIf="email.errors['email']">
+        Correo debe ser una dirección de correo válida
+      </div>
+    </div>
+    <mat-form-field>
+      <input matInput type="password" placeholder="Contraseña"
+        formControlName="password">
+    </mat-form-field>
+    <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+      <div *ngIf="password.errors['required']">
+        Contraseña es requerida
+      </div>
+      <div *ngIf="password.errors['minlength']">
+        Contraseña debe tener un largo mínimo de 6 caracteres
+      </div>
+      <div *ngIf="password.errors['empty']">
+        Contraseña no puede estar vacia
+      </div>
+    </div>
+  </form>
 </div>
 <div mat-dialog-actions class="pull-right">
   <button mat-raised-button (click)="close()" style="margin-right: 5px">Cancelar</button>
-  <button mat-raised-button type="submit"  [mat-dialog-close]="data.element" class="btn-success" >Guardar</button>
+  <button mat-raised-button type="submit" (click)="submit()" class="btn-success"
+    [disabled]="teacherForm.invalid">Guardar</button>
 </div>
