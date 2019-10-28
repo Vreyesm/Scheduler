@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -95,6 +95,7 @@ namespace Scheduler.Controllers
         [HttpPost]
         public async Task<ActionResult<Section>> PostSection(Section section)
         {
+            section.InitializeData();
             _context.Sections.Add(section);
             await _context.SaveChangesAsync();
 

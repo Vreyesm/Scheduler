@@ -140,14 +140,23 @@ namespace Scheduler.Controllers
             // var assignation = await _context.Assignations.FindAsync(id);
             var assignation = await _context.Assignations
                                 .Include(a => a.Classroom)
+                                .Include(a => a.Section)
                                 .FirstOrDefaultAsync(a => a.ID == id);
             if (assignation == null)
             {
                 return NotFound();
             }
+            
+            var request = await _context.AssignationRequests.Where(r => r.Assignation == assignation).ToListAsync();
+            if (request.Count > 0) {
+                request[0].ResetRequest();
+            }
 
             Classroom classroom = assignation.Classroom;
+            Section section = assignation.Section;
             classroom.MarkBLock(assignation.Day, assignation.Block, false);
+            _context.Entry(classroom).State = EntityState.Modified;
+            _context.Entry(section).State = EntityState.Unchanged;
 
             _context.Assignations.Remove(assignation);
             await _context.SaveChangesAsync();

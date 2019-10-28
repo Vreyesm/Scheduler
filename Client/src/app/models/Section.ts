@@ -6,11 +6,11 @@ export class Section {
     students: number;
     professor: UserData;
     professorId: string;
-    mondayData = '';
-    tuesdayData = '';
-    wednesdayData = '';
-    thursdayData = '';
-    fridayData = '';
-    saturdayData = '';
+    mondayData = 'false;false;false;false;false;false;false;false;false;false;false';
+    tuesdayData = 'false;false;false;false;false;false;false;false;false;false;false';
+    wednesdayData = 'false;false;false;false;false;false;false;false;false;false;false';
+    thursdayData = 'false;false;false;false;false;false;false;false;false;false;false';
+    fridayData = 'false;false;false;false;false;false;false;false;false;false;false';
+    saturdayData = 'false;false;false;false;false;false;false;false;false;false;false';
     constructor() {}
 }

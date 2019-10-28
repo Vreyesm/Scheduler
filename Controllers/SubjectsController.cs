@@ -93,6 +93,11 @@ namespace Scheduler.Controllers
                 return NotFound();
             }
 
+            foreach(Section section in subject.Sections)
+            {
+                section.InitializeData();
+            }
+
             career.Subjects.Add(subject);
             await _context.SaveChangesAsync();
             
