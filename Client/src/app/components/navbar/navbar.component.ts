@@ -3,7 +3,7 @@ import {ROUTES} from '../sidebar/sidebar.component';
 import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {distinctUntilChanged, filter} from 'rxjs/operators';
-import { AuthService, TeacherService, CareerService, AssignationService } from '../../services';
+import { AuthService, TeacherService, CareerService, AssignationService, ToastService } from '../../services';
 import { UserType, Career } from '../../models';
 import { MatDialog } from '@angular/material/dialog';
 import { AssignationDialogComponent } from '../assignation-dialog/assignation-dialog.component';
@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { AssignationRequestComponent } from '../assignation-request/assignation-request.component';
 import { AssignationRequestTypeComponent } from '../assignation-request-type/assignation-request-type.component';
 import { AssignationSpecialRequestComponent } from '../assignation-special-request/assignation-special-request.component';
+
 
 @Component({
   selector: 'app-navbar',
@@ -36,7 +37,8 @@ export class NavbarComponent implements OnInit {
               private teacherService: TeacherService,
               private careerService: CareerService,
               private dialog: MatDialog,
-              private assignationService: AssignationService) {
+              private assignationService: AssignationService,
+              private toastService: ToastService) {
     this.location = location;
     this.sidebarVisible = false;
   }
@@ -232,26 +234,41 @@ export class NavbarComponent implements OnInit {
       if (type === 1) {
         this.assignationService.deleteAllAsignations().subscribe(
           () => {},
-          () => {},
           () => {
+            this.toastService.error('Error al eliminar asignaciones anteriores');
+          },
+          () => {
+            this.toastService.success('Asignaciones anteriores eliminadas');
             this.assignationService.autoAssignations().subscribe(
               () => {},
-              () => {},
-              () => { this.router.navigateByUrl('resources'); }
+              () => {
+                this.toastService.error('Error realizar asignaciones');
+              },
+              () => { 
+                this.toastService.success('Asignaciones realizadas');
+                this.router.navigateByUrl('resources'); }
             );
           }
         );
       } else if (type === 2) {
         this.assignationService.autoAssignations().subscribe(
           () => {},
-          () => {},
-          () => { this.router.navigateByUrl('resources'); }
+          () => {
+            this.toastService.error('Error realizar asignaciones');
+          },
+          () => {
+            this.toastService.success('Asignaciones realizadas');
+            this.router.navigateByUrl('resources'); }
         );
       } else if (type === 3) {
         this.assignationService.deleteAllAsignations().subscribe(
           () => {},
-          () => {},
-          () => { this.router.navigateByUrl('resources'); }
+          () => {
+            this.toastService.error('Error al eliminar asignaciones anteriores');
+          },
+          () => {
+            this.toastService.success('Asignaciones anteriores eliminadas');
+            this.router.navigateByUrl('resources'); }
         );
       }
     });

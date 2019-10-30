@@ -7,7 +7,8 @@ import { DeleteDialogComponent } from '../../../../components/delete-dialog/dele
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {Router} from '@angular/router';
-import { AuthService, BuildingService, ClassroomService } from './../../../../services';
+import { AuthService, BuildingService, ClassroomService, ToastService } from './../../../../services';
+
 
 @Component({
   selector: 'app-buildings-list',
@@ -24,7 +25,8 @@ export class BuildingsListComponent implements OnInit {
               private buildingService: BuildingService,
               private classroomService: ClassroomService,
               private router: Router,
-              private auth: AuthService) {
+              private auth: AuthService,
+              private toastService: ToastService) {
   }
 
   displayedColumns: string[] = ['name', 'quantity', 'options'];
@@ -48,6 +50,12 @@ export class BuildingsListComponent implements OnInit {
       if (building) {
         this.buildingService.add(building).subscribe(data => {
           this.loadBuildings();
+        },
+        () => {
+          this.toastService.error('Error al agregar edificio');
+        },
+        () => {
+          this.toastService.success('Edificio agregado exitosamente');
         });
       }
     });
@@ -62,6 +70,12 @@ export class BuildingsListComponent implements OnInit {
       if (result) {
         this.buildingService.delete(building.id).subscribe(response => {
           this.loadBuildings();
+        },
+        () => {
+          this.toastService.error('Error al eliminar edificio');
+        },
+        () => {
+          this.toastService.success('Edificio eliminado exitosamente');
         });
       }
     });
@@ -94,6 +108,12 @@ export class BuildingsListComponent implements OnInit {
         const newBuilding = result;
         this.buildingService.edit(newBuilding).subscribe(response => {
           this.loadBuildings();
+        },
+        () => {
+          this.toastService.error('Error al editar edificio');
+        },
+        () => {
+          this.toastService.success('Edificio editado exitosamente');
         });
       }
     });

@@ -1,11 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {Career, Section, UserData, UserType} from '../../../../models';
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-import {SubjectsService} from '../../../../services/subjects.service';
-import {AddSubjectComponent} from '../../subjects/add-subject/add-subject.component';
-import {Subject} from 'rxjs';
-import { TeacherService } from '../../../../services/teacher.service';
-import { AuthService } from '../../../../services/auth.service';
+import { TeacherService, AuthService, ToastService } from '../../../../services';
 import { AddTeacherComponent } from '../add-teacher/add-teacher.component';
 import { DeleteDialogComponent } from '../../../../components/delete-dialog/delete-dialog.component';
 
@@ -27,7 +23,8 @@ export class TeachersListComponent implements OnInit {
 
   constructor(public dialog: MatDialog,
               private teacherService: TeacherService,
-              private authService: AuthService) { }
+              private authService: AuthService,
+              private toastService: ToastService) { }
 
   ngOnInit() {
     this.loadTeachers();
@@ -60,13 +57,21 @@ export class TeachersListComponent implements OnInit {
         this.authService.register(user).subscribe(data => {
           response = data;
         },
-        () => {},
+        () => {
+          this.toastService.error('Error al agregar profesor');
+        },
         () => {
           teacher.id = response.id;
           teacher.name = user.name;
           teacher.type = UserType.Professor;
           this.teacherService.add(teacher).subscribe(data => {
             this.loadTeachers();
+          },
+          () => {
+            this.toastService.error('Error al agregar profesor');
+          },
+          () => {
+            this.toastService.success('Profesor registrado');
           });
         });
         /*
@@ -89,6 +94,12 @@ export class TeachersListComponent implements OnInit {
         if (result) {
           this.teacherService.delete(teacher.id).subscribe(response => {
             this.loadTeachers();
+          },
+          () => {
+            this.toastService.error('Error al eliminar profesor');
+          },
+          () => {
+            this.toastService.success('Profesor editado');
           });
         }
       });

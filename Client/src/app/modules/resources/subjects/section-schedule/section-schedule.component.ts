@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { switchMap, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { TeacherService, SectionService, AssignationService, AuthService } from '../../../../services';
+import { TeacherService, SectionService, AssignationService, AuthService, ToastService } from '../../../../services';
 import { WeekDay } from '@angular/common';
 
 @Component({
@@ -36,7 +36,8 @@ export class SectionScheduleComponent implements OnInit {
               private sectionService: SectionService,
               private teacherService: TeacherService,
               private assignationService: AssignationService,
-              private auth: AuthService) { }
+              private auth: AuthService,
+              private toastService: ToastService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -162,8 +163,13 @@ export class SectionScheduleComponent implements OnInit {
     });
     this.assignationService.sendAssignations(assignations).subscribe(
         () => { },
-        () => { },
-        () => { this.loadData(); }
+        () => {
+          this.toastService.error('Error al enviar asignación');
+         },
+        () => {
+          this.loadData();
+          this.toastService.success('Asignación enviada');
+        }
       );
     }
 
@@ -174,8 +180,13 @@ export class SectionScheduleComponent implements OnInit {
   reload(assignation: Assignation) {
     this.assignationService.deleteAssignation(assignation.id).subscribe(
       () => { },
-      () => { },
-      () => { this.loadData(); }
+      () => {
+        this.toastService.error('Error al eliminar asignación');
+       },
+      () => {
+        this.toastService.success('Asignación eliminada');
+        this.loadData();
+      }
     );
   }
 

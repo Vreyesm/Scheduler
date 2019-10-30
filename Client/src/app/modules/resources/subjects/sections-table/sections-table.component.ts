@@ -4,15 +4,10 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import { CareerService } from '../../../../services/career.service';
-import { AddSubjectComponent } from '../add-subject/add-subject.component';
-import { SubjectsService } from '../../../../services/subjects.service';
+import { SectionService, TeacherService, AuthService, ToastService } from '../../../../services';
 import { SectionScheduleComponent } from '../section-schedule/section-schedule.component';
 import { DeleteDialogComponent } from '../../../../components/delete-dialog/delete-dialog.component';
-import { SectionService } from '../../../../services/section.service';
-import { TeacherService } from '../../../../services/teacher.service';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../../services/auth.service';
 import { Observable } from 'rxjs';
 @Component({
   selector: 'app-sections-table',
@@ -37,11 +32,10 @@ export class SectionsTableComponent implements OnInit, OnChanges {
 
   constructor(public dialog: MatDialog,
               private router: Router,
-              private careerService: CareerService,
-              private subjectService: SubjectsService,
               private sectionService: SectionService,
               private teacherService: TeacherService,
-              private authService: AuthService) { }
+              private authService: AuthService,
+              private toastService: ToastService) { }
 
   ngOnInit() {
     // this.loadCareers();
@@ -96,7 +90,13 @@ export class SectionsTableComponent implements OnInit, OnChanges {
       if (result) {
         this.sectionService.delete(section.id).subscribe(data => {
           this.loadSections();
-        });
+        },
+        () => {
+          this.toastService.error('Error al eliminar sección');
+        },
+        () => {
+          this.toastService.success('Sección eliminada');
+        } );
       }
     });
   }

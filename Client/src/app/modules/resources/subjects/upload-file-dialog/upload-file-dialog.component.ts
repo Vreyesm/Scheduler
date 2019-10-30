@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { SectionService } from '../../../../services';
+import { SectionService, ToastService } from '../../../../services';
 
 @Component({
   selector: 'app-upload-file-dialog',
@@ -14,6 +14,7 @@ export class UploadFileDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<UploadFileDialogComponent>,
               private sectionService: SectionService,
+              private toastService: ToastService,
               @Inject(MAT_DIALOG_DATA) public data: number) { }
 
   ngOnInit() {
@@ -37,8 +38,11 @@ export class UploadFileDialogComponent implements OnInit {
       this.formData.append('file', file[0]);
       this.sectionService.uploadFile(this.data, this.formData).subscribe(
         () => { },
-        () => {},
         () => {
+          this.toastService.error('Error al subir el archivo');
+        },
+        () => {
+          this.toastService.success('Archivo subido correctamente');
           this.dialogRef.close(1);
       });
     }

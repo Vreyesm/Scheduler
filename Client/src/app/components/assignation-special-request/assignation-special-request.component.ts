@@ -3,11 +3,12 @@ import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { WeekDay } from '@angular/common';
 import { Section, Building, Classroom, AssignationRequest, UserData } from '../../models';
 import { MatDialogRef } from '@angular/material';
-import { SectionService, AuthService, ClassroomService, AssignationRequestService, TeacherService } from '../../services';
+import { SectionService, AuthService, ClassroomService, AssignationRequestService, TeacherService, ToastService } from '../../services';
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import { Moment } from 'moment';
 import { forkJoin, Observable } from 'rxjs';
+
 interface Day {
   text: string;
   value: WeekDay;
@@ -68,7 +69,8 @@ export class AssignationSpecialRequestComponent implements OnInit {
               private formBuilder: FormBuilder,
               private classroomService: ClassroomService,
               private assignationRequestService: AssignationRequestService,
-              private teacherService: TeacherService) { }
+              private teacherService: TeacherService,
+              private toastService: ToastService) { }
 
   ngOnInit() {
     this.firstFormGroup = this.formBuilder.group({
@@ -180,8 +182,11 @@ export class AssignationSpecialRequestComponent implements OnInit {
     }
     forkJoin(observables).subscribe(
       () => { },
-      () => { },
+      () => { 
+        this.toastService.error('Error al enviar solicitud');
+      },
       () => {
+        this.toastService.success('Solicitud enviada exitosamente');
         this.dialogRef.close();
       }
     );
