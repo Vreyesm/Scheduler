@@ -1,10 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { SectionService, AuthService, ClassroomService, AssignationRequestService, TeacherService } from '../../services';
+import { SectionService, AuthService, ClassroomService, AssignationRequestService, TeacherService, ToastService } from '../../services';
 import { Section, Classroom, Building, AssignationRequest, UserData } from '../../models';
 import { WeekDay } from '@angular/common';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl, FormControl } from '@angular/forms';
 import { Observable, forkJoin } from 'rxjs';
+import Swal from 'sweetalert2';
+
 
 interface Day {
   text: string;
@@ -50,7 +52,8 @@ export class AssignationRequestComponent implements OnInit {
               private formBuilder: FormBuilder,
               private classroomService: ClassroomService,
               private assignationRequestService: AssignationRequestService,
-              private teacherService: TeacherService) { }
+              private teacherService: TeacherService,
+              private toastService: ToastService) { }
 
   ngOnInit() {
     this.firstFormGroup = this.formBuilder.group({
@@ -134,8 +137,11 @@ export class AssignationRequestComponent implements OnInit {
 
     forkJoin(observables).subscribe(
       () => { },
-      () => { },
       () => {
+        this.toastService.error('Error al enviar solicitud');
+       },
+      () => {
+        this.toastService.success('Solicitud enviada exitosamente');
         this.dialogRef.close();
       }
     );

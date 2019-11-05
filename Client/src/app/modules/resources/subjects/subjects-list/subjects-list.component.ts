@@ -3,7 +3,7 @@ import { Subject, Section, Career, UserData, UserType } from '../../../../models
 import { MatDialog } from '@angular/material/dialog';
 import { AddSubjectComponent } from '../add-subject/add-subject.component';
 import { Router } from '@angular/router';
-import { AuthService, SectionService, TeacherService, SubjectsService, CareerService } from '../../../../services';
+import { AuthService, SectionService, TeacherService, SubjectsService, CareerService, ToastService } from '../../../../services';
 import { Observable, of } from 'rxjs';
 import { CompletedCareerComponent } from '../completed-career/completed-career.component';
 import { UploadFileDialogComponent } from '../upload-file-dialog/upload-file-dialog.component';
@@ -34,7 +34,8 @@ export class SubjectsListComponent implements OnInit {
               private sectionService: SectionService,
               private teacherService: TeacherService,
               private authService: AuthService,
-              private changeDetector: ChangeDetectorRef) { }
+              private changeDetector: ChangeDetectorRef,
+              private toastService: ToastService) { }
 
   ngOnInit() {
     this.loadTeachers();
@@ -146,6 +147,12 @@ export class SubjectsListComponent implements OnInit {
         this.subjectService.add(subject, this.idCareer).subscribe(data => {
           // this.loadCareers();
           this.loadRole(); // to update the data on the table
+        },
+        () => {
+          this.toastService.error('Error al agregar ramo y secciones');
+        },
+        () => {
+          this.toastService.success('Ramo y secciones agregadas');
         });
       }
     });
@@ -186,7 +193,14 @@ export class SubjectsListComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
           this.career.isCompleted = !this.career.isCompleted;
-          this.careerService.edit(this.career).subscribe(data => {});
+          this.careerService.edit(this.career).subscribe(
+            data => {},
+            () => {
+              this.toastService.error('Error al editar carrera');
+            },
+            () => {
+              this.toastService.success('Carrera editada');
+            });
         }
       });
     } else {
@@ -204,8 +218,11 @@ export class SubjectsListComponent implements OnInit {
       if (result) {
         this.careerService.clearSubject(this.idCareer).subscribe(
           () => { },
-          () => { },
           () => {
+            this.toastService.error('Error al eliminar los ramos y secciones');
+           },
+          () => {
+            this.toastService.success('Ramos y secciones eliminadas');
             this.loadTeachers();
           }
         );

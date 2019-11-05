@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AssignationRequest, Classroom } from '../../../models';
 import { MatTableDataSource, MatPaginator, MatDialog } from '@angular/material';
-import { AssignationRequestService, ClassroomService } from '../../../services';
+import { AssignationRequestService, ClassroomService, ToastService } from '../../../services';
 import { WeekDay } from '@angular/common';
 import { RequestDialogComponent } from '../request-dialog/request-dialog.component';
 
@@ -20,7 +20,8 @@ export class RequestsLandingComponent implements OnInit {
 
   constructor(private assignationRequestService: AssignationRequestService,
               private classroomService: ClassroomService,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog,
+              private toastService: ToastService) { }
 
   ngOnInit() {
     this.loadRequests();
@@ -68,7 +69,9 @@ export class RequestsLandingComponent implements OnInit {
   deleteRequest(request: AssignationRequest) {
     this.assignationRequestService.delete(request.id).subscribe(
       () => { },
-      () => { },
+      () => { 
+        this.toastService.error('Error al eliminar solicitud');
+      },
       () => {
         const index = this.requests.indexOf(request);
         this.requests.splice(index, 1);
@@ -85,6 +88,7 @@ export class RequestsLandingComponent implements OnInit {
         });
         this.dataSource = new MatTableDataSource<AssignationRequest>(this.requests);
         this.dataSource.paginator = this.paginator;
+        this.toastService.success('Solicitud eliminada');
       }
     );
   }
@@ -92,9 +96,12 @@ export class RequestsLandingComponent implements OnInit {
   acceptRequest(request: AssignationRequest) {
     this.assignationRequestService.accept(request.id).subscribe(
       () => { },
-      () => { },
+      () => {
+        this.toastService.error('Error al aceptar solicitud');
+       },
       () => {
         this.loadRequests();
+        this.toastService.success('Solicitud aceptada');
       }
     );
   }

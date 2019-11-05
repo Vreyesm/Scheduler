@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { DialogData, UserData } from '../../../../models';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormControl, FormGroup, FormArray, FormBuilder } from '@angular/forms';
+import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { TeacherService } from '../../../../services/teacher.service';
 
 @Component({
@@ -13,7 +13,7 @@ export class AddSubjectComponent implements OnInit {
   sections: FormArray;
   subjectForm = this.formBuilder.group(
     {
-      name: [''],
+      name: ['', [Validators.required]],
       sections: this.formBuilder.array(
         [
           this.createSection()
@@ -30,7 +30,9 @@ export class AddSubjectComponent implements OnInit {
               private teacherService: TeacherService) { }
 
   ngOnInit() {
-    this.loadTeachers();
+    setTimeout(() => {
+      this.loadTeachers();
+    }, 0);
   }
 
   loadTeachers() {
@@ -41,9 +43,9 @@ export class AddSubjectComponent implements OnInit {
 
   createSection(): FormGroup {
     return this.formBuilder.group({
-      name: [''],
-      students: [''],
-      professorId: ['']
+      name: ['', [Validators.required]],
+      students: [1, [Validators.required, Validators.min(1)]],
+      professorId: ['', Validators.required]
     });
   }
 

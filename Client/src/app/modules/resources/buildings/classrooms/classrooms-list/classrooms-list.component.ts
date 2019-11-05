@@ -1,15 +1,12 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {Building, Classroom} from '../../../../../models';
-import {BuildingService} from '../../../../../services/building.service';
 import {MatTableDataSource} from '@angular/material/table';
-import {MatPaginator} from '@angular/material/paginator';
 import {AddClassroomComponent} from '../../add-classroom/add-classroom.component';
 import {MatDialog} from '@angular/material';
-import {ClassroomService} from '../../../../../services/classroom.service';
+import {ClassroomService, BuildingService, ToastService} from '../../../../../services';
 import {DeleteDialogComponent} from '../../../../../components/delete-dialog/delete-dialog.component';
 import {MatSort} from '@angular/material/sort';
-
 
 @Component({
   selector: 'app-classrooms-list',
@@ -30,7 +27,8 @@ export class ClassroomsListComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private buildingService: BuildingService,
               private classroomService: ClassroomService,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog,
+              private toastService: ToastService) { }
 
   ngOnInit() {
     this.buildingId = +this.route.snapshot.paramMap.get('id');
@@ -57,9 +55,9 @@ export class ClassroomsListComponent implements OnInit {
         }
     });
     dialogRefAddClassroom.afterClosed().subscribe(result => {
-      classroom = result;
-      classroom.buildingId = this.buildingId;
       if (classroom) {
+        classroom = result;
+        classroom.buildingId = this.buildingId;
         const data = 'false;false;false;false;false;false;false;false;false;false;false';
         classroom.mondayData = data;
         classroom.tuesdayData = data;
@@ -70,6 +68,12 @@ export class ClassroomsListComponent implements OnInit {
         classroom.available = true;
         this.classroomService.add(classroom).subscribe(() => {
           this.loadBuilding();
+        },
+        () => {
+          this.toastService.error('Error al agregar sala');
+        },
+        () => {
+          this.toastService.success('Sala agregada exitosamente');
         });
       }
     });
@@ -91,6 +95,12 @@ export class ClassroomsListComponent implements OnInit {
         const newClassroom = result;
         this.classroomService.edit(newClassroom).subscribe(data => {
           this.loadBuilding();
+        },
+        () => {
+          this.toastService.error('Error al editar sala');
+        },
+        () => {
+          this.toastService.success('Sala editada exitosamente');
         });
       }
     });
@@ -105,6 +115,12 @@ export class ClassroomsListComponent implements OnInit {
       if (result) {
         this.classroomService.delete(classroom).subscribe(data => {
           this.loadBuilding();
+        },
+        () => {
+          this.toastService.error('Error al eliminar sala');
+        },
+        () => {
+          this.toastService.success('Sala eliminada exitosamente');
         });
       }
     });

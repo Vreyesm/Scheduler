@@ -3,7 +3,7 @@ import {Career, UserData, UserType} from '../../../../models';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog} from '@angular/material/dialog';
-import {CareerService, TeacherService} from '../../../../services';
+import {CareerService, TeacherService, ToastService} from '../../../../services';
 import {AddCareerComponent} from '../add-career/add-career.component';
 import {DeleteDialogComponent} from '../../../../components/delete-dialog/delete-dialog.component';
 
@@ -23,7 +23,8 @@ export class CareersListComponent implements OnInit {
 
   constructor(public dialog: MatDialog,
               private careerService: CareerService,
-              private teacherService: TeacherService) { }
+              private teacherService: TeacherService,
+              private toastService: ToastService) { }
 
   ngOnInit() {
     this.loadCareers();
@@ -59,6 +60,12 @@ export class CareersListComponent implements OnInit {
       if (career) {
         this.careerService.add(career).subscribe(data => {
           this.loadCareers();
+        },
+        () => {
+          this.toastService.error('Error al agregar carrera');
+        },
+        () => {
+          this.toastService.success('Carrera agregada exitosamente');
         });
       }
     });
@@ -82,17 +89,35 @@ export class CareersListComponent implements OnInit {
         this.careerService.edit(newCareer).subscribe(data => {
           this.loadCareers();
         },
-        () => {},
+        () => {
+          this.toastService.error('Error al editar carrera');
+        },
         () => {
           const newTeacher: UserData = this.teachers.find( t => t.id === newCareer.directorId);
           if (oldTeacher !== newTeacher ) {
             console.log('different teacher');
             oldTeacher.type = UserType.Professor; // downgraded
-            this.teacherService.update(oldTeacher).subscribe();
+            this.teacherService.update(oldTeacher).subscribe(
+              () => { },
+              () => {
+                this.toastService.error('Error al editar antiguo director');
+              },
+              () => {
+                this.toastService.success('Antiguo director editado exitosamente');
+              }
+            );
           }
           newTeacher.type = UserType.Director; // ascended
-          this.teacherService.update(newTeacher).subscribe();
-
+          this.teacherService.update(newTeacher).subscribe(
+            () => { },
+            () => {
+              this.toastService.error('Error al editar antiguo director');
+            },
+            () => {
+              this.toastService.success('Antiguo director editado exitosamente');
+            }
+          );
+          this.toastService.success('Error al editar carrera');
         });
       }
     });
@@ -107,6 +132,12 @@ export class CareersListComponent implements OnInit {
       if (result) {
         this.careerService.delete(career.id).subscribe(response => {
           this.loadCareers();
+        },
+        () => {
+          this.toastService.error('Error al eliminar carrera');
+        },
+        () => {
+          this.toastService.success('Carrera eliminada exitosamente');
         });
       }
     });

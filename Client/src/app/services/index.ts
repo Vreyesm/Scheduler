@@ -8,3 +8,4 @@ export * from './teacher.service';
 export * from './loader.service';
 export * from './assignation.service';
 export * from  './assignation-request.service';
+export * from './toast.service';

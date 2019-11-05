@@ -5,12 +5,12 @@
       <input matInput [(ngModel)]="data.element.name" placeholder="Nombre">
     </mat-form-field>
     <mat-form-field class="col-lg-4 col-md-4 col-sm-12 col-xl-4">
-      <input matInput type="number" [(ngModel)]="data.element.capacity" placeholder="Capacidad">
+      <input min="1"  matInput type="number" [(ngModel)]="data.element.capacity" placeholder="Capacidad">
     </mat-form-field>
   </div>
 
 </div>
 <div mat-dialog-actions class="pull-right">
   <button mat-raised-button (click)="close()" style="margin-right: 5px">Cancelar</button>
-  <button mat-raised-button [mat-dialog-close]="data.element" class="btn-success" >Guardar</button>
+  <button mat-raised-button [mat-dialog-close]="data.element" class="btn-success" [disabled]="!data.element.name" >Guardar</button>
 </div>
