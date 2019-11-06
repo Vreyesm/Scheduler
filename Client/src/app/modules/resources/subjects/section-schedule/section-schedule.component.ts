@@ -147,8 +147,11 @@ export class SectionScheduleComponent implements OnInit {
 
     this.sectionService.update(this.section).subscribe(
       () => { },
-      () => { },
       () => {
+        this.toastService.error('Error al editar sección');
+      },
+      () => {
+        this.toastService.success('Sección editada');
         this.router.navigateByUrl('resources/subjects');
       }
     );

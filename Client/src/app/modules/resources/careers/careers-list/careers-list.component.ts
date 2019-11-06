@@ -126,6 +126,7 @@ export class CareersListComponent implements OnInit {
   deleteCareer(career: Career) {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data: 'Carrera: ' + career.name,
+      autoFocus: false
     });
 
     dialogRef.afterClosed().subscribe(result => {

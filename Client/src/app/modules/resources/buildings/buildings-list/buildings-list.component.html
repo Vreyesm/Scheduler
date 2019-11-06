@@ -9,7 +9,7 @@
     </div>
     <div class="row">
       <div class="col-2 offset-10">
-        <button mat-raised-button (click)="addBuilding()" class="btn-success pull-right">
+        <button *ngIf="isAdmin()" mat-raised-button (click)="addBuilding()" class="btn-success pull-right">
           <mat-icon>add</mat-icon>
           Agregar
         </button>

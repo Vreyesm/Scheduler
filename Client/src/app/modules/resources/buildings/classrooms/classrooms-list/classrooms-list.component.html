@@ -8,7 +8,7 @@
       </div>
     </div>
     <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
-        <button mat-raised-button (click)="addClassroom()"  class="btn-success pull-right">
+        <button *ngIf="isAdmin()" mat-raised-button (click)="addClassroom()"  class="btn-success pull-right">
           <mat-icon>add</mat-icon>
           Agregar
         </button>
@@ -31,7 +31,7 @@
           <mat-header-cell *matHeaderCellDef> Disponible</mat-header-cell>
           <mat-cell *matCellDef="let element">
             <button class="btn btn-sm button-completed" type="button" (click)="changeAvailable(element)"
-            [class.btn-success]="element.available" [class.btn-light]="!element.available">
+            [class.btn-success]="element.available" [class.btn-light]="!element.available" [disabled]="!isAdmin()">
             {{element.available ? 'Habilitada' : 'Deshabilitada'}}
           </button></mat-cell>
         </ng-container>
@@ -44,11 +44,11 @@
               <mat-icon>list</mat-icon>
               <!--Ver hoarios-->
             </button>
-            <button (click)="editClassroom(element)" mat-raised-button class="btn-primary" style="margin-right: 5px">
+            <button *ngIf="isAdmin()" (click)="editClassroom(element)" mat-raised-button class="btn-primary" style="margin-right: 5px">
               <mat-icon>create</mat-icon>
               <!--Editar-->
             </button>
-            <button (click)="deleteClassroom(element)" mat-raised-button class="btn-danger">
+            <button *ngIf="isAdmin()" (click)="deleteClassroom(element)" mat-raised-button class="btn-danger">
               <mat-icon>delete</mat-icon>
               <!--Eliminar-->
             </button>

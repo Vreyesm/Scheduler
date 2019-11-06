@@ -8,6 +8,7 @@ import { Observable, of } from 'rxjs';
 import { CompletedCareerComponent } from '../completed-career/completed-career.component';
 import { UploadFileDialogComponent } from '../upload-file-dialog/upload-file-dialog.component';
 import { DeleteDialogComponent } from '../../../../components/delete-dialog/delete-dialog.component';
+import { retry } from 'rxjs/operators';
 
 @Component({
   selector: 'app-subjects-list',
@@ -205,6 +206,16 @@ export class SubjectsListComponent implements OnInit {
       });
     } else {
       this.career.isCompleted = !this.career.isCompleted;
+      this.careerService.edit(this.career).subscribe(
+        data => {},
+        () => {
+          retry(3);
+          this.toastService.error('Error al editar carrera');
+        },
+        () => {
+          this.toastService.success('Carrera editada');
+        }
+      );
     }
   }
 
