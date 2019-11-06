@@ -156,7 +156,7 @@ namespace Scheduler.Controllers
             {
                 return NotFound();
             }
-
+            await ClearSubjectsOfCareer(id);
             _context.Careers.Remove(career);
             await _context.SaveChangesAsync();
 

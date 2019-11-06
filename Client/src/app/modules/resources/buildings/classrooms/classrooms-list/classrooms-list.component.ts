@@ -4,7 +4,7 @@ import {Building, Classroom} from '../../../../../models';
 import {MatTableDataSource} from '@angular/material/table';
 import {AddClassroomComponent} from '../../add-classroom/add-classroom.component';
 import {MatDialog} from '@angular/material';
-import {ClassroomService, BuildingService, ToastService} from '../../../../../services';
+import {ClassroomService, BuildingService, ToastService, AuthService} from '../../../../../services';
 import {DeleteDialogComponent} from '../../../../../components/delete-dialog/delete-dialog.component';
 import {MatSort} from '@angular/material/sort';
 
@@ -28,7 +28,8 @@ export class ClassroomsListComponent implements OnInit {
               private buildingService: BuildingService,
               private classroomService: ClassroomService,
               private dialog: MatDialog,
-              private toastService: ToastService) { }
+              private toastService: ToastService,
+              private authService: AuthService) { }
 
   ngOnInit() {
     this.buildingId = +this.route.snapshot.paramMap.get('id');
@@ -52,7 +53,8 @@ export class ClassroomsListComponent implements OnInit {
         {
           element: classroom,
           action: 'Crear'
-        }
+        },
+        autoFocus: false
     });
     dialogRefAddClassroom.afterClosed().subscribe(result => {
       if (classroom) {
@@ -87,7 +89,8 @@ export class ClassroomsListComponent implements OnInit {
         {
           element: oldClassroom,
           action: 'Editar'
-        }
+        },
+        autoFocus: false
     });
 
     dialogRefEditClassroom.afterClosed().subscribe(result => {
@@ -108,7 +111,8 @@ export class ClassroomsListComponent implements OnInit {
 
   deleteClassroom(classroom: Classroom) {
     const dialogRefDelete = this.dialog.open(DeleteDialogComponent, {
-      data: 'Sala: ' + classroom.name
+      data: 'Sala: ' + classroom.name,
+      autoFocus: false
     });
 
     dialogRefDelete.afterClosed().subscribe(result => {
@@ -129,6 +133,10 @@ export class ClassroomsListComponent implements OnInit {
   changeAvailable(classroom: Classroom) {
     classroom.available = !classroom.available;
     this.classroomService.edit(classroom).subscribe();
+  }
+
+  isAdmin(): boolean {
+    return this.authService.isAdmin();
   }
 
 }
