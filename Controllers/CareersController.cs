@@ -20,12 +20,12 @@ namespace Scheduler.Controllers
     public class CareersController : ControllerBase
     {
         private readonly DataContext _context;
-        private readonly IHostingEnvironment _hostingEnvirontment;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
         public CareersController(DataContext context, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
-            _hostingEnvirontment = hostingEnvironment;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         // GET: api/Careers
@@ -324,17 +324,17 @@ namespace Scheduler.Controllers
                 }
                 
                 ws.Cells.AutoFitColumns(0);
-                for (int i = 3; i < 69; i++)
+                for (int i = 3; i < 67; i++)
                 {
                     ws.Column(i).Width = 3;
                 }
 
 
-                string fileName = "Horario-" + career.Name + ".xlsx";
+                string fileName = "Horario - " + career.Name + ".xlsx";
                 var xlFile = GetFileInfo(fileName);
                 package.SaveAs(xlFile);
 
-                var filePath = Path.Combine(_hostingEnvirontment.WebRootPath, fileName);
+                var filePath = Path.Combine(_hostingEnvironment.WebRootPath, fileName);
                 if (!System.IO.File.Exists(filePath))
                     return NotFound();
 
@@ -377,7 +377,7 @@ namespace Scheduler.Controllers
 
         public FileInfo GetFileInfo(string file, bool deleteIfExists = true)
         {
-            var filePath = Path.Combine(_hostingEnvirontment.WebRootPath, file);
+            var filePath = Path.Combine(_hostingEnvironment.WebRootPath, file);
             var fi = new FileInfo(filePath);
             if (deleteIfExists && fi.Exists)
             {

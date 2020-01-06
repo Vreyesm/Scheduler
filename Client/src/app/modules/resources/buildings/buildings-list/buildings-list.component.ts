@@ -8,6 +8,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {Router} from '@angular/router';
 import { AuthService, BuildingService, ClassroomService, ToastService } from './../../../../services';
+import { SearchComponent } from '../../../../components/search/search.component';
 
 
 @Component({
@@ -116,6 +117,17 @@ export class BuildingsListComponent implements OnInit {
           this.toastService.success('Edificio editado exitosamente');
         });
       }
+    });
+  }
+
+  searchAvailable() {
+    const ref = this.dialog.open(SearchComponent, {
+      autoFocus: false,
+      width: '700px'
+    });
+
+    ref.afterClosed().subscribe(result => {
+
     });
   }
 

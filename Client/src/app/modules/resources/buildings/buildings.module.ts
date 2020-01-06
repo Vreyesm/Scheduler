@@ -22,6 +22,7 @@ import { MatSortModule } from '@angular/material/sort';
 import {ClassroomsModule} from './classrooms/classrooms.module';
 import {ClassroomsListComponent} from './classrooms/classrooms-list/classrooms-list.component';
 import { ComponentsModule } from '../../../components/components.module';
+import { InterfaceModule } from '../../interface/interface.module';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { ComponentsModule } from '../../../components/components.module';
     MatExpansionModule,
     MatTableModule,
     ComponentsModule,
+    InterfaceModule,
     RouterModule.forChild([
       {
         path: '',

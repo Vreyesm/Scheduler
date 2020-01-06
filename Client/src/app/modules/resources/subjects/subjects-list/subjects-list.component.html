@@ -24,7 +24,7 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div style="margin: 15px" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="5px" *ngIf="!isStudent()">
+      <div style="margin: 15px" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="5px" *ngIf="isAdmin() || isDirector()">
         <button (click)="addSubject()" [disabled]="!idCareer" mat-raised-button class="btn-success pull-right">
           <mat-icon>add</mat-icon>
           Agregar

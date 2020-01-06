@@ -1,0 +1,47 @@
+<h3 mat-dialog-title>Busqueda salas disponibles</h3>
+<div mat-dialog-content>
+    
+    <form [formGroup]="searchForm">
+
+        <div fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="space-between center">
+            <mat-form-field fxFlex="60%">
+                <mat-label>Día</mat-label>
+                <mat-select [value]="selectedDay" formControlName="day" required>
+                    <mat-option *ngFor="let day of days" [value]="day.value">
+                        {{day.text}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field fxFlex="30%">
+                <mat-label>Bloque</mat-label>
+                <mat-select [value]="selectedBlock" formControlName="block" required>
+                    <mat-option *ngFor="let block of blocks" [value]="block">
+                        {{block}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput type="number" min="1" max="11" placeholder="Duración en bloques" formControlName="span"
+                    required>
+            </mat-form-field>
+            <button fxFlex="10%" mat-raised-button [disabled]="day.invalid || block.invalid || span.invalid" (click)="search()">                <mat-icon>search</mat-icon>
+            </button>
+        </div>
+
+    </form>
+
+    <div *ngIf="classrooms">
+        <h4>
+            Disponibles
+        </h4>
+        <ul fxLayout = "row wrap" fxLayoutAlign="space-between" fxLayoutGap="20px">
+            <li *ngFor="let classroom of classrooms">
+                {{classroom.name}}
+            </li>
+        </ul>
+    </div>
+    
+</div>
+<div mat-dialog-actions class="pull-right">
+    <button mat-raised-button class="btn-danger" (click)="close()" style="margin-right: 5px">Cerrar</button>
+</div>
