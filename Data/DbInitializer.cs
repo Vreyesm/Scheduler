@@ -222,6 +222,7 @@ namespace Scheduler.Data
             sections.Sort((p, q) => p.Students.CompareTo(q.Students)); Console.WriteLine("Sections: " + sections.Count());
             sections.Reverse();
             classrooms.Sort((p, q) => p.Capacity.CompareTo(q.Capacity)); Console.WriteLine("Classrooms: " + classrooms.Count());
+            classrooms.Reverse();
 
 
             foreach (Section section in sections)
@@ -381,7 +382,7 @@ namespace Scheduler.Data
                 Console.WriteLine("Classroom: " + classroom.Name);
                 Console.WriteLine("\tCapacity: " + classroom.Capacity);
 
-                if (classroom.Capacity + 10 < section.Students)
+                if (classroom.Capacity + 5 < section.Students)
                 {
                     Console.WriteLine("Classroom hasn't enough space");
                     break;

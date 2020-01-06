@@ -28,7 +28,7 @@
                         Asignación Automática
                     </button>
                 </li>
-                <li class="nav-item" *ngIf="isProfessor()">
+                <li class="nav-item" *ngIf="isProfessor() || isAdmin()">
                     <button (click)="sendAssignationRequest()" class="btn btn-sm btn-outline-light">
                         Solicitud de Asignación
                     </button>
