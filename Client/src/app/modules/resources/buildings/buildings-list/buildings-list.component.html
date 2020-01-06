@@ -1,5 +1,5 @@
 <div class="main-content">
-  <div class="container-fluid">
+  <div class="container-fluid" fxLayout="column">
     <div class="row">
       <div class="col-12">
         <h3 class="title">
@@ -7,13 +7,21 @@
         </h3>
       </div>
     </div>
-    <div class="row">
-      <div class="col-2 offset-10">
+    <div fxLayout="row" fxLayoutAlign="end space-between" fxLayoutGap="5px">
+      <button mat-raised-button class="btn-info" (click)="searchAvailable()">
+        <mat-icon>search</mat-icon>
+        Buscar rápida
+      </button>
+      <a href="api/classrooms/Schedule">
+        <button mat-raised-button class="btn-success" >
+          <mat-icon>table_chart</mat-icon>
+          Horario
+        </button>
+      </a>
         <button *ngIf="isAdmin()" mat-raised-button (click)="addBuilding()" class="btn-success pull-right">
           <mat-icon>add</mat-icon>
           Agregar
         </button>
-      </div>
     </div>
 
     <mat-table [dataSource]="buildings" class="mat-elevation-z1" *ngIf="buildings ; else noClassrooms">
@@ -31,18 +39,19 @@
       </ng-container>
 
       <!-- Options Column -->
-      <ng-container matColumnDef="options" >
+      <ng-container matColumnDef="options">
         <mat-header-cell *matHeaderCellDef> Opciones </mat-header-cell>
         <mat-cell class="options-cell" *matCellDef="let element">
           <button (click)="goToBuilding(element.id)" mat-raised-button class="btn-success" style="margin-right: 5px">
             <mat-icon>list</mat-icon>
             <!--Ver salas-->
           </button>
-          <button *ngIf="isAdmin()" (click)="editBuilding(element)" mat-raised-button class="btn-primary" style="margin-right: 5px">
+          <button *ngIf="isAdmin()" (click)="editBuilding(element)" mat-raised-button class="btn-primary"
+            style="margin-right: 5px">
             <mat-icon>create</mat-icon>
             <!--Editar-->
           </button>
-          <button  *ngIf="isAdmin()" mat-raised-button (click)="deleteBuilding(element)" class="btn-danger">
+          <button *ngIf="isAdmin()" mat-raised-button (click)="deleteBuilding(element)" class="btn-danger">
             <mat-icon>delete</mat-icon>
             <!--Eliminar-->
           </button>
@@ -53,17 +62,13 @@
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
-    <mat-paginator  class="mat-elevation-z1" [length]="100"
-                   [pageSize]="10"
-                   [pageSizeOptions]="[5, 10, 25, 100]">
+    <mat-paginator class="mat-elevation-z1" [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
     </mat-paginator>
 
   </div>
-
   <ng-template #noClassrooms>
     <p>
       No hay salas de classes agregadas
     </p>
   </ng-template>
 </div>
-

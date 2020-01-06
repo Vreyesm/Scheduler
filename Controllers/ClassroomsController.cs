@@ -7,6 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Scheduler.Data;
 using Scheduler.Models;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using System.Drawing;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace Scheduler.Controllers
 {
@@ -15,10 +20,12 @@ namespace Scheduler.Controllers
     public class ClassroomsController : ControllerBase
     {
         private readonly DataContext _context;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public ClassroomsController(DataContext context)
+        public ClassroomsController(DataContext context, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         // GET: api/Classrooms
@@ -255,9 +262,172 @@ namespace Scheduler.Controllers
             return classroom;
         }
 
+        [HttpGet("Schedule")]
+        public async Task<ActionResult> GetSchedule()
+        {
+            List<Classroom> classrooms = await _context.Classrooms.ToListAsync();
+
+            using (var package = new ExcelPackage())
+            {
+                ExcelWorksheet ws = package.Workbook.Worksheets.Add("Salas");
+                ws.Cells[1, 1].Value = "Horario sala - Campus Curicó";
+
+                using (ExcelRange r = ws.Cells[1, 1, 1, 67])
+                {
+                    r.Merge = true;
+                    r.Style.Font.SetFromFont(new Font("Arial", 22, FontStyle.Bold));
+                    r.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.CenterContinuous;
+                    r.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                    r.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(204, 153, 255));
+                    r.Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                }
+
+                ws.Cells[2, 1].Value = "Sala";
+                using (ExcelRange r = ws.Cells[2, 1, 3, 1])
+                {
+                    r.Merge = true;
+                    r.Style.Font.SetFromFont(new Font("Arial", 11, FontStyle.Regular));
+                }
+
+                for (int day = 0; day < 6; day++)
+                {
+                    ws.Cells[2, 2 + (day * 11 )].Value = GetDayString(day);
+                    for (int block = 1; block < 12; block++)
+                    {
+                        ws.Cells[3, 1 + (day * 11 + block)].Value = block;
+                        ws.Cells[3, 1 + (day * 11 + block)].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                        ws.Cells[3, 1 + (day * 11 + block)].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(0, 153, 0));
+                        ws.Cells[3, 1 + (day * 11 + block)].Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                    }
+
+                    using (ExcelRange r = ws.Cells[2, 2 + (day * 11), 2, 2 + (day * 11) + 10])
+                    {
+                        r.Merge = true;
+                        r.Style.Font.SetFromFont(new Font("Arial", 11, FontStyle.Regular));
+                        r.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.CenterContinuous;
+                        r.Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                        //r.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                        //r.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(0, 153, 0));
+                    }
+                }
+
+                for (int i = 1; i < 67; i++)
+                {
+                    ws.Cells[1, i].Style.Border.BorderAround(ExcelBorderStyle.Thin);
+
+                }
+
+                int row = 4;
+
+                foreach(Classroom classroom in classrooms)
+                {
+                    ws.Cells[row, 1].Value = classroom.Name;
+
+                    int col = 2;
+
+                    for (DayOfWeek day = DayOfWeek.Monday; day <= DayOfWeek.Saturday; day++)
+                    {
+                        for (int block = 0; block < 11; block++)
+                        {
+                            if(classroom.GetArrayByDay(day)[block])
+                            {
+                                // Search the assignation (if any)
+                                List<Assignation> assignations = await _context.Assignations.Include(a => a.Section).Where(a => a.Day == day && a.Block == block && a.Classroom == classroom).ToListAsync();
+                                if (assignations.Count() == 0) // not assigned yet
+                                {
+                                    ws.Cells[row, col].Value = "X";
+                                }
+                                else // the section name on the cell
+                                {
+                                    Section section = assignations[0].Section;
+                                    ws.Cells[row, col].Value = section.Name;
+                                }
+                            }
+                            else
+                            {
+                                ws.Cells[row, col].Value = " ";
+                            }
+
+                            ws.Cells[row, col].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                            ws.Cells[row, col].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                            ws.Cells[row, col].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                            ws.Cells[row, col].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                            col++;
+                        }
+                    }
+                    row++;
+                }
+
+                for (int i = 1; i < row; i++)
+                {
+                    ws.Cells[i, 1].Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                }
+
+                ws.Cells.AutoFitColumns(0);
+                for (int i = 2; i < 68; i++)
+                {
+                    ws.Column(i).Width = 9;
+                }
+
+                // Print the file
+                string fileName = "Horario - Salas.xlsx";
+                var xlFile = GetFileInfo(fileName);
+                package.SaveAs(xlFile);
+
+                var filePath = Path.Combine(_hostingEnvironment.WebRootPath, fileName);
+                if (!System.IO.File.Exists(filePath))
+                    return NotFound();
+
+                var memory = new MemoryStream();
+                using (var stream = new FileStream(filePath, FileMode.Open))
+                {
+                    await stream.CopyToAsync(memory);
+                }
+                memory.Position = 0;
+
+                return File(memory, SectionsController.GetContentType(filePath), fileName);
+
+            }
+
+
+
+        }
+
         private bool ClassroomExists(int id)
         {
             return _context.Classrooms.Any(e => e.ID == id);
+        }
+
+        public FileInfo GetFileInfo(string file, bool deleteIfExists = true)
+        {
+            var filePath = Path.Combine(_hostingEnvironment.WebRootPath, file);
+            var fi = new FileInfo(filePath);
+            if (deleteIfExists && fi.Exists)
+            {
+                fi.Delete();  // ensures we create a new workbook
+            }
+            return fi;
+        }
+
+        private string GetDayString(int day)
+        {
+            switch (day)
+            {
+                case 0:
+                    return "Lunes";
+                case 1:
+                    return "Martes";
+                case 2:
+                    return "Miércoles";
+                case 3:
+                    return "Jueves";
+                case 4:
+                    return "Viernes";
+                case 5:
+                    return "Sábado";
+                default:
+                    return "";
+            }
         }
     }
 

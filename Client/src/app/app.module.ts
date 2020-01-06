@@ -50,6 +50,7 @@ import { AssignationRequestTypeComponent } from './components/assignation-reques
 import { AssignationSpecialRequestComponent } from './components/assignation-special-request/assignation-special-request.component';
 import { registerLocaleData } from '@angular/common';
 import { MatPaginatorIntlEsp } from './PaginatorESP';
+import { SearchComponent } from './components/search/search.component';
 
 @NgModule({
   imports: [
@@ -88,6 +89,7 @@ import { MatPaginatorIntlEsp } from './PaginatorESP';
     AssignationRequestComponent,
     AssignationRequestTypeComponent,
     AssignationSpecialRequestComponent,
+    SearchComponent,
     // AssignationDialogComponent
   ],
   providers: [
@@ -118,6 +120,7 @@ import { MatPaginatorIntlEsp } from './PaginatorESP';
     AssignationRequestComponent,
     AssignationRequestTypeComponent,
     AssignationSpecialRequestComponent,
+    SearchComponent,
     // AssignationDialogComponent
   ],
   bootstrap: [AppComponent]
