@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges, ChangeDetect
 import { Blocks, Classroom, Assignation, BlockName, UserType } from '../../../../models';
 import { AssignationService, AuthService } from '../../../../services';
 import { WeekDay } from '@angular/common';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { AssignationSelectDialogComponent } from '../../../../components/assignation-select-dialog/assignation-select-dialog.component';
 import { areAllEquivalent } from '@angular/compiler/src/output/output_ast';
 

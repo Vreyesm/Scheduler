@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, AfterViewInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { WeekDay } from '@angular/common';
 import { BrowserStack } from 'protractor/built/driverProviders';
 import { ClassroomService } from '../../services';

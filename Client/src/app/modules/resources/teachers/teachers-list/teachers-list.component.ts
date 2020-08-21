@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {Career, Section, UserData, UserType} from '../../../../models';
-import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { TeacherService, AuthService, ToastService } from '../../../../services';
 import { AddTeacherComponent } from '../add-teacher/add-teacher.component';
 import { DeleteDialogComponent } from '../../../../components/delete-dialog/delete-dialog.component';

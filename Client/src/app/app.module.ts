@@ -22,18 +22,15 @@ registerLocaleData(localeEsCl, 'es-CL');
 
 
 // Material
-import {
-  MatButtonModule,
-  MatIconModule,
-  MatInputModule,
-  MatRippleModule,
-  MatFormFieldModule,
-  MatTooltipModule,
-  MatSelectModule,
-  MatDialogModule,
-  MatPaginatorModule,
-  MatPaginatorIntl
-} from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatRippleModule } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import {AddCareerComponent} from './modules/resources/careers/add-career/add-career.component';
 import { AddSubjectComponent } from './modules/resources/subjects/add-subject/add-subject.component';
 import { InterfaceModule } from './modules/interface/interface.module';

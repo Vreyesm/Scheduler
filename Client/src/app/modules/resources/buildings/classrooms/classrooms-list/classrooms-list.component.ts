@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import {Building, Classroom} from '../../../../../models';
 import {MatTableDataSource} from '@angular/material/table';
 import {AddClassroomComponent} from '../../add-classroom/add-classroom.component';
-import {MatDialog} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import {ClassroomService, BuildingService, ToastService, AuthService} from '../../../../../services';
 import {DeleteDialogComponent} from '../../../../../components/delete-dialog/delete-dialog.component';
 import {MatSort} from '@angular/material/sort';

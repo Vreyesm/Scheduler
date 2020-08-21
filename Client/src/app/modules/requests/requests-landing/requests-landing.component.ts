@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AssignationRequest, Classroom } from '../../../models';
-import { MatTableDataSource, MatPaginator, MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { AssignationRequestService, ClassroomService, ToastService } from '../../../services';
 import { WeekDay } from '@angular/common';
 import { RequestDialogComponent } from '../request-dialog/request-dialog.component';
